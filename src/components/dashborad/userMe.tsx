@@ -46,7 +46,7 @@ export default function UserMe() {
 
       {/* Chat or main frame */}
       <div className="flex flex-col justify-between h-full">
-        <TopBar />
+        <TopBar selectedTab={selectedTab} setTab={setTab} />
         {selectedTab == "chat" ? (
           <ResizablePanelGroup direction="horizontal">
             <ResizablePanel defaultSize={75}>

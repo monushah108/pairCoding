@@ -13,7 +13,6 @@ import { Separator } from "../ui/separator";
 
 export default function TopBar() {
   const [notifications, setNotifications] = useState([]);
-  const [selectedTab, setTab] = useState(null);
 
   return (
     <div className="flex items-center justify-between p-2 border-b border-border [&>button]:text-xs">
