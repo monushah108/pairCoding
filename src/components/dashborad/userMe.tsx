@@ -17,7 +17,8 @@ const TopBar = lazy(() => import("@/components/dashborad/TopBar"));
 // import { io } from "socket.io-client";
 
 export default function UserMe() {
-  const [selectedTab, setTab] = useState(null);
+  const [selectedTab, setTab] = useState("chat");
+  const [isChatOpen, setIsChatOpen] = useState(false);
   // const socket = useMemo(() => io("http://localhost:4000"), []);
 
   // const [message, setMessage] = useState("");
@@ -48,28 +49,30 @@ export default function UserMe() {
       <div className="flex flex-col justify-between h-full">
         <TopBar selectedTab={selectedTab} setTab={setTab} />
         {selectedTab == "chat" ? (
-          <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel defaultSize={75}>
-              <ChatWindow />
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={25} maxSize={30}>
-              <ProfilePanel />
-            </ResizablePanel>
-          </ResizablePanelGroup>
-        ) : (
-          <div className="relative flex-1 flex items-center justify-center">
-            <div className="flex items-center justify-center flex-col gap-2">
-              <div className="rounded bg-primary/50 animate-bounce p-2 text-white">
-                <MessageSquareMore />
-              </div>
+          isChatOpen ? (
+            <ResizablePanelGroup direction="horizontal">
+              <ResizablePanel defaultSize={75}>
+                <ChatWindow />
+              </ResizablePanel>
+              <ResizableHandle withHandle />
+              <ResizablePanel defaultSize={25} maxSize={30}>
+                <ProfilePanel />
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          ) : (
+            <div className="relative flex-1 flex items-center justify-center">
+              <div className="flex items-center justify-center flex-col gap-2">
+                <div className="rounded bg-primary/50 animate-bounce p-2 text-white">
+                  <MessageSquareMore />
+                </div>
 
-              <p className="text-sm text-primary/50 font-semibold">
-                No Conversation yet!!
-              </p>
+                <p className="text-sm text-primary/50 font-semibold">
+                  No Conversation yet!!
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          )
+        ) : null}
 
         {selectedTab == "friends" && <FriendsList />}
       </div>

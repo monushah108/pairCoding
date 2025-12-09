@@ -11,8 +11,9 @@ import {
 import { useState } from "react";
 import { Separator } from "../ui/separator";
 
-export default function TopBar() {
+export default function TopBar({ selectedTab, setTab }) {
   const [notifications, setNotifications] = useState([]);
+  console.log(selectedTab);
 
   return (
     <div className="flex items-center justify-between p-2 border-b border-border [&>button]:text-xs">
@@ -36,8 +37,7 @@ export default function TopBar() {
           <Moon className="w-4 h-4" />
         </Button>
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            {" "}
+          <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative">
               <Bell />
               <motion.span
