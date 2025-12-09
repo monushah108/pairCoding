@@ -72,12 +72,12 @@ export default function PlaygroundPermissionModule() {
                 style={{ height: "350px" }}
               >
                 <ScrollArea.Viewport className="w-full h-full">
-                  {Array(25)
+                  {Array(2)
                     .fill(null)
                     .map((_, i) => (
                       <div
                         key={i}
-                        className="flex items-center justify-between rounded-sm border px-1 py-1 mb-2"
+                        className="flex items-center justify-between rounded-sm  px-1 py-1 mb-2 hover:bg-accent"
                       >
                         <div className="flex items-center">
                           <Avatar>
@@ -85,7 +85,7 @@ export default function PlaygroundPermissionModule() {
                           </Avatar>
                           <span className="text-sm">monu</span>
                         </div>
-                        <Button variant="outline" size="sm">
+                        <Button variant="ghost" size="sm">
                           <span className="text-xs">invite</span>
                         </Button>
                       </div>

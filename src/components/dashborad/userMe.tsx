@@ -5,17 +5,19 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { MessageSquareMore } from "lucide-react";
+import FriendsList from "./FriendsList";
 
 const ChatWindow = lazy(() => import("@/components/dashborad/chatWindow"));
-const FriendsList = lazy(() => import("@/components/dashborad/FriendsList"));
+const DirectMsgSidebar = lazy(
+  () => import("@/components/dashborad/DirectMsgSidebar")
+);
 const ProfilePanel = lazy(() => import("@/components/dashborad/ProfilePanel"));
 const TopBar = lazy(() => import("@/components/dashborad/TopBar"));
 
 // import { io } from "socket.io-client";
 
 export default function UserMe() {
-  const [chat, setChat] = useState(false);
-
+  const [selectedTab, setTab] = useState(null);
   // const socket = useMemo(() => io("http://localhost:4000"), []);
 
   // const [message, setMessage] = useState("");
@@ -40,12 +42,12 @@ export default function UserMe() {
   return (
     <main className="grid grid-cols-[220px_1fr] h-full">
       {/* Friend list */}
-      <FriendsList setChat={setChat} />
+      <DirectMsgSidebar />
 
       {/* Chat or main frame */}
       <div className="flex flex-col justify-between h-full">
         <TopBar />
-        {chat ? (
+        {selectedTab == "chat" ? (
           <ResizablePanelGroup direction="horizontal">
             <ResizablePanel defaultSize={75}>
               <ChatWindow />
@@ -68,6 +70,8 @@ export default function UserMe() {
             </div>
           </div>
         )}
+
+        {selectedTab == "friends" && <FriendsList />}
       </div>
     </main>
   );

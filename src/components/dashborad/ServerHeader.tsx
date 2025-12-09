@@ -15,15 +15,6 @@ export default function ServerHeader() {
 
         {/* Right Controls */}
         <div className="flex items-center gap-2">
-          {/* Theme Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-accent/70 text-primary/70 hover:text-primary transition-colors"
-          >
-            <Moon size={18} />
-          </Button>
-
           {/* Search Input */}
           <div className="relative">
             <Search
