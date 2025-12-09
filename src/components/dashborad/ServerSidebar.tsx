@@ -23,6 +23,7 @@ export default function ServerSidebar() {
   const [channelName, setChannelName] = useState("");
   const [collapseId, setCollapseId] = useState(null);
   const [inputId, setInputId] = useState(false);
+  const [selectedChannelId, setSelectedChannelId] = useState(null);
   const [channels, setChannels] = useState([
     {
       id: crypto.randomUUID(),
@@ -45,14 +46,17 @@ export default function ServerSidebar() {
   return (
     <aside className="border-r border-border row-span-3 flex flex-col">
       <div className="flex-1">
-        <div className="border-b border-border text-center font-semibold text-primary py-4.5">
+        <div className="border-b border-border text-center font-semibold text-primary py-4">
           <DropdownMenu>
-            <DropdownMenuTrigger>Rooms</DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
+              <div className="cursor-pointer">Rooms</div>
+            </DropdownMenuTrigger>
+
             <DropdownMenuContent>
               <DropdownMenuItem>
                 <CreateChannelModel setAddChannel={setChannels} />
               </DropdownMenuItem>
-              <Separator />
+
               <DropdownMenuItem>
                 <Button variant="destructive" className="w-full">
                   Delete channel <Trash2 className="w-3 h-3 text-white" />
@@ -68,6 +72,7 @@ export default function ServerSidebar() {
             onOpenChange={() => {
               setCollapseId(collapseId == id ? null : id);
               setInputId(collapseId != id && null);
+              setSelectedChannelId(id);
             }}
           >
             <div className="flex items-center py-1 px-2">
@@ -75,6 +80,7 @@ export default function ServerSidebar() {
                 onClick={() => {
                   setCollapseId(id);
                   setInputId(null);
+                  setSelectedChannelId(id);
                 }}
                 className="flex items-center justify-between
            px-3 py-2 w-full text-primary/60  group"
@@ -145,7 +151,7 @@ export default function ServerSidebar() {
                 ))
               )}
             </CollapsibleContent>
-            {selectedChannel && (
+            {selectedChannel && selectedChannelId == id && (
               <button
                 className="peer-data-[state=open]:hidden peer-data-[state=closed]:flex
               peer-data-[state=closed]:bg-accent w-full 

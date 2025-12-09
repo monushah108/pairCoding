@@ -22,7 +22,7 @@ export default function TopBar({ selectedTab, setTab }) {
           <Users className="w-4 h-4" />
           <span className="text-xs font-semibold">Friends</span>
         </div>
-
+        <Separator orientation="vertical" className="h-4" />
         <Button
           variant="secondary"
           className="text-xs cursor-pointer"

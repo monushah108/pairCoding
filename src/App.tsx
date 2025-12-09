@@ -10,7 +10,6 @@ import Authpage from "./pages/Authpage";
 import { RegisterForm } from "./components/register-form";
 import { LoginForm } from "./components/login-form";
 import Authoptions from "./components/Authoptions";
-import Setup from "./components/dashborad/Setup";
 
 const router = createBrowserRouter([
   {
@@ -50,10 +49,6 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <RegisterForm />,
-      },
-      {
-        path: "setup",
-        element: <Setup />,
       },
     ],
   },
