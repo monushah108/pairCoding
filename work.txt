@@ -14,7 +14,7 @@ file explorer
 terminal 
 chatbox 
 
----------------------------------------
+-----------End---------------------------
 
 
 friend request management and acception 
