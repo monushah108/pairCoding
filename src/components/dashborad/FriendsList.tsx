@@ -7,7 +7,7 @@ import {
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
+
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export default function FriendsList() {
@@ -37,7 +37,12 @@ export default function FriendsList() {
                           src={`https://api.dicebear.com/6.x/initials/svg?seed=m`}
                         />
                       </Avatar>
-                      <span className="text-sm ml-2">monu</span>
+                      <div className="text-sm ml-2">
+                        <span>monu</span>
+                        <span className="group-hover:inline-block hidden text-xs italic ml-1 text-primary/60">
+                          @monu-123
+                        </span>
+                      </div>
                     </div>
 
                     <div className="flex items-center">
