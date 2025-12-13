@@ -1,4 +1,4 @@
-import { ChevronRight, Plus, Trash2 } from "lucide-react";
+import { ChevronRight, Hash, Plus, Trash2, Volume2 } from "lucide-react";
 import {
   Collapsible,
   CollapsibleTrigger,
@@ -18,8 +18,8 @@ import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-export default function ServerSidebar() {
-  const [selectedChannel, setSelectedChannel] = useState("");
+export default function ServerSidebar({ openChannel, setOpenChannel }) {
+  const [selectedChannel, setSelectedChannel] = useState("general");
   const [channelName, setChannelName] = useState("");
   const [collapseId, setCollapseId] = useState(null);
   const [inputId, setInputId] = useState(false);
@@ -29,13 +29,15 @@ export default function ServerSidebar() {
       id: crypto.randomUUID(),
       channel_Name: "Text channel",
       channel_Type: "text",
-      channels: ["off-topic", "rules", "pair-programming"],
+      channels: ["general", "off-topic", "rules", "pair-programming"],
+      channel_Online: { status: false, onView: "" },
     },
     {
       id: crypto.randomUUID(),
       channel_Name: "voice channel",
       channel_Type: "voice",
       channels: ["Meeting-Room"],
+      channel_Online: { status: false, onView: "" },
     },
   ]);
 
@@ -65,7 +67,7 @@ export default function ServerSidebar() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {channels.map(({ id, channel_Name, channels }) => (
+        {channels.map(({ id, channel_Name, channels, channel_Type }) => (
           <Collapsible
             key={id}
             open={collapseId == id}
@@ -110,20 +112,7 @@ export default function ServerSidebar() {
               </Tooltip>
             </div>
 
-            <CollapsibleContent
-              className="flex flex-col gap-1
-  [&>button]:hover:bg-accent 
-  [&>button]:w-full 
-  [&>button]:text-left 
-  text-primary/60 
-  [&>button:before]:content-['#'] 
-    [&>button:before]:font-bold
-             [&>button:before]:text-base 
-              [&>button:before]:px-0.5
-  font-semibold 
-  text-sm 
-  px-3 peer"
-            >
+            <CollapsibleContent className="flex flex-col gap-1 font-semibold text-sm px-3 peer">
               {inputId == id && (
                 <Input
                   value={channelName}
@@ -144,9 +133,23 @@ export default function ServerSidebar() {
                       selectedChannel === text
                         ? "bg-accent text-primary"
                         : "hover:bg-accent hover:text-primary"
-                    } py-1.5 rounded px-2 transition-colors`}
+                    } py-1.5 rounded px-2 transition-colors cursor-pointer`}
                   >
-                    {text}
+                    <span
+                      className="hover:bg-accent w-full text-left flex items-center gap-2
+  text-primary/60 
+  text-xs
+    font-bold
+             
+              px-0.5"
+                    >
+                      {channel_Type === "voice" ? (
+                        <Volume2 className="w-4 h-4" />
+                      ) : (
+                        <Hash className="w-4 h-4" />
+                      )}
+                      {text}
+                    </span>
                   </button>
                 ))
               )}
@@ -156,9 +159,15 @@ export default function ServerSidebar() {
                 className="peer-data-[state=open]:hidden peer-data-[state=closed]:flex
               peer-data-[state=closed]:bg-accent w-full 
                  items-center gap-1 text-sm font-semibold px-3 py-1.5 
-                 text-primary/60 hover:text-primary transition-colors"
+                 text-primary/60 hover:text-primary transition-colors cursor-pointer"
               >
-                <span className="font-bold text-base">#</span>
+                <span className="font-bold text-base">
+                  {channel_Type === "voice" ? (
+                    <Volume2 className="w-4 h-4" />
+                  ) : (
+                    <Hash className="w-4 h-4" />
+                  )}
+                </span>
                 {selectedChannel}
               </button>
             )}

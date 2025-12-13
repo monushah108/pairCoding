@@ -7,12 +7,19 @@ import {
 import ServerHeader from "./ServerHeader";
 import ServerSidebar from "./ServerSidebar";
 import ServerUsersPanel from "./ServerUsersPanel";
+import { useState } from "react";
+import VoiceRoom from "./VoiceRoom";
 
 export default function Server() {
+  const [openChannel, setOpenChannel] = useState<string>("general");
+
   return (
     <section className="grid grid-cols-[200px_1fr] h-full">
-      <ServerSidebar />
-      <div className="flex flex-col row-span-3">
+      <ServerSidebar
+        setOpenChannel={setOpenChannel}
+        openChannel={openChannel}
+      />
+      {/* <div className="flex flex-col row-span-3">
         <ServerHeader />
         <ResizablePanelGroup direction="horizontal" className="">
           <ResizablePanel defaultSize={75}>
@@ -23,6 +30,10 @@ export default function Server() {
             <ServerUsersPanel />
           </ResizablePanel>
         </ResizablePanelGroup>
+      </div> */}
+
+      <div className="flex flex-col row-span-3">
+        <VoiceRoom />
       </div>
     </section>
   );

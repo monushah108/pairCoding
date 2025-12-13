@@ -12,26 +12,20 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Plus, SearchIcon, User2Icon, UserCheck } from "lucide-react";
-import { useEffect, useState } from "react";
-import { SearchUser } from "@/api/Authapi.js";
+import { Plus, SearchIcon, UserCheck } from "lucide-react";
+import { useState } from "react";
+
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
 
-export default function SearchModle() {
+export default function SearchModle({
+  error,
+  fetchSearchUser,
+  sendRequest,
+  users,
+}) {
   const [search, setSearch] = useState("");
-  const [users, setUsers] = useState([]);
-  const [error, setError] = useState("");
-  const fetchSearchUser = async (displayName: string) => {
-    if (!displayName) return;
-    try {
-      const response = await SearchUser({ displayName });
-      setUsers([response]);
-    } catch (err) {
-      setError(err.response.data.message);
-    }
-  };
 
   return (
     <Dialog>
@@ -90,8 +84,9 @@ export default function SearchModle() {
                       <TooltipTrigger asChild>
                         <Button
                           size="icon"
-                          variant="ghost"
-                          className="hover:bg-accent"
+                          variant="outline"
+                          onClick={sendRequest}
+                          className="cursor-pointer"
                         >
                           <UserCheck className="w-4 h-4 text-primary/80" />
                         </Button>

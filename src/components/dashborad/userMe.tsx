@@ -14,31 +14,35 @@ const DirectMsgSidebar = lazy(
 const ProfilePanel = lazy(() => import("@/components/dashborad/ProfilePanel"));
 const TopBar = lazy(() => import("@/components/dashborad/TopBar"));
 
-// import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 
 export default function UserMe() {
   const [selectedTab, setTab] = useState("chat");
   const [isChatOpen, setIsChatOpen] = useState(false);
-  // const socket = useMemo(() => io("http://localhost:4000"), []);
+  const socket = useMemo(
+    () =>
+      io("http://localhost:4000", {
+        withCredentials: true,
+      }),
+    []
+  );
 
-  // const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("");
 
-  // useEffect(() => {
-  //   socket.emit("private-message", {
-  //     id: "XghnElImJ8UCYOnVAAAH",
-  //     msg: "hhhiiii",
-  //   });
+  useEffect(() => {
+    socket.emit("private message", {
+      to: "693b09866490cf8c63c913b0",
+      message: "Hello privately!",
+    });
 
-  //   socket.on("receive-message", (data) => {
-  //     setMessage(data);
-  //   });
+    socket.on("private message", (data) => {
+      console.log("Private message from:", data.from, data.message);
+    });
 
-  //   return () => {
-  //     socket.off("connect", (msg) => setMessage(msg));
-  //   };
-  // }, []);
-
-  // console.log(message);
+    return () => {
+      socket.off("connect", (msg) => setMessage(msg));
+    };
+  }, []);
 
   return (
     <main className="grid grid-cols-[220px_1fr] h-full">

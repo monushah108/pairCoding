@@ -1,6 +1,6 @@
 import { Binary } from "lucide-react";
 import { AnimatePresence, easeIn, motion } from "motion/react";
-import { lazy, useEffect, useState } from "react";
+import { lazy, useEffect, useMemo, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Connector from "../components/connector";
 
