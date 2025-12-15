@@ -25,29 +25,33 @@ export const SearchUser = async (Userdata) => {
   return data;
 };
 
-export const SendFriendRequest = async (Userdata) => {
-  const { data } = await Authinstance.post("/SendFriendRequest", Userdata);
+export const SendNotifications = async (Userdata) => {
+  console.log("api", Userdata);
+  const { data } = await Authinstance.post("/SendNotifications", Userdata);
   return data;
 };
 
-export const GetFriendRequests = async () => {
-  const { data } = await Authinstance.get("/GetFriendRequest");
+export const getNotifications = async () => {
+  const { data } = await Authinstance.get("/getNotification");
   return data;
 };
 
-export const RespondToFriendRequest = async ({ sender, status }) => {
-  console.log("sender being sent:", sender);
-  console.log("status being sent:", status);
+export const RespondToFriendRequest = async ({ receiver, status }) => {
   const { data } = await Authinstance.post(
     "/requestResponse",
     {},
     {
       params: {
-        sender,
+        receiver,
         status,
       },
     }
   );
 
+  return data;
+};
+
+export const GetAllFriends = async (Userdata) => {
+  const { data } = await Authinstance.get("/getAllFriends");
   return data;
 };

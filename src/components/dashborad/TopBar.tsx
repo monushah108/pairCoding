@@ -5,24 +5,22 @@ import SearchModle from "./module/SearchModle";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetFooter,
-  SheetClose,
 } from "@/components/ui/sheet";
 import { useEffect, useMemo, useState } from "react";
 import {
-  SendFriendRequest,
-  ProfileApi,
+  SendNotifications,
   SearchUser,
-  GetFriendRequests,
+  getNotifications,
   RespondToFriendRequest,
 } from "../../api/Authapi.js";
 import { toast, Toaster } from "sonner";
 import { Avatar, AvatarImage } from "../ui/avatar.js";
 import { ButtonGroup } from "../ui/button-group.js";
+
+// import { io } from "socket.io-client";
 
 export default function TopBar({ selectedTab, setTab }) {
   const [notifications, setNotifications] = useState([]);
@@ -30,8 +28,7 @@ export default function TopBar({ selectedTab, setTab }) {
   // user
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
-  const [sender, setSender] = useState(null);
-  const [reciver, setReciver] = useState(null);
+  const [receiver, setreceiver] = useState(null);
 
   // request action
 
@@ -41,40 +38,42 @@ export default function TopBar({ selectedTab, setTab }) {
     if (!displayName) return;
     try {
       const response = await SearchUser({ displayName });
-
+      console.log("search", response);
       setError("");
       setUsers([response]);
-      setReciver(response.id);
+      setreceiver(response.id);
     } catch (err: any) {
       setError(err.response.data.message);
     }
   };
   const sendRequest = async () => {
     try {
-      const res = await SendFriendRequest({ sender, reciver });
+      const res = await SendNotifications({ receiver });
+
       toast.success(res.response.data.message);
     } catch (err: any) {
       toast.error(err.response.data?.message ?? err.response.data.error);
     }
   };
 
-  const fetchFriendRequests = async () => {
+  const fetchNotifications = async () => {
     try {
-      const res = await GetFriendRequests();
+      const res = await getNotifications();
       setNotifications(res);
-      setSender(res[0]._id.toString());
+      console.log("request", res);
+      // setreceiver(res[0]?._id);
     } catch (err) {
       console.log(0);
     }
   };
 
   useEffect(() => {
-    fetchFriendRequests();
-  }, []);
+    fetchNotifications();
+  }, [users]);
 
   const ResponseOnAccept = async () => {
     try {
-      await RespondToFriendRequest({ sender, status: "accepted" });
+      await RespondToFriendRequest({ receiver, status: "accepted" });
       setStatus("accepted");
     } catch (err: any) {
       toast.error("something went wrong!!");
@@ -83,14 +82,12 @@ export default function TopBar({ selectedTab, setTab }) {
 
   const ResponseOnReject = async () => {
     try {
-      await RespondToFriendRequest({ sender, status: "rejected" });
+      await RespondToFriendRequest({ receiver, status: "rejected" });
       setStatus("rejected");
     } catch (err: any) {
       toast.error("something went wrong!!");
     }
   };
-
-  console.log(sender);
 
   return (
     <div className=" border-b border-border [&>button]:text-xs">
