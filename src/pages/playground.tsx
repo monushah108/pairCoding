@@ -15,7 +15,7 @@ const Terminal = lazy(() => import("@/components/editor/Terminal"));
 const ChatBox = lazy(() => import("@/components/editor/ChatBox"));
 
 export default function Playground() {
-  const [OpenChat, setOpenChat] = useState(false);
+  const [Chats, setChats] = useState(false);
   const [OpenTerminal, setOpenTerminal] = useState(false);
   const [OpenFilePanel, setOpenFilePanel] = useState(false);
   const [code, setCode] = useState(``);
@@ -25,9 +25,9 @@ export default function Playground() {
   const FilePanelRef = useRef<any>(null);
 
   const handleChatToggle = () => {
-    if (OpenChat) chatPanelRef.current?.collapse();
+    if (Chats) chatPanelRef.current?.collapse();
     else chatPanelRef.current?.expand();
-    setOpenChat(!OpenChat);
+    setChats(!Chats);
   };
 
   const handleTerminalToggle = () => {
@@ -60,7 +60,7 @@ export default function Playground() {
         </div>
         <h1
           className="flex-1 text-center text-sm"
-          onClick={() => setOpenChat(true)}
+          onClick={() => setChats(true)}
         >
           Collaborative Code Editor
         </h1>
@@ -125,8 +125,8 @@ export default function Playground() {
             maxSize={30}
             collapsible
             collapsedSize={0}
-            onCollapse={() => setOpenChat(false)}
-            onExpand={() => setOpenChat(true)}
+            onCollapse={() => setChats(false)}
+            onExpand={() => setChats(true)}
           >
             <ChatBox handleChatToggle={handleChatToggle} />
           </ResizablePanel>

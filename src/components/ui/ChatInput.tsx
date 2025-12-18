@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { FileDown, Paperclip, Send, Smile, SmilePlus } from "lucide-react";
+import { FileDown, Paperclip, Send, SmilePlus } from "lucide-react";
 
 import PlaygroundPermissionModule from "../dashborad/module/PlaygroundPermissionModule";
 import {
@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-import { Separator } from "./separator";
+
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 import EmojiPicker from "emoji-picker-react";
 import { useState } from "react";
@@ -16,7 +16,7 @@ import { useState } from "react";
 export default function ChatInput() {
   const [openEmoji, setEmoji] = useState(false);
   return (
-    <div className=" flex items-center gap-2  p-4">
+    <div className=" flex items-center gap-2  p-4   bg-white ">
       <div className=" w-full flex items-center rounded  overflow-hidden">
         <InputGroup className="h-10">
           <InputGroupAddon>
@@ -51,6 +51,8 @@ export default function ChatInput() {
 
               <DropdownMenuContent className="p-0">
                 <EmojiPicker
+                  width={400}
+                  height={350}
                   onEmojiClick={(emoji) => console.log(emoji)}
                   className="w-full"
                 />

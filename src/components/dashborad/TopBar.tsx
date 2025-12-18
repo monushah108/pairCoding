@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Bell, Plus, Sun, Moon, Users } from "lucide-react";
+import { Bell, Moon, Users } from "lucide-react";
 import { motion } from "motion/react";
 import SearchModle from "./module/SearchModle";
 import {
@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   SendNotifications,
   SearchUser,
@@ -38,7 +38,6 @@ export default function TopBar({ selectedTab, setTab }) {
     if (!displayName) return;
     try {
       const response = await SearchUser({ displayName });
-      console.log("search", response);
       setError("");
       setUsers([response]);
       setreceiver(response.id);
@@ -60,7 +59,7 @@ export default function TopBar({ selectedTab, setTab }) {
     try {
       const res = await getNotifications();
       setNotifications(res);
-      console.log("request", res);
+
       // setreceiver(res[0]?._id);
     } catch (err) {
       console.log(0);
@@ -92,7 +91,7 @@ export default function TopBar({ selectedTab, setTab }) {
   return (
     <div className=" border-b border-border [&>button]:text-xs">
       <Toaster position="top-center" />
-      <div className="flex items-center justify-between p-2">
+      <div className="flex items-center justify-between p-3">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 after:content-['*'] after:block   ">
             <Users className="w-4 h-4" />
