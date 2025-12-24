@@ -3,13 +3,38 @@ import ChatInput from "../ui/ChatInput";
 import ChatBubble from "../ui/ChatBubble";
 
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { io } from "socket.io-client";
 
-export default function ChatWindow() {
-  const time = new Date().toLocaleTimeString("en-us", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+import { memo, useEffect, useState } from "react";
+
+import { socket } from "../../socket/socket.js";
+
+export default function ChatWindow({ userId }) {
+  // const time = new Date().toLocaleTimeString("en-us", {
+  //   hour: "2-digit",
+  //   minute: "2-digit",
+  // });
+
+  const [msg, setMsg] = useState("");
+
+  const chat = socket("/Chat");
+
+  useEffect(() => {
+    chat.connect();
+
+    chat.emit("persnal:chat", { userId, msg });
+
+    chat.on("persnal:chat", (msg) => {
+      console.log(msg);
+    });
+
+    return () => {
+      chat.off("persnal:chat");
+    };
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div className="flex flex-col justify-between  h-full bg-gray-500/10">
@@ -28,7 +53,7 @@ export default function ChatWindow() {
         <ScrollArea.Corner />
       </ScrollArea.Root>
 
-      <ChatInput />
+      <ChatInput setMsg={setMsg} msg={msg} handleSubmit={handleSubmit} />
     </div>
   );
 }

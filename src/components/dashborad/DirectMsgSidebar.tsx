@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
 const DirectMsgSidebar = memo(function DirectMsgSidebar({
-  Chats,
+  friends,
   closeChat,
   handleChatUser,
 }) {
@@ -17,30 +17,37 @@ const DirectMsgSidebar = memo(function DirectMsgSidebar({
         className="flex flex-col gap-4 mt-8"
         onClick={(e) => e.stopPropagation()}
       >
-        {Chats.map(({ picture, displayName, name, _id, roomId }) => (
-          <div
-            onClick={() => handleChatUser(_id)}
-            key={_id}
-            className="h-10 mx-2 flex items-center gap-2 hover:bg-muted/50 rounded-md cursor-pointer transition group  justify-between relative"
-          >
-            <div className="flex items-center flex-1 gap-2">
-              <Avatar>
-                <AvatarImage src={picture} />
-                <AvatarFallback>M</AvatarFallback>
-              </Avatar>
-              <p className="text-sm text-black">{name}</p>
-            </div>
-
-            <Button
-              onClick={() => closeChat(roomId)}
-              variant="ghost"
-              size="icon"
-              className="group-hover:block hidden text-center cursor-pointer"
+        {friends.map(
+          ({ picture, displayName, name, _id, roomId, isOnline }) => (
+            <div
+              onClick={() => handleChatUser(_id)}
+              key={_id}
+              className="h-10 mx-2 flex items-center gap-2 hover:bg-muted/50 rounded-md cursor-pointer transition group  justify-between relative"
             >
-              <X />
-            </Button>
-          </div>
-        ))}
+              <div className="flex items-center flex-1 gap-2">
+                <div className="relative rounded-full">
+                  <Avatar>
+                    <AvatarImage src={picture} />
+                    <AvatarFallback>M</AvatarFallback>
+                  </Avatar>
+                  {isOnline && (
+                    <div className="w-2 h-2 rounded-full  bg-green-500 absolute bottom-1 right-0"></div>
+                  )}
+                </div>
+                <p className="text-sm text-black">{name}</p>
+              </div>
+
+              <Button
+                onClick={() => closeChat(roomId)}
+                variant="ghost"
+                size="icon"
+                className="group-hover:block hidden text-center cursor-pointer"
+              >
+                <X />
+              </Button>
+            </div>
+          )
+        )}
       </div>
     </aside>
   );

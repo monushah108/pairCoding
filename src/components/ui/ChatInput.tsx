@@ -11,13 +11,14 @@ import {
 
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 import EmojiPicker from "emoji-picker-react";
-import { useState } from "react";
 
-export default function ChatInput() {
-  const [openEmoji, setEmoji] = useState(false);
+export default function ChatInput({ msg, setMsg, handleSubmit }) {
   return (
     <div className=" flex items-center gap-2  p-4   bg-white ">
-      <div className=" w-full flex items-center rounded  overflow-hidden">
+      <form
+        onSubmit={handleSubmit}
+        className=" w-full flex items-center rounded  overflow-hidden"
+      >
         <InputGroup className="h-10">
           <InputGroupAddon>
             <DropdownMenu>
@@ -38,6 +39,8 @@ export default function ChatInput() {
             </DropdownMenu>
           </InputGroupAddon>
           <InputGroupInput
+            value={msg}
+            onChange={(e) => setMsg(e.target.value)}
             placeholder="send messages.."
             className="w-full p-2 outline-none text-sm placeholder:text-gray-500 placeholder:italic "
           />
@@ -60,12 +63,7 @@ export default function ChatInput() {
             </DropdownMenu>
           </InputGroupAddon>
         </InputGroup>
-      </div>
-
-      <Button variant="ghost">
-        <Send />
-      </Button>
-
+      </form>
       <PlaygroundPermissionModule />
     </div>
   );

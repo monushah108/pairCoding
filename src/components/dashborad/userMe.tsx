@@ -13,36 +13,53 @@ const DirectMsgSidebar = lazy(
 );
 const ProfilePanel = lazy(() => import("@/components/dashborad/ProfilePanel"));
 const TopBar = lazy(() => import("@/components/dashborad/TopBar"));
+import ChatHeader from "@/components/dashborad/ChatHeader.js";
 
 import { GetAllFriends } from "../../api/Authapi.js";
 import { OpenMsg } from "../../api/Chatapi.js";
-import ChatHeader from "@/components/dashborad/ChatHeader.js";
+import { socket } from "../../socket/socket.js";
 
 export default function UserMe() {
   const [selectedTab, setTab] = useState("chat");
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const [Allfriends, setAllFriends] = useState([]);
-  const [Chats, setChats] = useState([]);
   const [openChat, setOpenChat] = useState([]);
 
   const [showProfile, setshowProfile] = useState(false);
   const profileRef = useRef<any>(null);
+  const [onlinseUsers, setonlinseUsers] = useState([]);
+  const [userId, setUserId] = useState("");
 
-  const fetchAllFriends = async () => {
+  const publicSocket = socket("/");
+  useEffect(() => {
+    publicSocket.connect();
+
+    publicSocket.on("user status", setonlinseUsers);
+
+    fetchAllFriends();
+    return () => {
+      publicSocket.off("user status", setonlinseUsers);
+    };
+  }, []);
+
+  async function fetchAllFriends() {
     try {
       const res = await GetAllFriends();
-      const openRoom = res.filter(({ isChatting }) => isChatting == true);
-      setChats(openRoom);
       setAllFriends(res);
     } catch (err: any) {
       console.log(err);
     }
-  };
+  }
 
-  useEffect(() => {
-    fetchAllFriends();
-  }, []);
+  const onlinseUserset = useMemo(() => new Set(onlinseUsers), [onlinseUsers]);
+
+  const friends = useMemo(() => {
+    return Allfriends.filter((friend) => friend.isChatting).map((friend) => ({
+      ...friend,
+      isOnline: onlinseUserset.has(friend._id),
+    }));
+  }, [Allfriends, onlinseUserset]);
 
   const handlePofile = () => {
     if (showProfile) profileRef.current?.collapse();
@@ -56,7 +73,7 @@ export default function UserMe() {
 
   const handleMsg = async (roomId, id) => {
     try {
-      const res = await OpenMsg({ roomId, action: true });
+      await OpenMsg({ roomId, action: true });
     } catch (err: any) {
       console.log(err);
     }
@@ -67,7 +84,7 @@ export default function UserMe() {
 
   const closeChat = async (roomId: any) => {
     try {
-      const res = await OpenMsg({ roomId, action: false });
+      await OpenMsg({ roomId, action: false });
     } catch (err: any) {
       console.log(err);
     }
@@ -77,18 +94,17 @@ export default function UserMe() {
   };
 
   const handleChatUser = (id: String) => {
-    setOpenChat(Allfriends.filter((user) => user._id == id));
+    setOpenChat(friends.filter((user) => user._id == id));
+    setUserId(id);
     setIsChatOpen(true);
     setTab("chat");
   };
-
-  console.log(showProfile);
 
   return (
     <main className="grid grid-cols-[220px_1fr] h-full">
       {/* Friend list */}
       <DirectMsgSidebar
-        Chats={Chats}
+        friends={friends}
         closeChat={closeChat}
         handleChatUser={handleChatUser}
       />
@@ -98,13 +114,17 @@ export default function UserMe() {
         {isChatOpen ? (
           <ChatHeader openChat={openChat} handlePofile={handlePofile} />
         ) : (
-          <TopBar selectedTab={selectedTab} setTab={setTab} />
+          <TopBar
+            selectedTab={selectedTab}
+            setTab={setTab}
+            Allfriends={Allfriends}
+          />
         )}
         {selectedTab == "chat" ? (
           isChatOpen ? (
             <ResizablePanelGroup direction="horizontal">
               <ResizablePanel defaultSize={75}>
-                <ChatWindow />
+                <ChatWindow userId={userId} />
               </ResizablePanel>
               <ResizableHandle />
               <ResizablePanel

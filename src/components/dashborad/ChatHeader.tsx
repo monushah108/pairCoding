@@ -8,25 +8,20 @@ import {
 import { Button } from "../ui/button";
 
 export default function ChatHeader({ openChat, handlePofile }) {
-  const status = "online";
-  const { picture, name, displayName } = openChat[0];
+  const { picture, name, displayName, isOnline } = openChat[0];
   return (
     <div className=" border-b border-border [&>button]:text-xs p-2.5 flex items-center justify-between">
-      <div className="flex items-center flex-1 gap-1">
-        <Avatar className="size-10">
-          <AvatarImage src={picture} />
-          <AvatarFallback>M</AvatarFallback>
-        </Avatar>
-        <div className="text-center ml-2">
-          <p className="text-sm font-medium ">{name}</p>
-          <p
-            className={`text-[10px] ${
-              status == "online" ? "text-green-400" : "text-gray-500"
-            }  italic font-mono font-semibold`}
-          >
-            {status}
-          </p>
+      <div className="flex items-center flex-1 gap-2">
+        <div className="relative rounded-full">
+          <Avatar>
+            <AvatarImage src={picture} />
+            <AvatarFallback>M</AvatarFallback>
+          </Avatar>
+          {isOnline && (
+            <div className="w-1.5 h-1.5 rounded-full  bg-green-500 absolute bottom-1 right-0"></div>
+          )}
         </div>
+        <p className="text-sm text-black">{name}</p>
       </div>
       <div className="flex items-center gap-2">
         <Button

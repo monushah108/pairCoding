@@ -22,7 +22,7 @@ import { ButtonGroup } from "../ui/button-group.js";
 
 // import { io } from "socket.io-client";
 
-export default function TopBar({ selectedTab, setTab }) {
+export default function TopBar({ selectedTab, setTab, Allfriends }) {
   const [notifications, setNotifications] = useState([]);
 
   // user
@@ -59,8 +59,6 @@ export default function TopBar({ selectedTab, setTab }) {
     try {
       const res = await getNotifications();
       setNotifications(res);
-
-      // setreceiver(res[0]?._id);
     } catch (err) {
       console.log(0);
     }
@@ -98,13 +96,15 @@ export default function TopBar({ selectedTab, setTab }) {
             <span className="text-xs font-semibold">Friends</span>
           </div>
 
-          <Button
-            variant="secondary"
-            className="text-xs cursor-pointer"
-            onClick={() => setTab("friends")}
-          >
-            All
-          </Button>
+          {!!Allfriends.length && (
+            <Button
+              variant="secondary"
+              className="text-xs cursor-pointer"
+              onClick={() => setTab("friends")}
+            >
+              All
+            </Button>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost">

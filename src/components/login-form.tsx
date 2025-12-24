@@ -30,7 +30,10 @@ export function LoginForm({
       const response = await LoginApi({ email, password });
       navigate("/dashboard/@me");
     } catch (error: any) {
-      toast.error(`${error.response.data.error}`);
+      console.log(error);
+      toast.error(
+        `${error.response.data?.error ?? error.response.data?.message}`
+      );
     }
   };
   return (
