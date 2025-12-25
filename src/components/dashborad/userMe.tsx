@@ -1,4 +1,4 @@
-import { lazy, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, useEffect, useMemo, useState } from "react";
 
 const DirectMsgSidebar = lazy(
   () => import("@/components/dashborad/DirectMsgSidebar")
@@ -13,7 +13,6 @@ export default function UserMe() {
   const [Allfriends, setAllFriends] = useState([]);
   const [onlinseUsers, setonlinseUsers] = useState([]);
   const [selectedTab, setTab] = useState("chat");
-  const [selectedProfile, setProfile] = useState(null);
 
   const navigate = useNavigate();
 

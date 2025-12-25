@@ -16,30 +16,28 @@ const ProfilePanel = lazy(() => import("@/components/dashborad/ProfilePanel"));
 import { socket } from "../../socket/socket.js";
 import { GetMsgs, sendMsg } from "../../api/Chatapi.js";
 import { useOutletContext, useParams } from "react-router-dom";
+import { Avatar } from "@radix-ui/react-avatar";
+import { AvatarFallback, AvatarImage } from "../ui/avatar.js";
+import { Separator } from "../ui/separator.js";
 
 export default function ChatWindow() {
-  const time = new Date().toLocaleTimeString("en-us", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
   const [msg, setMsg] = useState("");
   const [showProfile, setshowProfile] = useState(false);
   const profileRef = useRef<any>(null);
-  // const [AllMsg, setMsgs] = useState([]);
-  const AllMsg = [
-    {
-      content: "hii there",
-      time,
-      senderName: "sumit",
-    },
-    {
-      content:
-        "  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, magni? Laboriosam quis voluptatem laudantium, doloribus quasi possimus. Voluptates velit beatae itaque praesentium molestiae officia sed soluta culpa sint ut! Magnam?",
-      time,
-      reciverName: "monu",
-    },
-  ];
+  const [AllMsg, setMsgs] = useState([]);
+  // const AllMsg = [
+  //   {
+  //     content: "hii there",
+  //     time,
+  //     senderName: "sumit",
+  //   },
+  //   {
+  //     content:
+  //       "  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, magni? Laboriosam quis voluptatem laudantium, doloribus quasi possimus. Voluptates velit beatae itaque praesentium molestiae officia sed soluta culpa sint ut! Magnam?",
+  //     time,
+  //     reciverName: "monu",
+  //   },
+  // ];
 
   const { roomId } = useParams();
   const { friends } = useOutletContext();
@@ -64,12 +62,12 @@ export default function ChatWindow() {
 
   useEffect(() => {
     fetchAllMsg();
-  }, []);
+  }, [roomId]);
 
   const fetchAllMsg = async () => {
     try {
       const res = await GetMsgs({ roomId });
-      console.log(res);
+      setMsgs(res);
     } catch (err: any) {
       console.log(err);
     }
@@ -83,6 +81,9 @@ export default function ChatWindow() {
     } catch (err: any) {
       console.log(err);
     }
+
+    fetchAllMsg();
+    setMsg("");
   };
 
   const handlePofile = () => {
@@ -107,26 +108,45 @@ export default function ChatWindow() {
           <div className="flex flex-col justify-between  h-full bg-gray-500/10">
             <ScrollArea.Root>
               <ScrollArea.Viewport className="p-3 ">
-                <div className="flex items-center justify-center my-2 flex-col gap-4">
-                  <div className="bg-white px-4 py-1 rounded text-[10px] shadow-xs font-semibold  ">
-                    {time}
+                <div className="flex  my-2 flex-col gap-4  ">
+                  <div className=" px-4 py-1  text-[10px]    ">
+                    <Avatar className="rounded-full  ">
+                      <AvatarImage
+                        className="size-25 rounded-full"
+                        src="https://api.dicebear.com/6.x/initials/svg?seed=m"
+                      />
+                      <AvatarFallback>M</AvatarFallback>
+                    </Avatar>
                   </div>
-                  <div>
-                    <p className="text-sm italic  font-medium text-gray-500">
-                      ~ ~ New Messages ~ ~
+
+                  <div className=" italic font-medium  text-gray-500">
+                    <h2 className="text-md text-gray-600">
+                      {selectedProfile?.name}
+                      <span className="ml-2 text-xs">
+                        --
+                        {selectedProfile?.displayName}
+                      </span>
+                    </h2>
+
+                    <p className="font-semibold">
+                      This is the begining of your direct message history with{" "}
+                      {selectedProfile?.name}
                     </p>
                   </div>
                 </div>
+                <Separator className="my-4" />
                 <div className="flex flex-col relative">
-                  {AllMsg.map(({ time, content, senderName, reciverName }) => (
-                    <ChatBubble
-                      time={time}
-                      content={content}
-                      senderName={senderName}
-                      reciverName={reciverName}
-                      theme="simple"
-                    />
-                  ))}
+                  {AllMsg.map(
+                    ({ userId: senderId, message, createdAt: time }, i) => (
+                      <ChatBubble
+                        key={i}
+                        message={message}
+                        friendId={selectedProfile?._id}
+                        senderId={senderId}
+                        time={time}
+                      />
+                    )
+                  )}
                 </div>
               </ScrollArea.Viewport>
               <ScrollArea.Scrollbar
