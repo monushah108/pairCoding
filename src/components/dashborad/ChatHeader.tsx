@@ -7,10 +7,11 @@ import {
 } from "../ui/input-group";
 import { Button } from "../ui/button";
 
-export default function ChatHeader({ openChat, handlePofile }) {
-  const { picture, name, displayName, isOnline } = openChat[0];
+export default function ChatHeader({ handlePofile, selectedProfile }) {
+  const { picture, isOnline, name, displayName } = selectedProfile || {};
+
   return (
-    <div className=" border-b border-border [&>button]:text-xs p-2.5 flex items-center justify-between">
+    <div className=" border-b border-border [&>button]:text-xs p-3 flex items-center justify-between">
       <div className="flex items-center flex-1 gap-2">
         <div className="relative rounded-full">
           <Avatar>

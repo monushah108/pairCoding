@@ -11,6 +11,7 @@ import {
 
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 import EmojiPicker from "emoji-picker-react";
+import { useState } from "react";
 
 export default function ChatInput({ msg, setMsg, handleSubmit }) {
   return (
@@ -22,16 +23,14 @@ export default function ChatInput({ msg, setMsg, handleSubmit }) {
         <InputGroup className="h-10">
           <InputGroupAddon>
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                {" "}
+              <DropdownMenuTrigger asChild>
                 <Button variant="ghost">
                   <Paperclip />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem>
-                  <Button variant="ghost" className="w-full">
-                    {" "}
+                  <Button className="w-full">
                     <FileDown /> upload File
                   </Button>
                 </DropdownMenuItem>

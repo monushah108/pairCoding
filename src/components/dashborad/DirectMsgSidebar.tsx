@@ -20,7 +20,7 @@ const DirectMsgSidebar = memo(function DirectMsgSidebar({
         {friends.map(
           ({ picture, displayName, name, _id, roomId, isOnline }) => (
             <div
-              onClick={() => handleChatUser(_id)}
+              onClick={() => handleChatUser(roomId)}
               key={_id}
               className="h-10 mx-2 flex items-center gap-2 hover:bg-muted/50 rounded-md cursor-pointer transition group  justify-between relative"
             >

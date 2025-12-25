@@ -10,6 +10,8 @@ import Authpage from "./pages/Authpage";
 import { RegisterForm } from "./components/register-form";
 import { LoginForm } from "./components/login-form";
 import Authoptions from "./components/Authoptions";
+import ChatWindow from "./components/dashborad/chatWindow";
+import Nochat from "./components/dashborad/noChat";
 
 const router = createBrowserRouter([
   {
@@ -27,9 +29,20 @@ const router = createBrowserRouter([
       {
         path: "@me",
         element: <UserMe />,
+        children: [
+          {
+            index: true,
+            element: <Nochat />,
+          },
+          {
+            path: ":roomId",
+            element: <ChatWindow />,
+          },
+        ],
       },
+
       {
-        path: "server",
+        path: "server/:serverId",
         element: <Server />,
       },
     ],
@@ -53,7 +66,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/playground",
+    path: "/playground/:palyId",
     element: <Playground />,
   },
 ]);
