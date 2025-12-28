@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { FileDown, Paperclip, Send, SmilePlus } from "lucide-react";
+import { FileDown, Paperclip, Send, SmilePlus, X } from "lucide-react";
 
 import PlaygroundPermissionModule from "../dashborad/module/PlaygroundPermissionModule";
 import {
@@ -9,61 +9,104 @@ import {
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
+import { InputGroup, InputGroupAddon, InputGroupTextarea } from "./input-group";
 import EmojiPicker from "emoji-picker-react";
 import { useState } from "react";
 
-export default function ChatInput({ msg, setMsg, handleSubmit }) {
-  return (
-    <div className=" flex items-center gap-2  p-4   bg-white ">
-      <form
-        onSubmit={handleSubmit}
-        className=" w-full flex items-center rounded  overflow-hidden"
-      >
-        <InputGroup className="h-10">
-          <InputGroupAddon>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost">
-                  <Paperclip />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <Button className="w-full">
-                    <FileDown /> upload File
-                  </Button>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </InputGroupAddon>
-          <InputGroupInput
-            value={msg}
-            onChange={(e) => setMsg(e.target.value)}
-            placeholder="send messages.."
-            className="w-full p-2 outline-none text-sm placeholder:text-gray-500 placeholder:italic "
-          />
-          <InputGroupAddon align="inline-end">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="cursor-pointer">
-                  <SmilePlus />
-                </div>
-              </DropdownMenuTrigger>
+export default function ChatInput({
+  msg,
+  setMsg,
+  handleSubmit,
+  selectedText,
+  setSelectedText,
+}) {
+  const [selectedPos, setSelectedPos] = useState(0);
 
-              <DropdownMenuContent className="p-0">
-                <EmojiPicker
-                  width={400}
-                  height={350}
-                  onEmojiClick={(emoji) => console.log(emoji)}
-                  className="w-full"
-                />
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </InputGroupAddon>
-        </InputGroup>
-      </form>
-      <PlaygroundPermissionModule />
+  const onKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
+  const handleEmoji = ({ emoji }) => {
+    const EmojiText = msg.split("");
+    EmojiText.splice(selectedPos, 0, emoji);
+    setMsg(EmojiText.join(""));
+  };
+
+  return (
+    <div>
+      {selectedText && (
+        <div className="h-[60px] border-l-4   bg-white flex items-stretch border-purple-500  ">
+          <div className="p-1 bg-gray-100 flex-1 relative px-3 text-sm text-left font-semibold">
+            <p className="text-teal-500">@{selectedText.name}</p>
+            <p className="text-gray-500 mt-1">
+              {selectedText.message.substr(0, 40)} ...
+            </p>
+            <button
+              className="absolute right-2 top-3 cursor-pointer"
+              onClick={() => setSelectedText(null)}
+            >
+              <X className="w-5 h-5 text-gray-400" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className=" flex items-center gap-2  p-2.5   bg-white ">
+        <form
+          onSubmit={handleSubmit}
+          className=" w-full flex items-center rounded  overflow-hidden"
+        >
+          <InputGroup className="h-10">
+            <InputGroupAddon>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost">
+                    <Paperclip />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>
+                    <Button className="w-full">
+                      <FileDown /> upload File
+                    </Button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </InputGroupAddon>
+
+            <InputGroupTextarea
+              value={msg}
+              onChange={(e) => setMsg(e.target.value)}
+              onKeyUp={(e) => setSelectedPos(e.target.selectionStart)}
+              onKeyDown={onKeyDown}
+              placeholder="send messages.."
+              className={`w-full p-2 outline-none text-sm placeholder:text-gray-500 placeholder:italic  min-h-10 max-h-[140px]`}
+            />
+            <InputGroupAddon align="inline-end">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="cursor-pointer">
+                    <SmilePlus />
+                  </div>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent className="p-0">
+                  <EmojiPicker
+                    width={400}
+                    height={350}
+                    onEmojiClick={handleEmoji}
+                    className="w-full"
+                  />
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </InputGroupAddon>
+          </InputGroup>
+        </form>
+        <PlaygroundPermissionModule />
+      </div>
     </div>
   );
 }

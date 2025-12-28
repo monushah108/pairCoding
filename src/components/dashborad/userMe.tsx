@@ -81,7 +81,9 @@ export default function UserMe() {
       />
 
       {/* Chat or main frame */}
-      <Outlet context={{ Allfriends, handleMsg, friends }} />
+      <Outlet
+        context={{ Allfriends, handleMsg, friends, setTab, selectedTab }}
+      />
     </main>
   );
 }

@@ -14,7 +14,11 @@ export const GetMsgs = async ({ roomId }) => {
   return data;
 };
 
-export const sendMsg = async ({ roomId, message }) => {
-  const { data } = await ApiInstance.post(`/chat/${roomId}`, { message });
+export const EditMsg = async ({ action, id, roomId }) => {
+  const { data } = await ApiInstance.patch(
+    `/chat/edit/${id}`,
+    {},
+    { params: { action, roomId } }
+  );
   return data;
 };

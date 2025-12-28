@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from "motion/react";
-import AutoColor from "./AutoColor";
 import type React from "react";
 import {
   DropdownMenu,
@@ -15,17 +14,21 @@ interface ChatBubbleProps {
   friendId: string;
   message: string;
   time: string;
-  key: number;
+  id: number;
+  name: string;
+  handleActions: (action: any, id: any) => void;
 }
 
 const ChatBubble: React.FC<ChatBubbleProps> = ({
   senderId,
   friendId,
   message,
-  key,
+  id,
   time,
+  name,
+  handleActions,
 }) => {
-  const msgOption = ["React", "Reply", "Delete", "Edit"];
+  const msgOption = ["Reply", "Delete", "Edit"];
 
   const formatTime = (date: string) => {
     const time = new Date(date);
@@ -39,7 +42,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
   return (
     <AnimatePresence mode="popLayout">
       <motion.div
-        key={key}
+        key={id}
         initial={{ x: 30, opacity: 0, scale: 0.95 }}
         animate={{ x: 0, opacity: 1, scale: 1 }}
         exit={{ x: -30, opacity: 0, scale: 0.9 }}
@@ -47,20 +50,13 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
           type: "spring",
           stiffness: 120,
           damping: 15,
+
           mass: 0.8,
         }}
         className={`flex flex-col gap-1 mb-3   max-w-lg  ${
           friendId == senderId ? "self-start" : "self-end"
         }`}
       >
-        <div
-          className={`text-[10px] ${
-            friendId == senderId ? "text-left" : "text-right"
-          } `}
-        >
-          {formatTime(time)}
-        </div>
-
         <div className="flex ">
           <div className={`${friendId == senderId ? "order-1" : "order-0"}`}>
             <DropdownMenu>
@@ -70,16 +66,31 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                {msgOption.map((option, i) => (
-                  <DropdownMenuItem className="font-semibold text-xs" key={i}>
-                    {option}
+                {msgOption.map((action, i) => (
+                  <DropdownMenuItem
+                    onClick={() => handleActions(action, id, message, name)}
+                    className="font-semibold text-xs"
+                    key={i}
+                  >
+                    {action}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="text-xs font-semibold dark:bg-[#2d2d30]  dark:text-[#cccccc] bg-white shadow px-2 py-2 rounded ">
+          <div
+            className={` 
+               text-sm
+             font-semibold dark:bg-[#2d2d30]  dark:text-[#cccccc] bg-white shadow px-2 py-2 rounded `}
+          >
             {message}
+            <div
+              className={`text-[10px] text-gray-500 ${
+                friendId == senderId ? "text-left" : "text-right"
+              } `}
+            >
+              {formatTime(time)}
+            </div>
           </div>
         </div>
       </motion.div>

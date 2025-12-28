@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Binary } from "lucide-react";
 
-const GROUPS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+// const GROUPS = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
 export default function Sidebar() {
   return (
@@ -27,7 +27,7 @@ export default function Sidebar() {
           </TooltipContent>
         </Tooltip>
 
-        {GROUPS.map((item, index) => (
+        {/* {GROUPS.map((item, index) => (
           <Tooltip key={index}>
             <TooltipTrigger asChild>
               <Link to="server">
@@ -44,7 +44,7 @@ export default function Sidebar() {
               <p>{item}</p>
             </TooltipContent>
           </Tooltip>
-        ))}
+        ))} */}
       </div>
     </div>
   );
