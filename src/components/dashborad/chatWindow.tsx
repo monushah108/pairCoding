@@ -32,6 +32,7 @@ export default function ChatWindow() {
   const [showProfile, setshowProfile] = useState(false);
   const profileRef = useRef<HTMLDivElement | any>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+
   const [AllMsg, setMsgs] = useState([]);
 
   const [selectedText, setSelectedText] = useState(null);
@@ -56,7 +57,7 @@ export default function ChatWindow() {
     });
 
     return () => {
-      chat.off("personal:chat");
+      chat.off("personal:chat:send");
     };
   }, [roomId]);
 
@@ -83,6 +84,17 @@ export default function ChatWindow() {
         roomId,
         repliedTextId: id,
       });
+    } else if (file) {
+      const read = new FileReader();
+      read.onload = () => {
+        chat.emit("upload:file", {
+          toUserId,
+          message: msg,
+          roomId,
+          fileBuffer: read.result,
+        });
+      };
+      read.readAsArrayBuffer(file);
     }
 
     fetchAllMsg();
@@ -170,7 +182,7 @@ export default function ChatWindow() {
                       createdAt: time,
                       _id,
                       name,
-                      buffer,
+                      file,
                     }) => (
                       <ChatBubble
                         id={_id}
@@ -179,7 +191,7 @@ export default function ChatWindow() {
                         senderId={senderId}
                         name={name}
                         time={time}
-                        buffer={buffer}
+                        file={file}
                         handleActions={handleActions}
                       />
                     )

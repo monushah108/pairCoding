@@ -14,7 +14,7 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { motion } from "motion/react";
 import { Avatar, AvatarImage } from "../../ui/avatar";
 
-export default function CreateChannelModel({ setAddChannel }) {
+export default function channelModle({ setAddChannel }) {
   const [channelType, setChannelType] = useState("text");
   const [Newchannel, setNewchannel] = useState("");
   const [nextStep, setnextStep] = useState(1);

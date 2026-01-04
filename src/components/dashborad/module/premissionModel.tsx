@@ -21,7 +21,7 @@ import { Field, FieldDescription, FieldGroup } from "../../ui/field";
 import { Avatar, AvatarImage } from "../../ui/avatar";
 import { useNavigate } from "react-router-dom";
 
-export default function PlaygroundPermissionModule() {
+export default function PermissionModel() {
   const [selected, setSelected] = useState("public");
   const [selectedUser, setSelectedUser] = useState<string[]>([]);
   const [next, setNext] = useState(false);

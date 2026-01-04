@@ -6,9 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
+import { FormatTime } from "../../util/feature.js";
 import { MoreHorizontalIcon } from "lucide-react";
 import { Button } from "./button";
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 
 interface ChatBubbleProps {
   senderId: string;
@@ -27,19 +28,10 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(function ChatBubble({
   id,
   time,
   name,
-
+  file,
   handleActions,
 }) {
   const msgOption = ["Reply", "Delete", "Edit"];
-
-  const formatTime = (date: string) => {
-    const time = new Date(date);
-
-    return time.toLocaleTimeString("en-us", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   return (
     <AnimatePresence mode="popLayout">
@@ -80,7 +72,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(function ChatBubble({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-
+          {file && <img src={file} />}
           <div
             className={` 
                text-sm
@@ -92,7 +84,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(function ChatBubble({
                 friendId == senderId ? "text-left" : "text-right"
               } `}
             >
-              {formatTime(time)}
+              {FormatTime(time)}
             </div>
           </div>
         </div>

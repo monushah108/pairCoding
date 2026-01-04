@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/collapsible";
 
 import { useState } from "react";
-import CreateChannelModel from "./module/CreateChannelModel";
+import channelModle from "./module/channelModle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,7 +56,7 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
 
             <DropdownMenuContent>
               <DropdownMenuItem>
-                <CreateChannelModel setAddChannel={setChannels} />
+                <channelModle setAddChannel={setChannels} />
               </DropdownMenuItem>
 
               <DropdownMenuItem>

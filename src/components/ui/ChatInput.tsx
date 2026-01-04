@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { File, FileDown, Paperclip, Send, SmilePlus, X } from "lucide-react";
+import { File, FileDown, Paperclip, SmilePlus, X } from "lucide-react";
 
-import PlaygroundPermissionModule from "../dashborad/module/PlaygroundPermissionModule";
+import PermissionModel from "../dashborad/module/premissionModel.js";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +11,7 @@ import {
 
 import { InputGroup, InputGroupAddon, InputGroupTextarea } from "./input-group";
 import EmojiPicker from "emoji-picker-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ChatInput({
   msg,
@@ -33,7 +33,7 @@ export default function ChatInput({
     }
   };
 
-  const handleEmoji = (emoji: any) => {
+  const handleEmoji = ({ emoji }) => {
     const EmojiText = msg.split("");
     EmojiText.splice(selectedPos, 0, emoji);
     setMsg(EmojiText.join(""));
@@ -58,7 +58,7 @@ export default function ChatInput({
     };
   }, [file]);
 
-  const previewFile = (f) => {
+  function PreviewFile(f) {
     const [fileType, _] = f.split("/");
 
     switch (fileType) {
@@ -73,7 +73,7 @@ export default function ChatInput({
       default:
         return <File />;
     }
-  };
+  }
 
   return (
     <div>
@@ -97,7 +97,7 @@ export default function ChatInput({
       {previewUrl && (
         <div className=" p-4 bg-white relative">
           <div className="flex items-center max-w-max gap-2 bg-gray-100 border rounded p-2">
-            {previewFile(file?.type)}
+            {PreviewFile(file?.type)}
             <p className="text-xs font-semibold">{file?.name}</p>
           </div>
           <button
@@ -170,7 +170,7 @@ export default function ChatInput({
             </InputGroupAddon>
           </InputGroup>
         </form>
-        <PlaygroundPermissionModule />
+        <PermissionModel />
       </div>
     </div>
   );
