@@ -9,8 +9,8 @@ const DirectMsgSidebar = memo(function DirectMsgSidebar({
   handleChatUser,
 }) {
   return (
-    <aside className="border-r border-border py-4 h-full">
-      <h2 className="text-center text-sm border-b border-border py-3 font-medium">
+    <aside className="border-r border-border h-full">
+      <h2 className="text-center text-sm border-b border-border py-5 font-medium">
         All Friends
       </h2>
       <div

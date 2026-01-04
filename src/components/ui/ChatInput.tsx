@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { FileDown, Paperclip, Send, SmilePlus, X } from "lucide-react";
+import { File, FileDown, Paperclip, Send, SmilePlus, X } from "lucide-react";
 
 import PlaygroundPermissionModule from "../dashborad/module/PlaygroundPermissionModule";
 import {
@@ -11,7 +11,7 @@ import {
 
 import { InputGroup, InputGroupAddon, InputGroupTextarea } from "./input-group";
 import EmojiPicker from "emoji-picker-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ChatInput({
   msg,
@@ -19,6 +19,10 @@ export default function ChatInput({
   handleSubmit,
   selectedText,
   setSelectedText,
+  file,
+  setFile,
+  previewUrl,
+  setPreviewUrl,
 }) {
   const [selectedPos, setSelectedPos] = useState(0);
 
@@ -29,10 +33,46 @@ export default function ChatInput({
     }
   };
 
-  const handleEmoji = ({ emoji }) => {
+  const handleEmoji = (emoji: any) => {
     const EmojiText = msg.split("");
     EmojiText.splice(selectedPos, 0, emoji);
     setMsg(EmojiText.join(""));
+  };
+
+  useEffect(() => {
+    if (!file) {
+      setPreviewUrl(null);
+      return;
+    }
+
+    if (file.size >= 5 * 1024 * 1024) {
+      setPreviewUrl(null);
+      return;
+    }
+
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+
+    return () => {
+      URL.revokeObjectURL(url);
+    };
+  }, [file]);
+
+  const previewFile = (f) => {
+    const [fileType, _] = f.split("/");
+
+    switch (fileType) {
+      case "image":
+        return <img src={previewUrl} className="w-25 h-25" />;
+        break;
+
+      case "video":
+        return <video src={previewUrl} controls className="w-35 h-35"></video>;
+        break;
+
+      default:
+        return <File />;
+    }
   };
 
   return (
@@ -54,6 +94,24 @@ export default function ChatInput({
         </div>
       )}
 
+      {previewUrl && (
+        <div className=" p-4 bg-white relative">
+          <div className="flex items-center max-w-max gap-2 bg-gray-100 border rounded p-2">
+            {previewFile(file?.type)}
+            <p className="text-xs font-semibold">{file?.name}</p>
+          </div>
+          <button
+            onClick={() => {
+              setPreviewUrl(null);
+              setFile(null);
+            }}
+            className="absolute right-2 top-2 text-gray-500 cursor-pointer  "
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+      )}
+
       <div className=" flex items-center gap-2  p-2.5   bg-white ">
         <form
           onSubmit={handleSubmit}
@@ -68,10 +126,17 @@ export default function ChatInput({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem>
-                    <Button className="w-full">
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <label htmlFor="file" className="flex items-center gap-1">
                       <FileDown /> upload File
-                    </Button>
+                    </label>
+                    <input
+                      type="file"
+                      name="file"
+                      id="file"
+                      className="hidden"
+                      onChange={(e) => setFile(e.target.files[0])}
+                    />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

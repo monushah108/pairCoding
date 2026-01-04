@@ -39,6 +39,8 @@ export default function Profile() {
 
   const bages = ["online", "do not disturbe", "ofline", "asthetic"];
 
+  console.log("profile");
+
   return (
     <section className="bg-background text-foreground   transition-colors  ">
       <div className="container max-w-5xl m-auto relative space-y-5">

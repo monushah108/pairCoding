@@ -9,6 +9,15 @@ screenshare <-- feature
 peer .js 
 
 
+---- chat features -----------
+
+reply
+send images video files 
+edit 
+delete
+---------------------------------
+
+
 
 ---------playground ------------------
 

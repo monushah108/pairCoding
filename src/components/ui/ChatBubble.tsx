@@ -8,6 +8,7 @@ import {
 } from "./dropdown-menu";
 import { MoreHorizontalIcon } from "lucide-react";
 import { Button } from "./button";
+import { memo, useEffect, useState } from "react";
 
 interface ChatBubbleProps {
   senderId: string;
@@ -19,15 +20,16 @@ interface ChatBubbleProps {
   handleActions: (action: any, id: any) => void;
 }
 
-const ChatBubble: React.FC<ChatBubbleProps> = ({
+const ChatBubble: React.FC<ChatBubbleProps> = memo(function ChatBubble({
   senderId,
   friendId,
   message,
   id,
   time,
   name,
+
   handleActions,
-}) => {
+}) {
   const msgOption = ["Reply", "Delete", "Edit"];
 
   const formatTime = (date: string) => {
@@ -78,6 +80,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+
           <div
             className={` 
                text-sm
@@ -96,6 +99,6 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
       </motion.div>
     </AnimatePresence>
   );
-};
+});
 
 export default ChatBubble;

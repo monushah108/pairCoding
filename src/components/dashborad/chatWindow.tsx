@@ -35,6 +35,9 @@ export default function ChatWindow() {
   const [AllMsg, setMsgs] = useState([]);
 
   const [selectedText, setSelectedText] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  const [file, setFile] = useState(null);
 
   const { roomId } = useParams();
   const { friends } = useOutletContext();
@@ -49,7 +52,6 @@ export default function ChatWindow() {
     chat.connect();
 
     chat.on("personal:chat:send", (data) => {
-      console.log("user msg", data);
       setMsgs((pre) => [...pre, data]);
     });
 
@@ -74,30 +76,38 @@ export default function ChatWindow() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const id = selectedText?.id;
-    chat.emit("personal:chat", {
-      toUserId,
-      message: msg,
-      roomId,
-      repliedTextId: id,
-    });
+    if (msg) {
+      chat.emit("personal:chat", {
+        toUserId,
+        message: msg,
+        roomId,
+        repliedTextId: id,
+      });
+    }
+
     fetchAllMsg();
     setMsg("");
+    setFile("");
+    setPreviewUrl("");
   };
-  console.log(AllMsg);
+
   const handleActions = async (
     action: string,
     id: string,
     message: string,
     name: string
   ) => {
-    setSelectedText({ id, message, name });
-    if (action == "Reply") return;
+    if (action == "Reply") {
+      setSelectedText({ id, message, name });
+      return;
+    }
     try {
       const res = await EditMsg({ action, id, roomId });
       console.log(res);
     } catch (err) {
       console.log(err);
     }
+    fetchAllMsg();
   };
 
   const handlePofile = () => {
@@ -152,7 +162,7 @@ export default function ChatWindow() {
                   </div>
                 </div>
                 <Separator className="my-4" />
-                <motion.div layout className="flex flex-col relative">
+                <div className="flex flex-col relative">
                   {AllMsg.map(
                     ({
                       userId: senderId,
@@ -160,6 +170,7 @@ export default function ChatWindow() {
                       createdAt: time,
                       _id,
                       name,
+                      buffer,
                     }) => (
                       <ChatBubble
                         id={_id}
@@ -168,12 +179,13 @@ export default function ChatWindow() {
                         senderId={senderId}
                         name={name}
                         time={time}
+                        buffer={buffer}
                         handleActions={handleActions}
                       />
                     )
                   )}
                   <motion.div layout ref={bottomRef} />
-                </motion.div>
+                </div>
               </ScrollArea.Viewport>
               <ScrollArea.Scrollbar
                 orientation="vertical"
@@ -190,6 +202,10 @@ export default function ChatWindow() {
               setMsg={setMsg}
               msg={msg}
               handleSubmit={handleSubmit}
+              file={file}
+              setFile={setFile}
+              previewUrl={previewUrl}
+              setPreviewUrl={setPreviewUrl}
             />
           </div>
         </ResizablePanel>
