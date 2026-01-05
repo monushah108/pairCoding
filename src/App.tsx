@@ -3,7 +3,6 @@ import "./App.css";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Playground from "./pages/playground";
-import Profile from "./components/dashborad/Profile";
 import UserMe from "./components/dashborad/userMe";
 import Server from "./components/dashborad/Server";
 import Authpage from "./pages/Authpage";
@@ -12,6 +11,7 @@ import { LoginForm } from "./components/login-form";
 import Authoptions from "./components/Authoptions";
 import ChatWindow from "./components/dashborad/chatWindow";
 import Nochat from "./components/dashborad/noChat";
+import Profile from "./components/dashborad/profile";
 
 const router = createBrowserRouter([
   {

@@ -74,7 +74,7 @@ export default function ChatInput({
         return <File />;
     }
   }
-
+  console.log("chat");
   return (
     <div>
       {selectedText && (

@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { ChevronRight, CodeXml, UserPlus, Users } from "lucide-react";
+import { CodeXml, UserPlus, Users } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { Separator } from "../../ui/separator";

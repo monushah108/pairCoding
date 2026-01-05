@@ -1,18 +1,19 @@
 import { Binary } from "lucide-react";
-import { AnimatePresence, easeIn, motion } from "motion/react";
-import { lazy, useEffect, useMemo, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { easeIn, motion } from "motion/react";
+import { lazy, useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import Connector from "../components/connector";
 
 const Sidebar = lazy(() => import("@/components/dashborad/Sidebar"));
 
 export default function Dashboard() {
   const [darkMode, setDarkMode] = useState(false);
+  const { pathname } = useLocation();
+  const show = pathname.includes("/profile");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
-
   return (
     <section className="bg-background text-foreground transition-colors  ">
       {/* Top header */}
@@ -45,9 +46,7 @@ export default function Dashboard() {
           </div>
         </div>
       </motion.div>
-      <div className="relative">
-        <Connector />
-      </div>
+      <div className="relative">{show || <Connector />}</div>
     </section>
   );
 }
