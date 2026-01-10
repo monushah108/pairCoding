@@ -7,6 +7,7 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Binary } from "lucide-react";
+import ServerModle from "./module/serverModle";
 
 // const GROUPS = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
@@ -26,6 +27,7 @@ export default function Sidebar() {
             <p>Direct Message</p>
           </TooltipContent>
         </Tooltip>
+        <ServerModle />
 
         {/* {GROUPS.map((item, index) => (
           <Tooltip key={index}>

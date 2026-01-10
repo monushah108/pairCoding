@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { CameraIcon, EditIcon, SaveIcon, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { Badge } from "../ui/badge";
+import { Badge } from "../components/ui/badge";
 import { useState } from "react";
-import { Input } from "../ui/input";
-import CreateTags from "../ui/CreateTags";
+import { Input } from "../components/ui/input";
+import CreateTags from "../components/ui/CreateTags";
 
 const Tags = [
   { id: "react", label: "React" },
@@ -200,17 +200,6 @@ export default function Profile() {
                         )
                       )}
                     </div>
-                  </div>
-                  {/* Create Server */}
-                  <div className="flex items-center justify-between border border-border rounded-md p-4">
-                    <div>
-                      <p className="text-sm font-medium">Create Server</p>
-                      <p className="text-xs text-muted-foreground">
-                        Start a new community or workspace
-                      </p>
-                    </div>
-
-                    <Button variant="outline">Create Server</Button>
                   </div>
                 </motion.div>
               </motion.div>

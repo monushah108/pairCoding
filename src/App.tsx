@@ -11,7 +11,7 @@ import { LoginForm } from "./components/login-form";
 import Authoptions from "./components/Authoptions";
 import ChatWindow from "./components/dashborad/chatWindow";
 import Nochat from "./components/dashborad/noChat";
-import Profile from "./components/dashborad/profile";
+import Profile from "./pages/profile";
 
 const router = createBrowserRouter([
   {
