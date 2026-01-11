@@ -15,8 +15,8 @@ export const RegisterApi = async (Userdata) => {
   return data;
 };
 
-export const CheckDisplayName = async (Userdata) => {
-  const { data } = await ApiInstance.post("/checkDisplayName", Userdata);
+export const ChecknickName = async (Userdata) => {
+  const { data } = await ApiInstance.post("/checknickName", Userdata);
   return data;
 };
 

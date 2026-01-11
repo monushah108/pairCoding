@@ -17,37 +17,35 @@ const DirectMsgSidebar = memo(function DirectMsgSidebar({
         className="flex flex-col gap-4 mt-8"
         onClick={(e) => e.stopPropagation()}
       >
-        {friends.map(
-          ({ picture, displayName, name, _id, roomId, isOnline }) => (
-            <div
-              onClick={() => handleChatUser(roomId)}
-              key={_id}
-              className="h-10 mx-2 flex items-center gap-2 hover:bg-muted/50 rounded-md cursor-pointer transition group  justify-between relative"
-            >
-              <div className="flex items-center flex-1 gap-2">
-                <div className="relative rounded-full">
-                  <Avatar>
-                    <AvatarImage src={picture} />
-                    <AvatarFallback>M</AvatarFallback>
-                  </Avatar>
-                  {isOnline && (
-                    <div className="w-2 h-2 rounded-full  bg-green-500 absolute bottom-1 right-0"></div>
-                  )}
-                </div>
-                <p className="text-sm text-black">{name}</p>
+        {friends.map(({ picture, nickName, name, _id, ChatId, isOnline }) => (
+          <div
+            onClick={() => handleChatUser(ChatId)}
+            key={_id}
+            className="h-10 mx-2 flex items-center gap-2 hover:bg-muted/50 rounded-md cursor-pointer transition group  justify-between relative"
+          >
+            <div className="flex items-center flex-1 gap-2">
+              <div className="relative rounded-full">
+                <Avatar>
+                  <AvatarImage src={picture} />
+                  <AvatarFallback>M</AvatarFallback>
+                </Avatar>
+                {isOnline && (
+                  <div className="w-2 h-2 rounded-full  bg-green-500 absolute bottom-1 right-0"></div>
+                )}
               </div>
-
-              <Button
-                onClick={() => closeChat(roomId)}
-                variant="ghost"
-                size="icon"
-                className="group-hover:block hidden text-center cursor-pointer"
-              >
-                <X />
-              </Button>
+              <p className="text-sm text-black">{name}</p>
             </div>
-          )
-        )}
+
+            <Button
+              onClick={() => closeChat(ChatId)}
+              variant="ghost"
+              size="icon"
+              className="group-hover:block hidden text-center cursor-pointer"
+            >
+              <X />
+            </Button>
+          </div>
+        ))}
       </div>
     </aside>
   );

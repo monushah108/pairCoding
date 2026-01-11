@@ -8,7 +8,7 @@ import {
 import { Button } from "../ui/button";
 
 export default function ChatHeader({ handlePofile, selectedProfile }) {
-  const { picture, isOnline, name, displayName } = selectedProfile || {};
+  const { picture, isOnline, name, nickName } = selectedProfile || {};
 
   return (
     <div className=" border-b border-border [&>button]:text-xs p-3 flex items-center justify-between">
@@ -38,7 +38,7 @@ export default function ChatHeader({ handlePofile, selectedProfile }) {
           </InputGroupAddon>
 
           <InputGroupInput
-            placeholder={`search ${displayName}`}
+            placeholder={`search ${nickName}`}
             className="placeholder:text-xs placeholder:font-medium "
           />
         </InputGroup>

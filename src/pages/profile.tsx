@@ -30,7 +30,7 @@ export default function Profile() {
   const [EditProfile, setEditProfile] = useState(false);
 
   const [userData, setUserData] = useState({
-    displayName: "  Monu Shah",
+    nickName: "  Monu Shah",
     userName: "@YourUsername",
     aboutMe: "Hey there! I’m using Pro Player 🎮",
     status: "",

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
-import { RegisterApi, CheckDisplayName } from "../api/Authapi.js";
+import { RegisterApi, ChecknickName } from "../api/Authapi.js";
 import { CircleAlert, CircleCheck, User } from "lucide-react";
 
 import CreateTags from "./ui/CreateTags.js";

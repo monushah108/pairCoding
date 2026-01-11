@@ -163,7 +163,7 @@ export default function ChatWindow() {
                       {selectedProfile?.name}
                       <span className="ml-2 text-xs">
                         --
-                        {selectedProfile?.displayName}
+                        {selectedProfile?.nickName}
                       </span>
                     </h2>
 

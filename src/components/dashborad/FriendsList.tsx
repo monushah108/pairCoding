@@ -11,6 +11,8 @@ import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export default function FriendsList({ handleMsg, Allfriends }) {
+  const friend = Allfriends.map((f) => ({ ...f.userId, ChatId: f.ChatId }));
+
   return (
     <div className="flex-1 flex justify-center">
       <main className="p-4 flex-1">
@@ -24,7 +26,7 @@ export default function FriendsList({ handleMsg, Allfriends }) {
           <h2 className="text-sm font-semibold text-gray-400">All Friends -</h2>
           <ScrollArea.Root className=" p-3 " style={{ height: "350px" }}>
             <ScrollArea.Viewport className="w-full h-full">
-              {Allfriends.map(({ displayName, name, _id, picture, roomId }) => (
+              {friend.map(({ nickName, name, _id, picture, ChatId }) => (
                 <div
                   key={_id}
                   className="group flex items-center justify-between   px-2 pt-2 mb-2 hover:bg-accent border-border pb-3 border-b "
@@ -36,7 +38,7 @@ export default function FriendsList({ handleMsg, Allfriends }) {
                     <div className="text-sm ml-2">
                       <span>{name}</span>
                       <span className="group-hover:inline-block hidden text-xs italic ml-1 text-primary/60">
-                        {displayName}
+                        {nickName}
                       </span>
                     </div>
                   </div>
@@ -45,7 +47,7 @@ export default function FriendsList({ handleMsg, Allfriends }) {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          onClick={() => handleMsg(roomId, _id)}
+                          onClick={() => handleMsg(ChatId, _id)}
                           variant="ghost"
                           size="sm"
                           className="group-hover:block hidden cursor-pointer"

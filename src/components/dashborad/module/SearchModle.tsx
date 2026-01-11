@@ -64,9 +64,9 @@ export default function SearchModle({
               {error ? (
                 <p className="text-red-500 text-xs font-mono ">{error} </p>
               ) : (
-                users.map(({ name, displayName, picture }) => (
+                users.map(({ name, nickName, picture }) => (
                   <div
-                    key={displayName}
+                    key={nickName}
                     className="flex items-center justify-between p-2 "
                   >
                     {/* Avatar + name */}
@@ -75,7 +75,7 @@ export default function SearchModle({
                         <AvatarImage src={picture} alt={name} />
                       </Avatar>
                       <p className="font-medium text-sm text-primary/80">
-                        {displayName}
+                        {nickName}
                       </p>
                     </div>
 

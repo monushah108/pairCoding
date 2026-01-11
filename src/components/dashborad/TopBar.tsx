@@ -34,10 +34,10 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
 
   const [status, setStatus] = useState<string | null>(null);
 
-  const fetchSearchUser = async (displayName: string) => {
-    if (!displayName) return;
+  const fetchSearchUser = async (nickName: string) => {
+    if (!nickName) return;
     try {
-      const response = await SearchUser({ displayName });
+      const response = await SearchUser({ nickName });
       setError("");
       setUsers([response]);
       setreceiver(response.id);
@@ -143,7 +143,7 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
                     </div>
                   </div>
                 ) : (
-                  notifications.map(({ _id, name, displayName, picture }) => (
+                  notifications.map(({ _id, name, nickName, picture }) => (
                     <div
                       key={_id}
                       className="group flex items-center justify-between   px-2 pt-2 mb-2 hover:bg-accent border-border pb-3 border-b "
@@ -157,7 +157,7 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
                         <div className="text-xs font-semibold ml-2">
                           <span>{name}</span>
                           <span className="group-hover:inline-block hidden text-xs italic ml-1 text-primary/60">
-                            {displayName}
+                            {nickName}
                           </span>
                         </div>
                       </div>

@@ -46,9 +46,9 @@ export default function UserMe() {
     }));
   }, [Allfriends, onlinseUserset]);
 
-  const handleMsg = async (roomId, id) => {
+  const handleMsg = async (ChatId, id) => {
     try {
-      await OpenMsg({ roomId, action: true });
+      await OpenMsg({ ChatId, action: true });
     } catch (err: any) {
       console.log(err);
     }
@@ -56,9 +56,9 @@ export default function UserMe() {
     fetchAllFriends();
   };
 
-  const closeChat = async (roomId: any) => {
+  const closeChat = async (ChatId: any) => {
     try {
-      await OpenMsg({ roomId, action: false });
+      await OpenMsg({ ChatId, action: false });
     } catch (err: any) {
       console.log(err);
     }
@@ -66,8 +66,8 @@ export default function UserMe() {
     setTab("friends");
   };
 
-  const handleChatUser = (roomId) => {
-    navigate(`${roomId}`);
+  const handleChatUser = (ChatId) => {
+    navigate(`${ChatId}`);
     setTab("chat");
   };
 
