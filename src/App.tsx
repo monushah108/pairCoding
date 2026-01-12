@@ -35,7 +35,7 @@ const router = createBrowserRouter([
             element: <Nochat />,
           },
           {
-            path: ":roomId",
+            path: ":ChatId",
             element: <ChatWindow />,
           },
         ],

@@ -40,10 +40,10 @@ export default function ChatWindow() {
 
   const [file, setFile] = useState(null);
 
-  const { roomId } = useParams();
+  const { ChatId } = useParams();
   const { friends } = useOutletContext();
 
-  const selectedProfile = friends.find((f) => f.roomId == roomId);
+  const selectedProfile = friends.find((f) => f.ChatId == ChatId);
 
   const chat = useMemo(() => socket("/chat"), []);
 
@@ -59,15 +59,15 @@ export default function ChatWindow() {
     return () => {
       chat.off("personal:chat:send");
     };
-  }, [roomId]);
+  }, [ChatId]);
 
   useEffect(() => {
     fetchAllMsg();
-  }, [roomId]);
+  }, [ChatId]);
 
   const fetchAllMsg = async () => {
     try {
-      const res = await GetMsgs({ roomId });
+      const res = await GetMsgs({ ChatId });
       setMsgs(res);
     } catch (err: any) {
       console.log(err);
@@ -81,7 +81,7 @@ export default function ChatWindow() {
       chat.emit("personal:chat", {
         toUserId,
         message: msg,
-        roomId,
+        ChatId,
         repliedTextId: id,
       });
     } else if (file) {
@@ -90,7 +90,7 @@ export default function ChatWindow() {
         chat.emit("upload:file", {
           toUserId,
           message: msg,
-          roomId,
+          ChatId,
           fileBuffer: read.result,
         });
       };
@@ -114,7 +114,7 @@ export default function ChatWindow() {
       return;
     }
     try {
-      const res = await EditMsg({ action, id, roomId });
+      const res = await EditMsg({ action, id, ChatId });
       console.log(res);
     } catch (err) {
       console.log(err);
@@ -134,6 +134,8 @@ export default function ChatWindow() {
   useLayoutEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [AllMsg.length]);
+
+  // console.log(AllMsg, friends);
 
   return (
     <div className="flex flex-col justify-between h-full">

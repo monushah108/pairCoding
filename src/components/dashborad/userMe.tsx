@@ -31,6 +31,7 @@ export default function UserMe() {
   async function fetchAllFriends() {
     try {
       const res = await GetAllFriends();
+
       setAllFriends(res);
     } catch (err: any) {
       console.log(err);
@@ -52,7 +53,7 @@ export default function UserMe() {
     } catch (err: any) {
       console.log(err);
     }
-    handleChatUser(id);
+    // handleChatUser(id);
     fetchAllFriends();
   };
 

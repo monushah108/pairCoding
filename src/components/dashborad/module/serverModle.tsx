@@ -15,7 +15,8 @@ import {
   InputGroupText,
 } from "@/components/ui/input-group";
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Newserver } from "../../../api/Serverapi.js";
 
 export default function ServerModel() {
   const [Img, setImg] = useState("  No image selected");
@@ -28,6 +29,20 @@ export default function ServerModel() {
   //     console.error("Failed to copy: ", err);
   //   }
   // };
+
+  const Createserver = async (picture, name) => {
+    try {
+      const response = await Newserver({ picture, name });
+
+      if (response.ok) {
+        console.log("Server created successfully");
+      } else {
+        console.error("Failed to create server");
+      }
+    } catch (error) {
+      console.error("Error creating server:", error);
+    }
+  };
 
   return (
     <Dialog>
@@ -88,7 +103,9 @@ export default function ServerModel() {
           </div>
         </main>
         <DialogFooter>
-          <Button>create server</Button>
+          <Button onClick={() => Createserver(Img, serverName)}>
+            create server
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
