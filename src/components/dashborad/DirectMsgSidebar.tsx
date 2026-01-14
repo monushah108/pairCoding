@@ -1,13 +1,28 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
+
+import { GetAllserver } from "../../api/Serverapi.js";
 
 const DirectMsgSidebar = memo(function DirectMsgSidebar({
   friends,
   closeChat,
   handleChatUser,
 }) {
+  useEffect(() => {
+    Allserver();
+  }, []);
+
+  const Allserver = async () => {
+    try {
+      const res = await GetAllserver();
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <aside className="border-r border-border h-full">
       <h2 className="text-center text-sm border-b border-border py-5 font-medium">

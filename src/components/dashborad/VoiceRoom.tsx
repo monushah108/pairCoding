@@ -1,74 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GradientBackground } from "../gradient-background";
 import { Button } from "../ui/button";
 import Peer from "peerjs";
-import {socket} from '../../socket/socket.js'
+import { socket } from "../../socket/socket.js";
 
 export default function VoiceRoom() {
-
-  const peerRef = useRef<Peer | null>(null);
-  if (!peerRef.current) {
-    peerRef.current = new Peer();
-  }
-
-  const s = socket("/serverVoice")
-   
-  useEffect(() => {
-    const peer = new Peer(undefined , {
-      host:"localhost",
-      port:4000,
-      path:"/peerjs"
-    })
-
-    peerRef.current = peer;
-
-    peer.on("open", id => {
-      s.emit("group:join" , {
-        roomId,
-        peerId,
-        userId
-      })
-    })
-
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-
-
-     s.on("user-joined" , ({peerId}) => {
-      const call = peer.call(peerId , stream)
-
-      call.on("stream" , remoteStream => {
-        addvideo(remoteStream)
-      })
-      
-    })
-
-    peer.on("call" , call => {
-      call.answer(stream)
-      call.on("stream" , remoteStream => {
-        addvideo(remoteStream)
-      })
-    })
-
-   socket.on("user-left" , ({peerId}) => {
-      // remove video element
-      removeVideo(peerId)
-   }
-
-   peer.on("close" , () => {
-    stream.getTracks().forEach(track => track.stop());
-   })
-
-
-
-    return () => {
-      peer.destroy();
-    }
-  },[])
-
-
-  
-
-
   return (
     <div className="h-[901px] overflow-hidden">
       <GradientBackground
