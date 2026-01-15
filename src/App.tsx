@@ -44,6 +44,12 @@ const router = createBrowserRouter([
       {
         path: "server/:serverId",
         element: <Server />,
+        children: [
+          {
+            path: ":chatId",
+            element: "",
+          },
+        ],
       },
     ],
   },

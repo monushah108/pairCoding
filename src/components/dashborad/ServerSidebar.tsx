@@ -18,11 +18,11 @@ import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 import { GetAllchannels } from "../../api/Serverapi.js";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Input } from "../ui/input.js";
 
 export default function ServerSidebar({ openChannel, setOpenChannel }) {
-  const [selectedChannel, setSelectedChannel] = useState("general");
+  const [selectedChannel, setSelectedChannel] = useState(null);
   const [channelName, setChannelName] = useState("");
   const [collapseId, setCollapseId] = useState(null);
   const [inputId, setInputId] = useState(false);
@@ -73,22 +73,22 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {channels.map(({ _id, createdAt, name, type, serverId, category }) => (
+        {channels.map(({ _id: cId, name, serverId, category }) => (
           <Collapsible
-            key={_id}
-            open={collapseId == _id}
+            key={cId}
+            // open={collapseId == _id}
             onOpenChange={() => {
-              setCollapseId(collapseId == _id ? null : _id);
-              setInputId(collapseId != _id && null);
-              setSelectedChannelId(_id);
+              setCollapseId(collapseId == cId ? null : cId);
+              setInputId(collapseId != cId && null);
+              setSelectedChannelId(cId);
             }}
           >
             <div className="flex items-center py-1 px-2">
               <CollapsibleTrigger
                 onClick={() => {
-                  setCollapseId(_id);
+                  setCollapseId(cId);
                   setInputId(null);
-                  setSelectedChannelId(_id);
+                  setSelectedChannelId(cId);
                 }}
                 className="flex items-center justify-between
            px-3 py-2 w-full text-primary/60  group"
@@ -102,8 +102,8 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
                 <TooltipTrigger asChild>
                   <Button
                     onClick={() => {
-                      setCollapseId(_id);
-                      setInputId(_id);
+                      setCollapseId(cId);
+                      setInputId(cId);
                     }}
                     variant="ghost"
                     size="icon"
@@ -119,48 +119,44 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
             </div>
 
             <CollapsibleContent className="flex flex-col gap-1 font-semibold text-sm px-3 peer">
-              {inputId == _id && (
+              {inputId == cId && (
                 <Input
                   value={channelName}
                   onChange={(e) => setChannelName(e.target.value)}
                   onKeyDown={(e) => e.key == "Enter" && CreateNewChannel}
                 />
               )}
-              {!Rooms.length ? (
-                <p className="text-sm text-center italic hover:bg-accent hover:text-primary transition-colors p-2">
-                  -- No channels yet ?? --
-                </p>
-              ) : (
-                Rooms.map(({ roomId: _id, type, name, channelId, category }) =>
-                  // channelId should be same to roomId
-                  channelId == _id ? (
+              {Rooms.map(
+                ({ _id, category, name, channelId }) =>
+                  channelId == cId && (
                     <button
-                      key={roomId}
+                      key={_id}
                       onClick={() => setSelectedChannel(name)}
                       className={`${
-                        selectedChannel === category
+                        selectedChannel === name
                           ? "bg-accent text-primary"
                           : "hover:bg-accent hover:text-primary"
                       } py-1.5 rounded px-2 transition-colors cursor-pointer`}
                     >
-                      <span
-                        className="hover:bg-accent w-full text-left flex items-center gap-2
+                      <Link to={_id}>
+                        <span
+                          className="hover:bg-accent w-full text-left flex items-center gap-2
   text-primary/60
   text-sm
     font-bold
 
               px-0.5"
-                      >
-                        {category === "voice" ? (
-                          <Volume2 className="w-4 h-4" />
-                        ) : (
-                          <Hash className="w-4 h-4" />
-                        )}
-                        {name}
-                      </span>
+                        >
+                          {category === "VOICE" ? (
+                            <Volume2 className="w-4 h-4" />
+                          ) : (
+                            <Hash className="w-4 h-4" />
+                          )}
+                          {name}
+                        </span>
+                      </Link>
                     </button>
-                  ) : null
-                )
+                  )
               )}
             </CollapsibleContent>
             {selectedChannel && selectedChannelId == _id && (
@@ -186,3 +182,24 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
     </aside>
   );
 }
+
+/*
+ 
+ 
+
+ */
+
+/* 
+ {!Rooms.length ? (
+                <p className="text-sm text-center italic hover:bg-accent hover:text-primary transition-colors p-2">
+                  -- No channels yet ?? --
+                </p>
+              ) : (
+                Rooms.map(({ roomId: _id, type, name, channelId, category }) =>
+                  channelId == _id ? (
+                   
+                  ) : null
+                )
+              )}
+
+*/
