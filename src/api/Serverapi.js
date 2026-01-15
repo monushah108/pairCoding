@@ -9,3 +9,9 @@ export const GetAllserver = async () => {
   const { data } = await ApiInstance.get("/server");
   return data;
 };
+
+export const GetAllchannels = async ({ serverId }) => {
+  console.log(serverId);
+  const { data } = await ApiInstance.get(`/channel/${serverId}`);
+  return data;
+};

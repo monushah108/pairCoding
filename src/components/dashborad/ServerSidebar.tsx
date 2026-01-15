@@ -5,7 +5,7 @@ import {
   CollapsibleContent,
 } from "@/components/ui/collapsible";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import channelModle from "./module/channelModle";
 import {
   DropdownMenu,
@@ -14,9 +14,12 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { Input } from "../ui/input";
+
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+
+import { GetAllchannels } from "../../api/Serverapi.js";
+import { useParams } from "react-router-dom";
+import { Input } from "../ui/input.js";
 
 export default function ServerSidebar({ openChannel, setOpenChannel }) {
   const [selectedChannel, setSelectedChannel] = useState("general");
@@ -24,25 +27,28 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
   const [collapseId, setCollapseId] = useState(null);
   const [inputId, setInputId] = useState(false);
   const [selectedChannelId, setSelectedChannelId] = useState(null);
-  const [channels, setChannels] = useState([
-    {
-      id: crypto.randomUUID(),
-      channel_Name: "Text channel",
-      channel_Type: "text",
-      channels: ["general", "off-topic", "rules", "pair-programming"],
-      channel_Online: { status: false, onView: "" },
-    },
-    {
-      id: crypto.randomUUID(),
-      channel_Name: "voice channel",
-      channel_Type: "voice",
-      channels: ["Meeting-Room"],
-      channel_Online: { status: false, onView: "" },
-    },
-  ]);
+  const [channels, setChannels] = useState([]);
+  const [Rooms, setRooms] = useState([]);
+
+  const { serverId } = useParams();
 
   const CreateNewChannel = () => {
     if (!channelName) return;
+  };
+
+  useEffect(() => {
+    getAllChannel();
+  }, []);
+
+  const getAllChannel = async () => {
+    try {
+      const res = await GetAllchannels({ serverId });
+      console.log(res);
+      setChannels(res?.channel);
+      setRooms(res?.Chatrooms);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -67,28 +73,28 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {channels.map(({ id, channel_Name, channels, channel_Type }) => (
+        {channels.map(({ _id, createdAt, name, type, serverId, category }) => (
           <Collapsible
-            key={id}
-            open={collapseId == id}
+            key={_id}
+            open={collapseId == _id}
             onOpenChange={() => {
-              setCollapseId(collapseId == id ? null : id);
-              setInputId(collapseId != id && null);
-              setSelectedChannelId(id);
+              setCollapseId(collapseId == _id ? null : _id);
+              setInputId(collapseId != _id && null);
+              setSelectedChannelId(_id);
             }}
           >
             <div className="flex items-center py-1 px-2">
               <CollapsibleTrigger
                 onClick={() => {
-                  setCollapseId(id);
+                  setCollapseId(_id);
                   setInputId(null);
-                  setSelectedChannelId(id);
+                  setSelectedChannelId(_id);
                 }}
                 className="flex items-center justify-between
            px-3 py-2 w-full text-primary/60  group"
               >
                 <p className="flex items-center">
-                  <span className="text-xs font-semibold ">{channel_Name}</span>
+                  <span className="text-md font-semibold ">{name}</span>
                   <ChevronRight className="w-3 h-3 group-data-[state=open]:rotate-90" />
                 </p>
               </CollapsibleTrigger>
@@ -96,8 +102,8 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
                 <TooltipTrigger asChild>
                   <Button
                     onClick={() => {
-                      setCollapseId(id);
-                      setInputId(id);
+                      setCollapseId(_id);
+                      setInputId(_id);
                     }}
                     variant="ghost"
                     size="icon"
@@ -113,56 +119,59 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
             </div>
 
             <CollapsibleContent className="flex flex-col gap-1 font-semibold text-sm px-3 peer">
-              {inputId == id && (
+              {inputId == _id && (
                 <Input
                   value={channelName}
                   onChange={(e) => setChannelName(e.target.value)}
                   onKeyDown={(e) => e.key == "Enter" && CreateNewChannel}
                 />
               )}
-              {!channels.length ? (
-                <p className="text-xs text-center italic hover:bg-accent hover:text-primary transition-colors p-2">
+              {!Rooms.length ? (
+                <p className="text-sm text-center italic hover:bg-accent hover:text-primary transition-colors p-2">
                   -- No channels yet ?? --
                 </p>
               ) : (
-                channels.map((text, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedChannel(text)}
-                    className={`${
-                      selectedChannel === text
-                        ? "bg-accent text-primary"
-                        : "hover:bg-accent hover:text-primary"
-                    } py-1.5 rounded px-2 transition-colors cursor-pointer`}
-                  >
-                    <span
-                      className="hover:bg-accent w-full text-left flex items-center gap-2
-  text-primary/60 
-  text-xs
-    font-bold
-             
-              px-0.5"
+                Rooms.map(({ roomId: _id, type, name, channelId, category }) =>
+                  // channelId should be same to roomId
+                  channelId == _id ? (
+                    <button
+                      key={roomId}
+                      onClick={() => setSelectedChannel(name)}
+                      className={`${
+                        selectedChannel === category
+                          ? "bg-accent text-primary"
+                          : "hover:bg-accent hover:text-primary"
+                      } py-1.5 rounded px-2 transition-colors cursor-pointer`}
                     >
-                      {channel_Type === "voice" ? (
-                        <Volume2 className="w-4 h-4" />
-                      ) : (
-                        <Hash className="w-4 h-4" />
-                      )}
-                      {text}
-                    </span>
-                  </button>
-                ))
+                      <span
+                        className="hover:bg-accent w-full text-left flex items-center gap-2
+  text-primary/60
+  text-sm
+    font-bold
+
+              px-0.5"
+                      >
+                        {category === "voice" ? (
+                          <Volume2 className="w-4 h-4" />
+                        ) : (
+                          <Hash className="w-4 h-4" />
+                        )}
+                        {name}
+                      </span>
+                    </button>
+                  ) : null
+                )
               )}
             </CollapsibleContent>
-            {selectedChannel && selectedChannelId == id && (
+            {selectedChannel && selectedChannelId == _id && (
               <button
                 className="peer-data-[state=open]:hidden peer-data-[state=closed]:flex
-              peer-data-[state=closed]:bg-accent w-full 
-                 items-center gap-1 text-sm font-semibold px-3 py-1.5 
+              peer-data-[state=closed]:bg-accent w-full
+                 items-center gap-1 text-sm font-semibold px-3 py-1.5
                  text-primary/60 hover:text-primary transition-colors cursor-pointer"
               >
                 <span className="font-bold text-base">
-                  {channel_Type === "voice" ? (
+                  {category === "VOICE" ? (
                     <Volume2 className="w-4 h-4" />
                   ) : (
                     <Hash className="w-4 h-4" />

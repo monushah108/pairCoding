@@ -8,10 +8,24 @@ import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Binary } from "lucide-react";
 import ServerModle from "./module/serverModle";
-
-// const GROUPS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+import { GetAllserver } from "../../api/serverapi.js";
+import { useEffect, useState } from "react";
 
 export default function Sidebar() {
+  const [servers, setServers] = useState([]);
+
+  useEffect(() => {
+    Allserver();
+  }, []);
+
+  const Allserver = async () => {
+    try {
+      const res = await GetAllserver();
+      setServers(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="flex items-center justify-between flex-col ">
       <div className="flex items-center gap-4 flex-col pt-6">
@@ -29,24 +43,24 @@ export default function Sidebar() {
         </Tooltip>
         <ServerModle />
 
-        {/* {GROUPS.map((item, index) => (
-          <Tooltip key={index}>
+        {servers.map(({ _id, name, picture }) => (
+          <Tooltip key={_id}>
             <TooltipTrigger asChild>
-              <Link to="server">
+              <Link to={`/dashboard/server/${_id}`}>
                 <Avatar className="rounded-lg cursor-pointer hover:scale-105 transition-transform size-9">
                   <AvatarImage
-                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${item}`}
-                    alt={`Avatar ${item}`}
+                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${picture}`}
+                    alt={`Avatar ${name}`}
                   />
-                  <AvatarFallback>{item}</AvatarFallback>
+                  <AvatarFallback>{name}</AvatarFallback>
                 </Avatar>
               </Link>
             </TooltipTrigger>
             <TooltipContent side="right">
-              <p>{item}</p>
+              <p>{name}</p>
             </TooltipContent>
           </Tooltip>
-        ))} */}
+        ))}
       </div>
     </div>
   );
