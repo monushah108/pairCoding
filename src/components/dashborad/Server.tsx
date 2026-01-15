@@ -9,6 +9,7 @@ import ServerSidebar from "./ServerSidebar";
 import ServerUsersPanel from "./ServerUsersPanel";
 import { useState } from "react";
 import VoiceRoom from "./VoiceRoom";
+import { Outlet } from "react-router-dom";
 
 export default function Server() {
   const [openChannel, setOpenChannel] = useState<string>("general");
@@ -33,7 +34,7 @@ export default function Server() {
       </div> */}
 
       <div className="flex flex-col row-span-3">
-        <VoiceRoom />
+        <Outlet />
       </div>
     </section>
   );

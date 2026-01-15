@@ -126,40 +126,46 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
                   onKeyDown={(e) => e.key == "Enter" && CreateNewChannel}
                 />
               )}
-              {Rooms.map(
-                ({ _id, category, name, channelId }) =>
-                  channelId == cId && (
-                    <button
-                      key={_id}
-                      onClick={() => setSelectedChannel(name)}
-                      className={`${
-                        selectedChannel === name
-                          ? "bg-accent text-primary"
-                          : "hover:bg-accent hover:text-primary"
-                      } py-1.5 rounded px-2 transition-colors cursor-pointer`}
-                    >
-                      <Link to={_id}>
-                        <span
-                          className="hover:bg-accent w-full text-left flex items-center gap-2
+              {!Rooms.length ? (
+                <p className="text-sm text-center italic hover:bg-accent hover:text-primary transition-colors p-2">
+                  -- No channels yet ?? --
+                </p>
+              ) : (
+                Rooms.map(
+                  ({ _id, category, name, channelId }) =>
+                    channelId == cId && (
+                      <button
+                        key={_id}
+                        onClick={() => setSelectedChannel(name)}
+                        className={`${
+                          selectedChannel === name
+                            ? "bg-accent text-primary"
+                            : "hover:bg-accent hover:text-primary"
+                        } py-1.5 rounded px-2 transition-colors cursor-pointer`}
+                      >
+                        <Link to={_id} state={category}>
+                          <span
+                            className="hover:bg-accent w-full text-left flex items-center gap-2
   text-primary/60
   text-sm
     font-bold
 
               px-0.5"
-                        >
-                          {category === "VOICE" ? (
-                            <Volume2 className="w-4 h-4" />
-                          ) : (
-                            <Hash className="w-4 h-4" />
-                          )}
-                          {name}
-                        </span>
-                      </Link>
-                    </button>
-                  )
+                          >
+                            {category === "VOICE" ? (
+                              <Volume2 className="w-4 h-4" />
+                            ) : (
+                              <Hash className="w-4 h-4" />
+                            )}
+                            {name}
+                          </span>
+                        </Link>
+                      </button>
+                    )
+                )
               )}
             </CollapsibleContent>
-            {selectedChannel && selectedChannelId == _id && (
+            {selectedChannel && selectedChannelId == cId && (
               <button
                 className="peer-data-[state=open]:hidden peer-data-[state=closed]:flex
               peer-data-[state=closed]:bg-accent w-full
@@ -182,24 +188,3 @@ export default function ServerSidebar({ openChannel, setOpenChannel }) {
     </aside>
   );
 }
-
-/*
- 
- 
-
- */
-
-/* 
- {!Rooms.length ? (
-                <p className="text-sm text-center italic hover:bg-accent hover:text-primary transition-colors p-2">
-                  -- No channels yet ?? --
-                </p>
-              ) : (
-                Rooms.map(({ roomId: _id, type, name, channelId, category }) =>
-                  channelId == _id ? (
-                   
-                  ) : null
-                )
-              )}
-
-*/

@@ -12,6 +12,7 @@ import Authoptions from "./components/Authoptions";
 import ChatWindow from "./components/dashborad/chatWindow";
 import Nochat from "./components/dashborad/noChat";
 import Profile from "./pages/profile";
+import ServerWindow from "./components/dashborad/ServerWindow";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: ":chatId",
-            element: "",
+            element: <ServerWindow />,
           },
         ],
       },
