@@ -1,19 +1,18 @@
+import Connector from "@/components/layout/connector";
+import Sidebar from "@/components/layout/Sidebar";
+import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
 import { Binary } from "lucide-react";
 import { easeIn, motion } from "motion/react";
-import { lazy, useEffect, useState } from "react";
-import { Outlet, useLocation } from "@tanstack/react-router";
-import Connector from "../components/layout/connector";
+import { useState } from "react";
 
-const Sidebar = lazy(() => import("@/components/layout/Sidebar"));
+export const Route = createFileRoute("/dashboard")({
+  component: RouteComponent,
+});
 
-export default function Dashboard() {
+function RouteComponent() {
   const [darkMode, setDarkMode] = useState(false);
   const { pathname } = useLocation();
   const show = pathname.includes("/profile");
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
-  }, [darkMode]);
   return (
     <section className="bg-background text-foreground transition-colors  ">
       {/* Top header */}

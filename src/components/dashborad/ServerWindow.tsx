@@ -1,6 +1,6 @@
-import { useLocation } from "react-router-dom";
+import { useLocation } from "@tanstack/react-router";
 
-export default function ServerWindow() {
+export default function ServerWindow({ header }) {
   const { state } = useLocation();
 
   console.log(state);

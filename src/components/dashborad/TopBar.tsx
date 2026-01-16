@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Bell, Moon, Users } from "lucide-react";
 import { motion } from "motion/react";
-import SearchModle from "./module/SearchModle";
+import SearchModle from "../module/SearchModle.js";
 import {
   Sheet,
   SheetContent,

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { GradientBackground } from "../gradient-background";
+import { GradientBackground } from "../ui/gradient-background.js";
 import { Button } from "../ui/button";
 import Peer from "peerjs";
 import { socket } from "../../socket/socket.js";

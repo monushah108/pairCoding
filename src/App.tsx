@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "@tanstack/react-router";
 import "./App.css";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
@@ -10,7 +10,7 @@ import { RegisterForm } from "./components/register-form";
 import { LoginForm } from "./components/login-form";
 import Authoptions from "./components/Authoptions";
 import ChatWindow from "./components/dashborad/chatWindow";
-import Nochat from "./components/dashborad/noChat";
+import Nochat from "./components/chatRoom/Nochat";
 import Profile from "./pages/profile";
 import ServerWindow from "./components/dashborad/ServerWindow";
 

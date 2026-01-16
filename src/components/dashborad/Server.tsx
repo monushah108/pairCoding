@@ -9,7 +9,7 @@ import ServerSidebar from "./ServerSidebar";
 import ServerUsersPanel from "./ServerUsersPanel";
 import { useState } from "react";
 import VoiceRoom from "./VoiceRoom";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "@tanstack/react-router";
 
 export default function Server() {
   const [openChannel, setOpenChannel] = useState<string>("general");

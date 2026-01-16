@@ -1,7 +1,11 @@
-import { Outlet } from "@tanstack/react-router";
-import { Tiles } from "../components/ui/tiles";
+import { Tiles } from "@/components/ui/tiles";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export default function Authpage() {
+export const Route = createFileRoute("/auth")({
+  component: RouteComponent,
+});
+
+function RouteComponent() {
   return (
     <section className="overflow-hidden relative min-h-svh">
       <div className="absolute inset-0 -z-10">

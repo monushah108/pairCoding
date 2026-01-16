@@ -42,7 +42,7 @@ export default function Profile() {
   return (
     <section className="bg-background text-foreground   transition-colors  ">
       <div className="container max-w-5xl m-auto relative space-y-5">
-        <div className="bg-[url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1171')] h-[250px] bg-cover bg-center relative group/img-1">
+        {/* <div className="bg-[url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1171')] h-[250px] bg-cover bg-center relative group/img-1">
           <button className="p-2 z-10 text-white hidden group-hover/img-1:block">
             <label htmlFor="bgImg">
               <CameraIcon className="size-5" />
@@ -65,7 +65,7 @@ export default function Profile() {
             </label>
             <input type="file" name="" id="profileImg" className="hidden" />
           </div>
-        </div>
+        </div> */}
 
         <div className="text-right px-2">
           {EditProfile ? (

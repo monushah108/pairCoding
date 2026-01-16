@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
