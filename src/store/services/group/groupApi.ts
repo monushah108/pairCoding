@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const groupApi = createApi({
+interface groupPayload {
+  id: String;
+  name: String;
+  picture: String;
+}
+
+export const GroupApi = createApi({
   reducerPath: "groupApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000",
@@ -10,48 +16,42 @@ export const groupApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["group", " member", "create", "update", "delete"],
+  tagTypes: ["group", "member"],
   endpoints: (builder) => ({
-    GetAllserver: builder.query<group[], void>({
-      query: () => "/",
-      providesTags: ["group"],
+    getAllGroups: builder.query<group[], String>({
+      query: (id) => `/${id}`,
+      providesTags: (result, error, id) => [{ type: "group", id }],
     }),
 
-    GetMember: builder.query({
-      query: ({ id }) => id,
-    }),
-
-    Createserver: builder.mutation({
+    createGroup: builder.mutation({
       query: ({ id, name, picture }) => ({
         url: id,
         method: "POST",
         body: { name, picture },
       }),
-      invalidatesTags: ["create"],
+      invalidatesTags: (r, e, { id }) => [{ type: "group", id }],
     }),
 
-    Updateserver: builder.mutation({
+    updateGroup: builder.mutation<group, groupPayload>({
       query: ({ id, name, picture }) => ({
-        url: id,
+        url: `/${id}`,
         method: "PATCH",
         body: { name, picture },
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "update", id }],
+      invalidatesTags: (result, error, { id }) => [{ type: "group", id }],
     }),
 
-    Deleteserver: builder.mutation({
+    deleteGroup: builder.mutation({
       query: ({ id }) => ({
         url: id,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, { id }) => [
         {
-          type: "delete",
+          type: "group",
           id,
         },
       ],
     }),
-
-    // member apis methods
   }),
 });
