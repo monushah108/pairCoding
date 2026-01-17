@@ -6,7 +6,7 @@ const DirectMsgSidebar = lazy(
 
 import { GetAllFriends } from "../../api/Authapi.js";
 import { OpenMsg } from "../../api/Chatapi.js";
-import { socket } from "../../socket/socket.js";
+import { socket } from "../../lib/socket/socket.js";
 import { Outlet, useNavigate } from "@tanstack/react-router";
 
 export default function UserMe() {

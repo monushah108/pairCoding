@@ -1,16 +1,15 @@
 import Connector from "@/components/layout/connector";
+
 import Sidebar from "@/components/layout/Sidebar";
 import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
 import { Binary } from "lucide-react";
 import { easeIn, motion } from "motion/react";
-import { useState } from "react";
 
 export const Route = createFileRoute("/dashboard")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [darkMode, setDarkMode] = useState(false);
   const { pathname } = useLocation();
   const show = pathname.includes("/profile");
   return (

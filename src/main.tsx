@@ -4,9 +4,14 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import "./index.css";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import NotFound from "./components/layout/notFound";
+import { Provider } from "@radix-ui/react-tooltip";
 // Create a new router instance
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  defaultNotFoundComponent: () => <NotFound />,
+});
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
@@ -15,17 +20,15 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const queryClient = new QueryClient();
-
 // Render the app
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </StrictMode>
+      {/* <Provider store={Store}> */}
+      <RouterProvider router={router} />
+      {/* </Provider> */}
+    </StrictMode>,
   );
 }

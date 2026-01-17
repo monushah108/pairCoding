@@ -19,7 +19,7 @@ import ChatHeader from "@/components/dashborad/ChatHeader.js";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 const ProfilePanel = lazy(() => import("@/components/dashborad/ProfilePanel"));
 
-import { socket } from "../../socket/socket.js";
+import { socket } from "../../lib/socket/socket.js";
 import { GetMsgs, EditMsg } from "../../api/Chatapi.js";
 import { useOutletContext, useParams } from "@tanstack/react-router";
 import { Avatar } from "@radix-ui/react-avatar";
@@ -107,7 +107,7 @@ export default function ChatWindow() {
     action: string,
     id: string,
     message: string,
-    name: string
+    name: string,
   ) => {
     if (action == "Reply") {
       setSelectedText({ id, message, name });
@@ -196,7 +196,7 @@ export default function ChatWindow() {
                         file={file}
                         handleActions={handleActions}
                       />
-                    )
+                    ),
                   )}
                   <motion.div layout ref={bottomRef} />
                 </div>

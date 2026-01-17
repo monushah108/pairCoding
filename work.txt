@@ -35,6 +35,9 @@ persnal chat and server chat  file management
 theme 
 terminal 
 
-new channels createtion 
 
 
+
+goal => state ko manage karo chat or live notification and live chat (socket)
+=> validation typscript and zod ke  (redux)
+=> query using react (query)
