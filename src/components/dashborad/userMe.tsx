@@ -1,7 +1,7 @@
 import { lazy, useEffect, useMemo, useState } from "react";
 
 const DirectMsgSidebar = lazy(
-  () => import("@/components/dashborad/DirectMsgSidebar")
+  () => import("@/components/dashborad/DashboardSidebar.js"),
 );
 
 import { GetAllFriends } from "../../api/Authapi.js";

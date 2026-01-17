@@ -46,7 +46,7 @@ export default function Sidebar() {
         {servers.map(({ _id, name, picture }) => (
           <Tooltip key={_id}>
             <TooltipTrigger asChild>
-              <Link to={`/dashboard/server/${_id}`}>
+              <Link to={`/dashboard/group/${_id}`}>
                 <Avatar className="rounded-lg cursor-pointer hover:scale-105 transition-transform size-9">
                   <AvatarImage
                     src={`https://api.dicebear.com/6.x/initials/svg?seed=${picture}`}

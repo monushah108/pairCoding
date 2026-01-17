@@ -1,6 +1,6 @@
 import { lazy, useState } from "react";
-const TopBar = lazy(() => import("@/components/dashborad/TopBar"));
-import FriendsList from "../dashborad/FriendsList";
+const TopBar = lazy(() => import("@/components/dashborad/Dashboardheader"));
+import FriendsList from "../dashborad/friendList";
 import { MessageSquareMore } from "lucide-react";
 
 export default function Nochat() {

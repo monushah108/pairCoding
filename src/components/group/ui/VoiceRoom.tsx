@@ -1,8 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { GradientBackground } from "../ui/gradient-background.js";
-import { Button } from "../ui/button";
-import Peer from "peerjs";
-import { socket } from "../../socket/socket.js";
+import { GradientBackground } from "../../ui/gradient-background.js";
+import { Button } from "../../ui/button.js";
 
 export default function VoiceRoom() {
   return (

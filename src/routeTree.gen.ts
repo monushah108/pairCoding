@@ -14,14 +14,14 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
-import { Route as GroupGroupIdRouteImport } from './routes/group/$groupId'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile'
 import { Route as DashboardAtmeRouteImport } from './routes/dashboard/[@]me'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as DashboardAtmeIndexRouteImport } from './routes/dashboard/[@]me/index'
-import { Route as GroupGroupIdChatIdRouteImport } from './routes/group/$groupId/$chatId'
+import { Route as DashboardGroupGroupIdRouteImport } from './routes/dashboard/group/$groupId'
 import { Route as DashboardAtmeChatWindowRouteImport } from './routes/dashboard/[@]me/$chatWindow'
+import { Route as DashboardGroupGroupIdChatIdRouteImport } from './routes/dashboard/group/$groupId/$chatId'
 
 const PalygroundRoute = PalygroundRouteImport.update({
   id: '/palyground',
@@ -48,11 +48,6 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthRoute,
 } as any)
-const GroupGroupIdRoute = GroupGroupIdRouteImport.update({
-  id: '/group/$groupId',
-  path: '/group/$groupId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DashboardProfileRoute = DashboardProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -78,16 +73,22 @@ const DashboardAtmeIndexRoute = DashboardAtmeIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardAtmeRoute,
 } as any)
-const GroupGroupIdChatIdRoute = GroupGroupIdChatIdRouteImport.update({
-  id: '/$chatId',
-  path: '/$chatId',
-  getParentRoute: () => GroupGroupIdRoute,
+const DashboardGroupGroupIdRoute = DashboardGroupGroupIdRouteImport.update({
+  id: '/group/$groupId',
+  path: '/group/$groupId',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardAtmeChatWindowRoute = DashboardAtmeChatWindowRouteImport.update({
   id: '/$chatWindow',
   path: '/$chatWindow',
   getParentRoute: () => DashboardAtmeRoute,
 } as any)
+const DashboardGroupGroupIdChatIdRoute =
+  DashboardGroupGroupIdChatIdRouteImport.update({
+    id: '/$chatId',
+    path: '/$chatId',
+    getParentRoute: () => DashboardGroupGroupIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -98,11 +99,11 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterRoute
   '/dashboard/@me': typeof DashboardAtmeRouteWithChildren
   '/dashboard/profile': typeof DashboardProfileRoute
-  '/group/$groupId': typeof GroupGroupIdRouteWithChildren
   '/auth/': typeof AuthIndexRoute
   '/dashboard/@me/$chatWindow': typeof DashboardAtmeChatWindowRoute
-  '/group/$groupId/$chatId': typeof GroupGroupIdChatIdRoute
+  '/dashboard/group/$groupId': typeof DashboardGroupGroupIdRouteWithChildren
   '/dashboard/@me/': typeof DashboardAtmeIndexRoute
+  '/dashboard/group/$groupId/$chatId': typeof DashboardGroupGroupIdChatIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -111,11 +112,11 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/dashboard/profile': typeof DashboardProfileRoute
-  '/group/$groupId': typeof GroupGroupIdRouteWithChildren
   '/auth': typeof AuthIndexRoute
   '/dashboard/@me/$chatWindow': typeof DashboardAtmeChatWindowRoute
-  '/group/$groupId/$chatId': typeof GroupGroupIdChatIdRoute
+  '/dashboard/group/$groupId': typeof DashboardGroupGroupIdRouteWithChildren
   '/dashboard/@me': typeof DashboardAtmeIndexRoute
+  '/dashboard/group/$groupId/$chatId': typeof DashboardGroupGroupIdChatIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -127,11 +128,11 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterRoute
   '/dashboard/@me': typeof DashboardAtmeRouteWithChildren
   '/dashboard/profile': typeof DashboardProfileRoute
-  '/group/$groupId': typeof GroupGroupIdRouteWithChildren
   '/auth/': typeof AuthIndexRoute
   '/dashboard/@me/$chatWindow': typeof DashboardAtmeChatWindowRoute
-  '/group/$groupId/$chatId': typeof GroupGroupIdChatIdRoute
+  '/dashboard/group/$groupId': typeof DashboardGroupGroupIdRouteWithChildren
   '/dashboard/@me/': typeof DashboardAtmeIndexRoute
+  '/dashboard/group/$groupId/$chatId': typeof DashboardGroupGroupIdChatIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -144,11 +145,11 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/dashboard/@me'
     | '/dashboard/profile'
-    | '/group/$groupId'
     | '/auth/'
     | '/dashboard/@me/$chatWindow'
-    | '/group/$groupId/$chatId'
+    | '/dashboard/group/$groupId'
     | '/dashboard/@me/'
+    | '/dashboard/group/$groupId/$chatId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -157,11 +158,11 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/dashboard/profile'
-    | '/group/$groupId'
     | '/auth'
     | '/dashboard/@me/$chatWindow'
-    | '/group/$groupId/$chatId'
+    | '/dashboard/group/$groupId'
     | '/dashboard/@me'
+    | '/dashboard/group/$groupId/$chatId'
   id:
     | '__root__'
     | '/'
@@ -172,11 +173,11 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/dashboard/@me'
     | '/dashboard/profile'
-    | '/group/$groupId'
     | '/auth/'
     | '/dashboard/@me/$chatWindow'
-    | '/group/$groupId/$chatId'
+    | '/dashboard/group/$groupId'
     | '/dashboard/@me/'
+    | '/dashboard/group/$groupId/$chatId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,7 +185,6 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   DashboardRoute: typeof DashboardRouteWithChildren
   PalygroundRoute: typeof PalygroundRoute
-  GroupGroupIdRoute: typeof GroupGroupIdRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -224,13 +224,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/group/$groupId': {
-      id: '/group/$groupId'
-      path: '/group/$groupId'
-      fullPath: '/group/$groupId'
-      preLoaderRoute: typeof GroupGroupIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dashboard/profile': {
       id: '/dashboard/profile'
       path: '/profile'
@@ -266,12 +259,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAtmeIndexRouteImport
       parentRoute: typeof DashboardAtmeRoute
     }
-    '/group/$groupId/$chatId': {
-      id: '/group/$groupId/$chatId'
-      path: '/$chatId'
-      fullPath: '/group/$groupId/$chatId'
-      preLoaderRoute: typeof GroupGroupIdChatIdRouteImport
-      parentRoute: typeof GroupGroupIdRoute
+    '/dashboard/group/$groupId': {
+      id: '/dashboard/group/$groupId'
+      path: '/group/$groupId'
+      fullPath: '/dashboard/group/$groupId'
+      preLoaderRoute: typeof DashboardGroupGroupIdRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/@me/$chatWindow': {
       id: '/dashboard/@me/$chatWindow'
@@ -279,6 +272,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/@me/$chatWindow'
       preLoaderRoute: typeof DashboardAtmeChatWindowRouteImport
       parentRoute: typeof DashboardAtmeRoute
+    }
+    '/dashboard/group/$groupId/$chatId': {
+      id: '/dashboard/group/$groupId/$chatId'
+      path: '/$chatId'
+      fullPath: '/dashboard/group/$groupId/$chatId'
+      preLoaderRoute: typeof DashboardGroupGroupIdChatIdRouteImport
+      parentRoute: typeof DashboardGroupGroupIdRoute
     }
   }
 }
@@ -311,30 +311,33 @@ const DashboardAtmeRouteWithChildren = DashboardAtmeRoute._addFileChildren(
   DashboardAtmeRouteChildren,
 )
 
+interface DashboardGroupGroupIdRouteChildren {
+  DashboardGroupGroupIdChatIdRoute: typeof DashboardGroupGroupIdChatIdRoute
+}
+
+const DashboardGroupGroupIdRouteChildren: DashboardGroupGroupIdRouteChildren = {
+  DashboardGroupGroupIdChatIdRoute: DashboardGroupGroupIdChatIdRoute,
+}
+
+const DashboardGroupGroupIdRouteWithChildren =
+  DashboardGroupGroupIdRoute._addFileChildren(
+    DashboardGroupGroupIdRouteChildren,
+  )
+
 interface DashboardRouteChildren {
   DashboardAtmeRoute: typeof DashboardAtmeRouteWithChildren
   DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardGroupGroupIdRoute: typeof DashboardGroupGroupIdRouteWithChildren
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAtmeRoute: DashboardAtmeRouteWithChildren,
   DashboardProfileRoute: DashboardProfileRoute,
+  DashboardGroupGroupIdRoute: DashboardGroupGroupIdRouteWithChildren,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
   DashboardRouteChildren,
-)
-
-interface GroupGroupIdRouteChildren {
-  GroupGroupIdChatIdRoute: typeof GroupGroupIdChatIdRoute
-}
-
-const GroupGroupIdRouteChildren: GroupGroupIdRouteChildren = {
-  GroupGroupIdChatIdRoute: GroupGroupIdChatIdRoute,
-}
-
-const GroupGroupIdRouteWithChildren = GroupGroupIdRoute._addFileChildren(
-  GroupGroupIdRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
@@ -342,7 +345,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   DashboardRoute: DashboardRouteWithChildren,
   PalygroundRoute: PalygroundRoute,
-  GroupGroupIdRoute: GroupGroupIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
