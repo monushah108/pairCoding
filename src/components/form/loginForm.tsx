@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { LoginApi } from "../../api/Authapi.js";
 import { toast, Toaster } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
 
@@ -25,16 +24,6 @@ export function LoginForm({
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-
-    try {
-      const response = await LoginApi({ email, password });
-      navigate("/dashboard/@me");
-    } catch (error: any) {
-      console.log(error);
-      toast.error(
-        `${error.response.data?.error ?? error.response.data?.message}`
-      );
-    }
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

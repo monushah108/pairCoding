@@ -19,108 +19,20 @@ import ChatHeader from "@/components/dashborad/ChatHeader.js";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 const ProfilePanel = lazy(() => import("@/components/dashborad/ProfilePanel"));
 
-import { socket } from "../../lib/socket/socket.js";
-import { GetMsgs, EditMsg } from "../../api/Chatapi.js";
-import { useOutletContext, useParams } from "@tanstack/react-router";
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback, AvatarImage } from "../ui/avatar.js";
 import { Separator } from "../ui/separator.js";
 import { motion } from "motion/react";
 
 export default function ChatWindow() {
-  const [msg, setMsg] = useState("");
+  const [message, setmessage] = useState("");
   const [showProfile, setshowProfile] = useState(false);
   const profileRef = useRef<HTMLDivElement | any>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
-
-  const [AllMsg, setMsgs] = useState([]);
-
+  const [AllMessage, setAllmessage] = useState([]);
   const [selectedText, setSelectedText] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-
   const [file, setFile] = useState(null);
-
-  const { ChatId } = useParams();
-  const { friends } = useOutletContext();
-
-  const selectedProfile = friends.find((f) => f.ChatId == ChatId);
-
-  const chat = useMemo(() => socket("/chat"), []);
-
-  const toUserId = selectedProfile?._id;
-
-  useEffect(() => {
-    chat.connect();
-
-    chat.on("personal:chat:send", (data) => {
-      setMsgs((pre) => [...pre, data]);
-    });
-
-    return () => {
-      chat.off("personal:chat:send");
-    };
-  }, [ChatId]);
-
-  useEffect(() => {
-    fetchAllMsg();
-  }, [ChatId]);
-
-  const fetchAllMsg = async () => {
-    try {
-      const res = await GetMsgs({ ChatId });
-      setMsgs(res);
-    } catch (err: any) {
-      console.log(err);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const id = selectedText?.id;
-    if (msg) {
-      chat.emit("personal:chat", {
-        toUserId,
-        message: msg,
-        ChatId,
-        repliedTextId: id,
-      });
-    } else if (file) {
-      const read = new FileReader();
-      read.onload = () => {
-        chat.emit("upload:file", {
-          toUserId,
-          message: msg,
-          ChatId,
-          fileBuffer: read.result,
-        });
-      };
-      read.readAsArrayBuffer(file);
-    }
-
-    fetchAllMsg();
-    setMsg("");
-    setFile("");
-    setPreviewUrl("");
-  };
-
-  const handleActions = async (
-    action: string,
-    id: string,
-    message: string,
-    name: string,
-  ) => {
-    if (action == "Reply") {
-      setSelectedText({ id, message, name });
-      return;
-    }
-    try {
-      const res = await EditMsg({ action, id, ChatId });
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
-    fetchAllMsg();
-  };
 
   const handlePofile = () => {
     if (showProfile) profileRef.current?.collapse();
@@ -133,22 +45,19 @@ export default function ChatWindow() {
 
   useLayoutEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [AllMsg.length]);
+  }, [AllMessage.length]);
 
   // console.log(AllMsg, friends);
 
   return (
     <div className="flex flex-col justify-between h-full">
-      <ChatHeader
-        handlePofile={handlePofile}
-        selectedProfile={selectedProfile}
-      />
+      <ChatHeader />
 
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel defaultSize={75}>
           <div className="flex flex-col justify-between  h-full bg-gray-500/10">
             <ScrollArea.Root>
-              <ScrollArea.Viewport className="p-3 max-h-[770px]">
+              {/* <ScrollArea.Viewport className="p-3 max-h-[770px]">
                 <div className="flex  my-2 flex-col gap-4  ">
                   <div className=" px-4 py-1  text-[10px]    ">
                     <Avatar className="rounded-full  ">
@@ -200,7 +109,7 @@ export default function ChatWindow() {
                   )}
                   <motion.div layout ref={bottomRef} />
                 </div>
-              </ScrollArea.Viewport>
+              </ScrollArea.Viewport> */}
               <ScrollArea.Scrollbar
                 orientation="vertical"
                 className=" select-none touch-none p-0.5 bg-[#252526] hidden"
@@ -210,17 +119,7 @@ export default function ChatWindow() {
               <ScrollArea.Corner />
             </ScrollArea.Root>
 
-            <ChatInput
-              selectedText={selectedText}
-              setSelectedText={setSelectedText}
-              setMsg={setMsg}
-              msg={msg}
-              handleSubmit={handleSubmit}
-              file={file}
-              setFile={setFile}
-              previewUrl={previewUrl}
-              setPreviewUrl={setPreviewUrl}
-            />
+            <ChatInput />
           </div>
         </ResizablePanel>
         <ResizableHandle />

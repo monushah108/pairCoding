@@ -15,8 +15,6 @@ import {
 import { Button } from "../ui/button";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-
-import { GetAllchannels } from "../../api/Serverapi.js";
 import { Link, useParams } from "@tanstack/react-router";
 import { Input } from "../ui/input.js";
 
@@ -29,31 +27,14 @@ export default function GroupSidebar() {
   const [channels, setChannels] = useState([]);
   const [Rooms, setRooms] = useState([]);
 
-  const { serverId } = useParams();
-
   const CreateNewChannel = () => {
     if (!channelName) return;
-  };
-
-  useEffect(() => {
-    getAllChannel();
-  }, []);
-
-  const getAllChannel = async () => {
-    try {
-      const res = await GetAllchannels({ serverId });
-      console.log(res);
-      setChannels(res?.channel);
-      setRooms(res?.Chatrooms);
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
     <aside className="border-r border-border row-span-3 flex flex-col">
       <div className="flex-1">
-        <div className="border-b border-border text-center font-semibold text-primary py-4">
+        {/* <div className="border-b border-border text-center font-semibold text-primary py-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="cursor-pointer">Rooms</div>
@@ -182,7 +163,7 @@ export default function GroupSidebar() {
               </button>
             )}
           </Collapsible>
-        ))}
+        ))} */}
       </div>
     </aside>
   );

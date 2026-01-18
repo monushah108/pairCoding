@@ -8,24 +8,8 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "../ui/button.js";
 import { Binary } from "lucide-react";
 import ServerModle from "../module/serverModle.js";
-import { GetAllserver } from "../../api/serverapi.js";
-import { useEffect, useState } from "react";
 
 export default function Sidebar() {
-  const [servers, setServers] = useState([]);
-
-  useEffect(() => {
-    Allserver();
-  }, []);
-
-  const Allserver = async () => {
-    try {
-      const res = await GetAllserver();
-      setServers(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   return (
     <div className="flex items-center justify-between flex-col ">
       <div className="flex items-center gap-4 flex-col pt-6">
@@ -43,7 +27,7 @@ export default function Sidebar() {
         </Tooltip>
         <ServerModle />
 
-        {servers.map(({ _id, name, picture }) => (
+        {/* {servers.map(({ _id, name, picture }) => (
           <Tooltip key={_id}>
             <TooltipTrigger asChild>
               <Link to={`/dashboard/group/${_id}`}>
@@ -60,7 +44,7 @@ export default function Sidebar() {
               <p>{name}</p>
             </TooltipContent>
           </Tooltip>
-        ))}
+        ))} */}
       </div>
     </div>
   );

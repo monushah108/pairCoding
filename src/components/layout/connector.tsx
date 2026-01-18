@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu.js";
 import { useEffect, useState } from "react";
-import { ProfileApi } from "../../api/Authapi.js";
 import { toast, Toaster } from "sonner";
 import micOut from "../../assets/mic-of.wav";
 import pop from "../../assets/pop-of.wav";
@@ -52,22 +51,6 @@ export default function Connector() {
     sound.play();
     setDefedOpen(!DefedOpen);
   };
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await ProfileApi();
-        setUserData(response);
-      } catch (err: any) {
-        if (err.status == 401) {
-          navigate("/auth/login");
-          toast.error(err.response.data.message);
-        }
-      }
-    };
-
-    fetchUser();
-  }, []);
 
   return (
     <div className="absolute z-50 bottom-8 left-5 p-2 border border-border rounded-md bg-background shadow-sm">

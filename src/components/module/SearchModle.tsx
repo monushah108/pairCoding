@@ -60,7 +60,7 @@ export default function SearchModle({
         </pre>
         <ScrollArea.Root className="rounded-lg border bg-muted/30">
           <ScrollArea.Viewport>
-            <div className="p-3 space-y-2">
+            {/* <div className="p-3 space-y-2">
               {error ? (
                 <p className="text-red-500 text-xs font-mono ">{error} </p>
               ) : (
@@ -69,7 +69,7 @@ export default function SearchModle({
                     key={nickName}
                     className="flex items-center justify-between p-2 "
                   >
-                    {/* Avatar + name */}
+                   
                     <div className="flex items-center gap-3">
                       <Avatar className="w-8 h-8">
                         <AvatarImage src={picture} alt={name} />
@@ -79,7 +79,6 @@ export default function SearchModle({
                       </p>
                     </div>
 
-                    {/* Action button */}
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
@@ -98,7 +97,7 @@ export default function SearchModle({
                   </div>
                 ))
               )}
-            </div>
+            </div> */}
           </ScrollArea.Viewport>
 
           {/* Scrollbar */}

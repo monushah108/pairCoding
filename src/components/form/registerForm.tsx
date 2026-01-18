@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { RegisterApi } from "../../api/Authapi.js";
 
 import CreateTags from "../ui/CreateTags.js";
 import { InputGroup, InputGroupTextarea } from "../ui/input-group.js";
@@ -36,29 +35,6 @@ export function RegisterForm({
   // ------------------- HANDLE REGISTER -------------------
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await RegisterApi({
-        email,
-        password,
-        name,
-        bio,
-        picture,
-        skills,
-      });
-
-      console.log(response);
-
-      toast.success(response.message);
-      navigate("/dashboard/@me");
-    } catch (err: any) {
-      const errorMessage =
-        err?.response?.data?.message ||
-        err?.response?.data?.error?.message ||
-        "Something went wrong!!";
-
-      toast.error(errorMessage);
-    }
   };
 
   const handleSteps = (e) => {
