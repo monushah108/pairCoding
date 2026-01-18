@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { chatSocket } from "./chatSocket";
 
-export const AuthApi = createApi({
-  reducerPath: "authApi",
+export const chatApi = createApi({
+  reducerPath: "chatApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000",
     credentials: "include",
@@ -10,7 +11,7 @@ export const AuthApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["chat"],
+  tagTypes: ["chat", "msg"],
   endpoints: (builder) => ({
     getChats: builder.query({
       query: (id) => `/chat/${id}`,

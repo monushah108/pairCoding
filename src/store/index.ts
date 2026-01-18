@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { rootReducer } from "./rootReducers";
 import { GroupApi } from "./services/group/groupApi";
+
 export const Store = configureStore({
-  reducer: {
-    [GroupApi.reducerPath]: GroupApi.reducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(GroupApi.middleware);
   },

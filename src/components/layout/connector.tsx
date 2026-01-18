@@ -16,7 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu.js";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
 import micOut from "../../assets/mic-of.wav";
 import pop from "../../assets/pop-of.wav";
@@ -31,13 +31,13 @@ interface userData {
   password: string;
 }
 
-export default function Connector() {
+const Connector = memo(function Connector() {
   const [MicOpen, setMicOpen] = useState(true);
   const [DefedOpen, setDefedOpen] = useState(true);
   const [Userdata, setUserData] = useState<userData>(null);
   const navigate = useNavigate();
   const sound = new Audio();
-
+  console.log("connector");
   const triggerMic = () => {
     sound.src = MicOpen ? pop : popOut;
     sound.currentTime = 0;
@@ -236,4 +236,6 @@ export default function Connector() {
       </div>
     </div>
   );
-}
+});
+
+export default Connector;
