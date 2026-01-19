@@ -10,19 +10,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
-import {
-  SendNotifications,
-  SearchUser,
-  getNotifications,
-  RespondToFriendRequest,
-} from "../../api/Authapi.js";
+
 import { toast, Toaster } from "sonner";
 import { Avatar, AvatarImage } from "../ui/avatar.js";
 import { ButtonGroup } from "../ui/button-group.js";
 
 // import { io } from "socket.io-client";
 
-export default function TopBar({ selectedTab, setTab, Allfriends }) {
+export default function Dashboardheader({ selectedTab, setTab, Allfriends }) {
   const [notifications, setNotifications] = useState([]);
 
   // user
@@ -34,58 +29,6 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
 
   const [status, setStatus] = useState<string | null>(null);
 
-  const fetchSearchUser = async (nickName: string) => {
-    if (!nickName) return;
-    try {
-      const response = await SearchUser({ nickName });
-      setError("");
-      setUsers([response]);
-      setreceiver(response.id);
-    } catch (err: any) {
-      setError(err.response.data.message);
-    }
-  };
-  const sendRequest = async () => {
-    try {
-      const res = await SendNotifications({ receiver });
-
-      toast.success(res.response.data.message);
-    } catch (err: any) {
-      toast.error(err.response.data?.message ?? err.response.data.error);
-    }
-  };
-
-  const fetchNotifications = async () => {
-    try {
-      const res = await getNotifications();
-      setNotifications(res);
-    } catch (err) {
-      console.log(0);
-    }
-  };
-
-  useEffect(() => {
-    fetchNotifications();
-  }, [users]);
-
-  const ResponseOnAccept = async () => {
-    try {
-      await RespondToFriendRequest({ receiver, status: "accepted" });
-      setStatus("accepted");
-    } catch (err: any) {
-      toast.error("something went wrong!!");
-    }
-  };
-
-  const ResponseOnReject = async () => {
-    try {
-      await RespondToFriendRequest({ receiver, status: "rejected" });
-      setStatus("rejected");
-    } catch (err: any) {
-      toast.error("something went wrong!!");
-    }
-  };
-
   return (
     <div className=" border-b border-border [&>button]:text-xs">
       <Toaster position="top-center" />
@@ -96,7 +39,7 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
             <span className="text-xs font-semibold">Friends</span>
           </div>
 
-          {!!Allfriends.length && (
+          {/* {!!Allfriends.length && (
             <Button
               variant="secondary"
               className="text-xs cursor-pointer"
@@ -104,7 +47,7 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
             >
               All
             </Button>
-          )}
+          )} */}
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost">
@@ -115,7 +58,7 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
             <SheetTrigger asChild>
               <Button variant="ghost" className="relative">
                 <Bell />
-                {notifications.length > 0 && (
+                {/* {notifications.length > 0 && (
                   <motion.span
                     animate={{
                       scale: [1, 1.5, 1],
@@ -128,7 +71,7 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
                     }}
                     className="bg-red-500 w-1 h-1 rounded-full absolute top-3 left-3.5 "
                   />
-                )}
+                )} */}
               </Button>
             </SheetTrigger>
             <SheetContent className="w-[400px] sm:w-[540px]">
@@ -136,7 +79,7 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
                 <SheetTitle>Notification</SheetTitle>
               </SheetHeader>
               <div className="flex flex-col p-3">
-                {notifications.length === 0 ? (
+                {/* {notifications.length === 0 ? (
                   <div className="h-[100px] p-2 flex items-center justify-center">
                     <div className="italic text-xs font-semibold font-mono text-primary/60">
                       -- No new notifications --
@@ -179,17 +122,17 @@ export default function TopBar({ selectedTab, setTab, Allfriends }) {
                       </ButtonGroup>
                     </div>
                   ))
-                )}
+                )} */}
               </div>
             </SheetContent>
           </Sheet>
 
-          <SearchModle
+          {/* <SearchModle
             error={error}
             fetchSearchUser={fetchSearchUser}
             sendRequest={sendRequest}
             users={users}
-          />
+          /> */}
         </div>
       </div>
     </div>

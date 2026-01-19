@@ -1,9 +1,4 @@
 import { ChevronRight, Hash, Plus, Trash2, Volume2 } from "lucide-react";
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from "@/components/ui/collapsible";
 
 import { useEffect, useState } from "react";
 import {
@@ -13,10 +8,14 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "../ui/collapsible";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Link, useParams } from "@tanstack/react-router";
-import { Input } from "../ui/input.js";
+import { Input } from "../ui/input";
+import { Link } from "@tanstack/react-router";
 
 export default function GroupSidebar() {
   const [selectedChannel, setSelectedChannel] = useState(null);
@@ -31,10 +30,15 @@ export default function GroupSidebar() {
     if (!channelName) return;
   };
 
+  /*
+    group slice for saving open and close channel 
+
+   */
+
   return (
     <aside className="border-r border-border row-span-3 flex flex-col">
       <div className="flex-1">
-        {/* <div className="border-b border-border text-center font-semibold text-primary py-4">
+        <div className="border-b border-border text-center font-semibold text-primary py-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="cursor-pointer">Rooms</div>
@@ -53,7 +57,7 @@ export default function GroupSidebar() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {channels.map(({ _id: cId, name, serverId, category }) => (
+        {/* {channels.map(({ _id: cId, name, serverId, category }) => (
           <Collapsible
             key={cId}
             // open={collapseId == _id}
@@ -163,7 +167,7 @@ export default function GroupSidebar() {
               </button>
             )}
           </Collapsible>
-        ))} */}
+        ))}  */}
       </div>
     </aside>
   );

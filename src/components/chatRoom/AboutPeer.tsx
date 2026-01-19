@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function Chatpanel() {
+export default function AboutPeer() {
   return (
     <div className="border-border border-l md:flex flex-col gap-16 hidden">
       <div className="bg-gray-200 basis-30 relative">

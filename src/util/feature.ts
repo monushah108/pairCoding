@@ -1,3 +1,5 @@
+import { Image, Video } from "lucide-react";
+
 export const FormatTime = (date = "") => {
   const time = new Date(date);
 

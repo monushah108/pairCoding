@@ -3,7 +3,7 @@ import { memo } from "react";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
-const DirectMsgSidebar = memo(function DirectMsgSidebar({
+const DashboardhSidbar = memo(function DirectMsgSidebar({
   friends,
   closeChat,
   handleChatUser,
@@ -17,7 +17,7 @@ const DirectMsgSidebar = memo(function DirectMsgSidebar({
         className="flex flex-col gap-4 mt-8"
         onClick={(e) => e.stopPropagation()}
       >
-        {friends.map(({ picture, nickName, name, _id, ChatId, isOnline }) => (
+        {/* {friends.map(({ picture, nickName, name, _id, ChatId, isOnline }) => (
           <div
             onClick={() => handleChatUser(ChatId)}
             key={_id}
@@ -45,10 +45,10 @@ const DirectMsgSidebar = memo(function DirectMsgSidebar({
               <X />
             </Button>
           </div>
-        ))}
+        ))} */}
       </div>
     </aside>
   );
 });
 
-export default DirectMsgSidebar;
+export default DashboardhSidbar;

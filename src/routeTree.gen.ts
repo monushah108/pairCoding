@@ -20,7 +20,7 @@ import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as DashboardAtmeIndexRouteImport } from './routes/dashboard/[@]me/index'
 import { Route as DashboardGroupGroupIdRouteImport } from './routes/dashboard/group/$groupId'
-import { Route as DashboardAtmeChatWindowRouteImport } from './routes/dashboard/[@]me/$chatWindow'
+import { Route as DashboardAtmePrivateRouteImport } from './routes/dashboard/[@]me/$Private'
 import { Route as DashboardGroupGroupIdChatIdRouteImport } from './routes/dashboard/group/$groupId/$chatId'
 
 const PalygroundRoute = PalygroundRouteImport.update({
@@ -78,9 +78,9 @@ const DashboardGroupGroupIdRoute = DashboardGroupGroupIdRouteImport.update({
   path: '/group/$groupId',
   getParentRoute: () => DashboardRoute,
 } as any)
-const DashboardAtmeChatWindowRoute = DashboardAtmeChatWindowRouteImport.update({
-  id: '/$chatWindow',
-  path: '/$chatWindow',
+const DashboardAtmePrivateRoute = DashboardAtmePrivateRouteImport.update({
+  id: '/$Private',
+  path: '/$Private',
   getParentRoute: () => DashboardAtmeRoute,
 } as any)
 const DashboardGroupGroupIdChatIdRoute =
@@ -104,7 +104,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/@me': typeof DashboardAtmeRouteWithChildren
   '/dashboard/profile': typeof DashboardProfileRoute
   '/auth/': typeof AuthIndexRoute
-  '/dashboard/@me/$chatWindow': typeof DashboardAtmeChatWindowRoute
+  '/dashboard/@me/$Private': typeof DashboardAtmePrivateRoute
   '/dashboard/group/$groupId': typeof DashboardGroupGroupIdRouteWithChildren
   '/dashboard/@me/': typeof DashboardAtmeIndexRoute
   '/dashboard/group/$groupId/$chatId': typeof DashboardGroupGroupIdChatIdRoute
@@ -117,7 +117,7 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/auth': typeof AuthIndexRoute
-  '/dashboard/@me/$chatWindow': typeof DashboardAtmeChatWindowRoute
+  '/dashboard/@me/$Private': typeof DashboardAtmePrivateRoute
   '/dashboard/group/$groupId': typeof DashboardGroupGroupIdRouteWithChildren
   '/dashboard/@me': typeof DashboardAtmeIndexRoute
   '/dashboard/group/$groupId/$chatId': typeof DashboardGroupGroupIdChatIdRoute
@@ -133,7 +133,7 @@ export interface FileRoutesById {
   '/dashboard/@me': typeof DashboardAtmeRouteWithChildren
   '/dashboard/profile': typeof DashboardProfileRoute
   '/auth/': typeof AuthIndexRoute
-  '/dashboard/@me/$chatWindow': typeof DashboardAtmeChatWindowRoute
+  '/dashboard/@me/$Private': typeof DashboardAtmePrivateRoute
   '/dashboard/group/$groupId': typeof DashboardGroupGroupIdRouteWithChildren
   '/dashboard/@me/': typeof DashboardAtmeIndexRoute
   '/dashboard/group/$groupId/$chatId': typeof DashboardGroupGroupIdChatIdRoute
@@ -150,7 +150,7 @@ export interface FileRouteTypes {
     | '/dashboard/@me'
     | '/dashboard/profile'
     | '/auth/'
-    | '/dashboard/@me/$chatWindow'
+    | '/dashboard/@me/$Private'
     | '/dashboard/group/$groupId'
     | '/dashboard/@me/'
     | '/dashboard/group/$groupId/$chatId'
@@ -163,7 +163,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/dashboard/profile'
     | '/auth'
-    | '/dashboard/@me/$chatWindow'
+    | '/dashboard/@me/$Private'
     | '/dashboard/group/$groupId'
     | '/dashboard/@me'
     | '/dashboard/group/$groupId/$chatId'
@@ -178,7 +178,7 @@ export interface FileRouteTypes {
     | '/dashboard/@me'
     | '/dashboard/profile'
     | '/auth/'
-    | '/dashboard/@me/$chatWindow'
+    | '/dashboard/@me/$Private'
     | '/dashboard/group/$groupId'
     | '/dashboard/@me/'
     | '/dashboard/group/$groupId/$chatId'
@@ -270,11 +270,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardGroupGroupIdRouteImport
       parentRoute: typeof DashboardRoute
     }
-    '/dashboard/@me/$chatWindow': {
-      id: '/dashboard/@me/$chatWindow'
-      path: '/$chatWindow'
-      fullPath: '/dashboard/@me/$chatWindow'
-      preLoaderRoute: typeof DashboardAtmeChatWindowRouteImport
+    '/dashboard/@me/$Private': {
+      id: '/dashboard/@me/$Private'
+      path: '/$Private'
+      fullPath: '/dashboard/@me/$Private'
+      preLoaderRoute: typeof DashboardAtmePrivateRouteImport
       parentRoute: typeof DashboardAtmeRoute
     }
     '/dashboard/group/$groupId/$chatId': {
@@ -302,12 +302,12 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface DashboardAtmeRouteChildren {
-  DashboardAtmeChatWindowRoute: typeof DashboardAtmeChatWindowRoute
+  DashboardAtmePrivateRoute: typeof DashboardAtmePrivateRoute
   DashboardAtmeIndexRoute: typeof DashboardAtmeIndexRoute
 }
 
 const DashboardAtmeRouteChildren: DashboardAtmeRouteChildren = {
-  DashboardAtmeChatWindowRoute: DashboardAtmeChatWindowRoute,
+  DashboardAtmePrivateRoute: DashboardAtmePrivateRoute,
   DashboardAtmeIndexRoute: DashboardAtmeIndexRoute,
 }
 

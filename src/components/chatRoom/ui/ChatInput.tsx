@@ -1,17 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { File, FileDown, Paperclip, SmilePlus, X } from "lucide-react";
 
-import PermissionModel from "../module/premissionModel.js";
+import EmojiPicker from "emoji-picker-react";
+import { useEffect, useState } from "react";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./dropdown-menu";
-
-import { InputGroup, InputGroupAddon, InputGroupTextarea } from "./input-group";
-import EmojiPicker from "emoji-picker-react";
-import { useEffect, useState } from "react";
+} from "@/components/ui/dropdown-menu";
+import PermissionModel from "@/components/module/premissionModel";
 
 export default function ChatInput({
   msg,
@@ -39,42 +42,6 @@ export default function ChatInput({
     setMsg(EmojiText.join(""));
   };
 
-  useEffect(() => {
-    if (!file) {
-      setPreviewUrl(null);
-      return;
-    }
-
-    if (file.size >= 5 * 1024 * 1024) {
-      setPreviewUrl(null);
-      return;
-    }
-
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-
-    return () => {
-      URL.revokeObjectURL(url);
-    };
-  }, [file]);
-
-  function PreviewFile(f) {
-    const [fileType, _] = f.split("/");
-
-    switch (fileType) {
-      case "image":
-        return <img src={previewUrl} className="w-25 h-25" />;
-        break;
-
-      case "video":
-        return <video src={previewUrl} controls className="w-35 h-35"></video>;
-        break;
-
-      default:
-        return <File />;
-    }
-  }
-  console.log("chat");
   return (
     <div>
       {selectedText && (
@@ -94,7 +61,7 @@ export default function ChatInput({
         </div>
       )}
 
-      {previewUrl && (
+      {/* {previewUrl && (
         <div className=" p-4 bg-white relative">
           <div className="flex items-center max-w-max gap-2 bg-gray-100 border rounded p-2">
             {PreviewFile(file?.type)}
@@ -110,7 +77,7 @@ export default function ChatInput({
             <X className="w-5 h-5" />
           </button>
         </div>
-      )}
+      )} */}
 
       <div className=" flex items-center gap-2  p-2.5   bg-white ">
         <form

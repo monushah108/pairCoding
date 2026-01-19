@@ -1,28 +1,21 @@
-import {
-  lazy,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { lazy, useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import ChatInput from "../ui/ChatInput";
-import ChatBubble from "../ui/ChatBubble";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 
-import ChatHeader from "@/components/dashborad/ChatHeader.js";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-const ProfilePanel = lazy(() => import("@/components/dashborad/ProfilePanel"));
 
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback, AvatarImage } from "../ui/avatar.js";
 import { Separator } from "../ui/separator.js";
 import { motion } from "motion/react";
+import ChatHeader from "./chatHeader.js";
+import ChatBubble from "./ui/ChatBubble.js";
+import ChatInput from "./ui/ChatInput.js";
+import AboutPeer from "./AboutPeer.js";
 
 export default function ChatWindow() {
   const [message, setmessage] = useState("");
@@ -57,7 +50,7 @@ export default function ChatWindow() {
         <ResizablePanel defaultSize={75}>
           <div className="flex flex-col justify-between  h-full bg-gray-500/10">
             <ScrollArea.Root>
-              {/* <ScrollArea.Viewport className="p-3 max-h-[770px]">
+              <ScrollArea.Viewport className="p-3 max-h-[770px]">
                 <div className="flex  my-2 flex-col gap-4  ">
                   <div className=" px-4 py-1  text-[10px]    ">
                     <Avatar className="rounded-full  ">
@@ -70,7 +63,7 @@ export default function ChatWindow() {
                   </div>
 
                   <div className=" italic font-medium  text-gray-500">
-                    <h2 className="text-md text-gray-600">
+                    {/* <h2 className="text-md text-gray-600">
                       {selectedProfile?.name}
                       <span className="ml-2 text-xs">
                         --
@@ -81,12 +74,12 @@ export default function ChatWindow() {
                     <p className="font-semibold">
                       This is the begining of your direct message history with{" "}
                       {selectedProfile?.name}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
                 <Separator className="my-4" />
                 <div className="flex flex-col relative">
-                  {AllMsg.map(
+                  {/* {AllMsg.map(
                     ({
                       userId: senderId,
                       message,
@@ -106,10 +99,10 @@ export default function ChatWindow() {
                         handleActions={handleActions}
                       />
                     ),
-                  )}
+                  )} */}
                   <motion.div layout ref={bottomRef} />
                 </div>
-              </ScrollArea.Viewport> */}
+              </ScrollArea.Viewport>
               <ScrollArea.Scrollbar
                 orientation="vertical"
                 className=" select-none touch-none p-0.5 bg-[#252526] hidden"
@@ -132,7 +125,7 @@ export default function ChatWindow() {
           onCollapse={() => setshowProfile(false)}
           onExpand={() => setshowProfile(true)}
         >
-          <ProfilePanel />
+          <AboutPeer />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

@@ -15,7 +15,7 @@ export default function Sidebar() {
       <div className="flex items-center gap-4 flex-col pt-6">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Link to="@me">
+            <Link to="/dashboard/@me">
               <Button>
                 <Binary className="h-5 w-5" />
               </Button>

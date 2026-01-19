@@ -6,6 +6,27 @@ export const messageApi = chatApi.injectEndpoints({
     getMsg: builder.query({
       query: (chatId) => `message/${chatId}`,
       providesTags: ["msg"],
+      async onCacheEntryAdded(
+        chatId,
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
+      ) {
+        try {
+          await cacheDataLoaded;
+
+          chatSocket.connect();
+
+          const handleMessage = (msg: any) => {
+            updateCachedData((draft) => {
+              draft.push(msg);
+            });
+          };
+
+          chatSocket.onNewMsg(handleMessage);
+        } catch (err: any) {
+          await cacheEntryRemoved;
+          chatSocket.offNewMsg(handleMessage);
+        }
+      },
     }),
 
     sendMsg: builder.mutation({
@@ -22,7 +43,7 @@ export const messageApi = chatApi.injectEndpoints({
       ) {
         const Id = crypto.randomUUID();
         const patchResult = dispatch(
-          chatApi.util.updateQueryData("getMsg", chatId, (draft) => {
+          chatApi.util.updateQueryData("getChats", chatId, (draft) => {
             draft.push({
               Id,
               content,
@@ -49,6 +70,63 @@ export const messageApi = chatApi.injectEndpoints({
           chatId,
           content,
         });
+      },
+    }),
+
+    updateMsg: builder.mutation({
+      query: (msgId) => ({
+        url: `/msg/${msgId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (r, e, { msgId }) => {
+        r
+          ? [
+              {
+                type: "msg",
+                ...r.map((m) => m.id == msgId),
+              },
+            ]
+          : [{ type: "msg", msgId }];
+      },
+      async onQueryStarted(
+        { content, chatId, msgId },
+        { dispatch, queryFulfilled },
+      ) {
+        const patchResult = dispatch(
+          chatApi.util.updateQueryData("getChats", chatId, (draft) => {
+            const msg = draft.find((m) => m.id == msgId);
+            msg.content = content;
+          }),
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+
+    deleteMsg: builder.mutation({
+      query: ({ chatId, msgId }) => ({
+        url: `/chat/${chatId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["chat"],
+      async onQueryStarted(
+        { content, chatId, msgId },
+        { dispatch, queryFulfilled },
+      ) {
+        const patchResult = dispatch(
+          chatApi.util.updateQueryData("getChats", chatId, (draft) => {
+            const msg = draft.find((m) => m.id == msgId);
+            msg.content = content;
+          }),
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
       },
     }),
   }),

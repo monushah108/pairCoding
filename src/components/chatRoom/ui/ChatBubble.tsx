@@ -1,15 +1,15 @@
 import { AnimatePresence, motion } from "motion/react";
-import type React from "react";
+
+import { MoreHorizontalIcon } from "lucide-react";
+
+import { memo } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./dropdown-menu";
-import { FormatTime } from "../../util/feature.js";
-import { MoreHorizontalIcon } from "lucide-react";
-import { Button } from "./button";
-import { memo } from "react";
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 interface ChatBubbleProps {
   senderId: string;
@@ -72,7 +72,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(function ChatBubble({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          {file && <img src={file} />}
+
           <div
             className={` 
                text-sm
