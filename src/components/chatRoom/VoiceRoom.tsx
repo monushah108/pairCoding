@@ -1,5 +1,5 @@
-import { GradientBackground } from "../../ui/gradient-background.js";
-import { Button } from "../../ui/button.js";
+import { Button } from "../ui/button";
+import { GradientBackground } from "../ui/gradient-background";
 
 export default function VoiceRoom() {
   return (

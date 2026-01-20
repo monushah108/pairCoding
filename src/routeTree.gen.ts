@@ -88,11 +88,7 @@ const DashboardGroupGroupIdChatIdRoute =
     id: '/$chatId',
     path: '/$chatId',
     getParentRoute: () => DashboardGroupGroupIdRoute,
-  } as any).lazy(() =>
-    import('./routes/dashboard/group/$groupId/$chatId.lazy').then(
-      (d) => d.Route,
-    ),
-  )
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
