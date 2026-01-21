@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const AuthApi = createApi({
-  reducerPath: "authApi",
+export const channelApi = createApi({
+  reducerPath: "channelApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000/channel",
     credentials: "include",
@@ -14,6 +14,7 @@ export const AuthApi = createApi({
   endpoints: (builder) => ({
     getAllChannel: builder.query({
       query: (id) => `/${id}`,
+
       providesTags: ["channel"],
     }),
 
@@ -52,3 +53,10 @@ export const AuthApi = createApi({
     }),
   }),
 });
+
+export const {
+  useGetAllChannelQuery,
+  useCreateChannelMutation,
+  useDeleteChannelMutation,
+  useUpdateChannelMutation,
+} = channelApi;

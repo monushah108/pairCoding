@@ -60,7 +60,7 @@ const Connector = memo(function Connector() {
         <div className="w-fit">
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
-              <Link to="profile">
+              <Link to="/dashboard/profile">
                 <Avatar className="rounded-full cursor-pointer hover:scale-105 transition-transform size-7">
                   <AvatarImage src={Userdata?.picture} />
                   <AvatarFallback>EF</AvatarFallback>

@@ -7,7 +7,8 @@ import { Store } from "../src/store/index";
 import { routeTree } from "./routeTree.gen";
 
 import NotFound from "./components/layout/notFound";
-import { Provider } from "@radix-ui/react-tooltip";
+import { Provider } from "react-redux";
+
 // Create a new router instance
 const router = createRouter({
   routeTree,

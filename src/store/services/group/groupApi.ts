@@ -19,7 +19,7 @@ export const GroupApi = createApi({
   tagTypes: ["group", "member"],
   endpoints: (builder) => ({
     getAllGroups: builder.query<group[], String>({
-      query: (id) => `/${id}`,
+      query: () => `/server`,
       providesTags: (result, error, id) => [{ type: "group", id }],
     }),
 
@@ -55,3 +55,10 @@ export const GroupApi = createApi({
     }),
   }),
 });
+
+export const {
+  useGetAllGroupsQuery,
+  useCreateGroupMutation,
+  useDeleteGroupMutation,
+  useUpdateGroupMutation,
+} = GroupApi;

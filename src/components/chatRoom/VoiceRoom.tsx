@@ -2,6 +2,8 @@ import { Button } from "../ui/button";
 import { GradientBackground } from "../ui/gradient-background";
 
 export default function VoiceRoom() {
+  const joinedUsers = [];
+
   return (
     <div className="h-[901px] overflow-hidden">
       <GradientBackground

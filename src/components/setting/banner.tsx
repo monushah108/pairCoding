@@ -11,11 +11,11 @@ export default function Banner() {
         <input type="file" name="" id="bgImg" className="hidden" />
       </button>
 
-      <div className="absolute top-50 left-8 border-8 border-white dark:border-black rounded-full overflow-hidden">
+      <div className="w-20 h-20 absolute top-50 left-8 border-8 border-white dark:border-black rounded-full overflow-hidden">
         <label htmlFor="profileImg">
-          <Avatar className="group/img-2">
+          <Avatar className="group/img-2 w-full h-full">
             <AvatarImage
-              className="size-20 object-cover"
+              className=" object-cover"
               src={`https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170`}
             />
             <AvatarFallback>M</AvatarFallback>

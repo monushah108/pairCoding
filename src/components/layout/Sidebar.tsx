@@ -9,7 +9,7 @@ import { Button } from "../ui/button.js";
 import { Binary } from "lucide-react";
 import ServerModle from "../module/serverModle.js";
 
-export default function Sidebar() {
+export default function Sidebar({ data }) {
   return (
     <div className="flex items-center justify-between flex-col ">
       <div className="flex items-center gap-4 flex-col pt-6">
@@ -27,10 +27,10 @@ export default function Sidebar() {
         </Tooltip>
         <ServerModle />
 
-        {/* {servers.map(({ _id, name, picture }) => (
+        {data?.map(({ _id, name, picture }) => (
           <Tooltip key={_id}>
             <TooltipTrigger asChild>
-              <Link to={`/dashboard/group/${_id}`}>
+              <Link to={`/dashboard/$groupId`} params={{ groupId: _id }}>
                 <Avatar className="rounded-lg cursor-pointer hover:scale-105 transition-transform size-9">
                   <AvatarImage
                     src={`https://api.dicebear.com/6.x/initials/svg?seed=${picture}`}
@@ -44,7 +44,7 @@ export default function Sidebar() {
               <p>{name}</p>
             </TooltipContent>
           </Tooltip>
-        ))} */}
+        ))}
       </div>
     </div>
   );

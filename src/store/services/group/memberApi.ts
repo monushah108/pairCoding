@@ -1,10 +1,12 @@
-import { groupApi } from "./group/groupApi";
+import { GroupApi } from "./groupApi";
 
-export const MemberApi = groupApi.injectEndpoints({
+export const MemberApi = GroupApi.injectEndpoints({
   endpoints: (builder) => ({
-    getMember: builder.query<Member[], String>({
-      query: (id) => `${id}/member`,
+    getMember: builder.query({
+      query: (id) => `${id}/members`,
       providesTags: (result, error, id) => [{ type: "Member", id }],
     }),
   }),
 });
+
+export const { useGetMemberQuery } = MemberApi;

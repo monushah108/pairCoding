@@ -1,12 +1,6 @@
-import { ChevronRight, Hash, Plus, Trash2, Volume2 } from "lucide-react";
+import { ChevronRight, Hash, Plus, Volume2 } from "lucide-react";
 
-import { useEffect, useState } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+import { memo, useState } from "react";
 import { Button } from "../ui/button";
 import {
   Collapsible,
@@ -16,19 +10,20 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Input } from "../ui/input";
 import { Link } from "@tanstack/react-router";
+import { useGetAllChannelQuery } from "@/store/services/channel/channelApi";
 
-export default function GroupSidebar() {
+const GroupSidebar = memo(function GroupSidebar({ groupId }) {
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [channelName, setChannelName] = useState("");
   const [collapseId, setCollapseId] = useState(null);
   const [inputId, setInputId] = useState(false);
   const [selectedChannelId, setSelectedChannelId] = useState(null);
-  const [channels, setChannels] = useState([]);
-  const [Rooms, setRooms] = useState([]);
 
   const CreateNewChannel = () => {
     if (!channelName) return;
   };
+
+  const { data, isError, isLoading } = useGetAllChannelQuery(groupId);
 
   /*
     group slice for saving open and close channel 
@@ -39,28 +34,11 @@ export default function GroupSidebar() {
     <aside className="border-r border-border row-span-3 flex flex-col">
       <div className="flex-1">
         <div className="border-b border-border text-center font-semibold text-primary py-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="cursor-pointer">Rooms</div>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent>
-              <DropdownMenuItem>
-                <channelModle setAddChannel={setChannels} />
-              </DropdownMenuItem>
-
-              <DropdownMenuItem>
-                <Button variant="destructive" className="w-full">
-                  Delete channel <Trash2 className="w-3 h-3 text-white" />
-                </Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="cursor-pointer">Rooms</div>
         </div>
-        {/* {channels.map(({ _id: cId, name, serverId, category }) => (
+        {data?.channel.map(({ _id: cId, name, serverId, category }) => (
           <Collapsible
             key={cId}
-            // open={collapseId == _id}
             onOpenChange={() => {
               setCollapseId(collapseId == cId ? null : cId);
               setInputId(collapseId != cId && null);
@@ -110,12 +88,12 @@ export default function GroupSidebar() {
                   onKeyDown={(e) => e.key == "Enter" && CreateNewChannel}
                 />
               )}
-              {!Rooms.length ? (
+              {!data?.Chatrooms.length ? (
                 <p className="text-sm text-center italic hover:bg-accent hover:text-primary transition-colors p-2">
                   -- No channels yet ?? --
                 </p>
               ) : (
-                Rooms.map(
+                data?.Chatrooms.map(
                   ({ _id, category, name, channelId }) =>
                     channelId == cId && (
                       <button
@@ -127,7 +105,11 @@ export default function GroupSidebar() {
                             : "hover:bg-accent hover:text-primary"
                         } py-1.5 rounded px-2 transition-colors cursor-pointer`}
                       >
-                        <Link to={_id} state={category}>
+                        <Link
+                          to="/dashboard/$groupId/$chatId"
+                          params={{ chatId: _id, groupId: serverId }}
+                          search={{ type: category }}
+                        >
                           <span
                             className="hover:bg-accent w-full text-left flex items-center gap-2
   text-primary/60
@@ -145,7 +127,7 @@ export default function GroupSidebar() {
                           </span>
                         </Link>
                       </button>
-                    )
+                    ),
                 )
               )}
             </CollapsibleContent>
@@ -167,8 +149,10 @@ export default function GroupSidebar() {
               </button>
             )}
           </Collapsible>
-        ))}  */}
+        ))}
       </div>
     </aside>
   );
-}
+});
+
+export default GroupSidebar;
