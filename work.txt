@@ -40,3 +40,8 @@ terminal
 
 goal => state ko manage karo chat or live notification and live chat (socket)
 => validation typscript and ke  (redux)
+
+
+imges and fix chat and goup chat and imges 
+chat video on multithreading and mediasoup 
+do something on user preferences 

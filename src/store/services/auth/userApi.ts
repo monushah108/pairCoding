@@ -3,12 +3,13 @@ import { AuthApi } from "./authApi";
 export const UserApi = AuthApi.injectEndpoints({
   endpoints: (builder) => ({
     allFriends: builder.query({
-      query: () => "/friends",
+      query: () => "/friend",
       providesTags: ["friend"],
     }),
     searchUser: builder.query({
-      query: (...body) => ({
-        url: "/search",
+      query: (Searchq, ...body) => ({
+        url: "/friend",
+        params: { search: Searchq },
         method: "POST",
         body: { ...body },
       }),
@@ -16,3 +17,5 @@ export const UserApi = AuthApi.injectEndpoints({
     }),
   }),
 });
+
+export const { useAllFriendsQuery } = UserApi;

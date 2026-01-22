@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { chatSocket } from "./chatSocket";
 
 export const chatApi = createApi({
   reducerPath: "chatApi",
@@ -44,3 +43,5 @@ export const chatApi = createApi({
     }),
   }),
 });
+
+export const { useGetChatsQuery, useUpdateMsgMutation } = chatApi;

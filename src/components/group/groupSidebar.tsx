@@ -11,13 +11,14 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Input } from "../ui/input";
 import { Link } from "@tanstack/react-router";
 import { useGetAllChannelQuery } from "@/store/services/channel/channelApi";
-
+import { SoundManager } from "@/util/feature";
 const GroupSidebar = memo(function GroupSidebar({ groupId }) {
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [channelName, setChannelName] = useState("");
   const [collapseId, setCollapseId] = useState(null);
   const [inputId, setInputId] = useState(false);
   const [selectedChannelId, setSelectedChannelId] = useState(null);
+  const [openVoice, setVoice] = useState(false);
 
   const CreateNewChannel = () => {
     if (!channelName) return;
@@ -25,10 +26,11 @@ const GroupSidebar = memo(function GroupSidebar({ groupId }) {
 
   const { data, isError, isLoading } = useGetAllChannelQuery(groupId);
 
-  /*
-    group slice for saving open and close channel 
-
-   */
+  const triggerOpenVoice = (type) => {
+    if (type == "TEXT") return;
+    SoundManager.play("Voice");
+    setVoice(!openVoice);
+  };
 
   return (
     <aside className="border-r border-border row-span-3 flex flex-col">
@@ -98,7 +100,10 @@ const GroupSidebar = memo(function GroupSidebar({ groupId }) {
                     channelId == cId && (
                       <button
                         key={_id}
-                        onClick={() => setSelectedChannel(name)}
+                        onClick={() => {
+                          setSelectedChannel(name);
+                          triggerOpenVoice(category);
+                        }}
                         className={`${
                           selectedChannel === name
                             ? "bg-accent text-primary"

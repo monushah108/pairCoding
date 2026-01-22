@@ -18,11 +18,9 @@ import {
 } from "../ui/dropdown-menu.js";
 import { memo, useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
-import micOut from "../../assets/mic-of.wav";
-import pop from "../../assets/pop-of.wav";
-import mic from "../../assets/mic.wav";
-import popOut from "../../assets/mic-of.wav";
+
 import { Link, useNavigate } from "@tanstack/react-router";
+import { SoundManager } from "@/util/feature.js";
 
 interface userData {
   name: string;
@@ -36,19 +34,15 @@ const Connector = memo(function Connector() {
   const [DefedOpen, setDefedOpen] = useState(true);
   const [Userdata, setUserData] = useState<userData>(null);
   const navigate = useNavigate();
-  const sound = new Audio();
-  console.log("connector");
+  const { toggle } = SoundManager;
+
   const triggerMic = () => {
-    sound.src = MicOpen ? pop : popOut;
-    sound.currentTime = 0;
-    sound.play();
+    toggle("Mic", MicOpen);
     setMicOpen(!MicOpen);
   };
 
   const triggerDefed = () => {
-    sound.src = DefedOpen ? mic : micOut;
-    sound.currentTime = 0;
-    sound.play();
+    toggle("Defend", DefedOpen);
     setDefedOpen(!DefedOpen);
   };
 
