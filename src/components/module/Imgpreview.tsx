@@ -1,12 +1,6 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import React, { useState } from "react";
 import { Camera } from "lucide-react";
-import { DialogHeader } from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipTrigger,
@@ -14,32 +8,37 @@ import {
 } from "@/components/ui/tooltip";
 import Cropper from "react-easy-crop";
 
-export default function Imgpreview({ picture, setPicture }) {
+export default function Imgpreview({ setPicture, rawFile, setRawFile }) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedArea, setCroppedArea] = useState(null);
-  const [finalImage, setFinalImage] = useState(null);
+
+  // File for backend
+  const [previewUrl, setPreviewUrl] = useState(null); // URL for UI
   const [isOpen, setIsOpen] = useState(false);
+
+  // 📁 File select
   const handleFile = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    setPicture(URL.createObjectURL(file));
-    // 👉 Auto open dialog
+    setRawFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
     setIsOpen(true);
   };
 
+  // ✂️ Crop & convert to File
   const getCroppedImage = async () => {
     const canvas = document.createElement("canvas");
     const img = document.createElement("img");
 
-    img.src = picture;
-
+    img.src = previewUrl;
     await new Promise((resolve) => (img.onload = resolve));
 
-    const ctx = canvas.getContext("2d");
     canvas.width = croppedArea.width;
     canvas.height = croppedArea.height;
+
+    const ctx = canvas.getContext("2d");
 
     ctx.drawImage(
       img,
@@ -50,12 +49,24 @@ export default function Imgpreview({ picture, setPicture }) {
       0,
       0,
       croppedArea.width,
-      croppedArea.height
+      croppedArea.height,
     );
 
-    const result = canvas.toDataURL("image/jpeg");
-    setFinalImage(result);
-    setIsOpen(false);
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) return;
+
+        const croppedFile = new File([blob], "profile.jpg", {
+          type: "image/jpeg",
+        });
+
+        setPicture(croppedFile); // ✅ send to parent (backend)
+        setPreviewUrl(URL.createObjectURL(blob)); // preview
+        setIsOpen(false);
+      },
+      "image/jpeg",
+      0.9,
+    );
   };
 
   return (
@@ -64,10 +75,13 @@ export default function Imgpreview({ picture, setPicture }) {
         <Tooltip>
           <TooltipTrigger asChild>
             <div className="border-dashed border-2 p-2 w-40 h-40 flex justify-center items-center rounded-full overflow-hidden">
-              {finalImage ? (
-                <img src={finalImage} className="w-full h-full rounded-full" />
+              {previewUrl ? (
+                <img
+                  src={previewUrl}
+                  className="w-full h-full rounded-full object-cover"
+                />
               ) : (
-                <Camera className="size-15 text-[#cccc]" />
+                <Camera className="size-14 text-[#cccc]" />
               )}
             </div>
           </TooltipTrigger>
@@ -78,27 +92,25 @@ export default function Imgpreview({ picture, setPicture }) {
           type="file"
           className="hidden"
           accept="image/*"
-          name="picture"
           onChange={handleFile}
         />
       </label>
 
-      {/* Auto opening dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent>
           <DialogTitle>Edit Profile Picture</DialogTitle>
 
           <div className="relative w-full h-80 bg-black">
-            {picture && (
+            {previewUrl && (
               <Cropper
-                image={picture}
+                image={previewUrl}
                 crop={crop}
                 zoom={zoom}
                 aspect={1}
                 cropShape="round"
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
-                onCropComplete={(croppedArea, pixels) => setCroppedArea(pixels)}
+                onCropComplete={(area, pixels) => setCroppedArea(pixels)}
               />
             )}
           </div>

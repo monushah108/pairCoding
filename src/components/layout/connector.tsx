@@ -21,6 +21,7 @@ import { toast, Toaster } from "sonner";
 
 import { Link, useNavigate } from "@tanstack/react-router";
 import { SoundManager } from "@/util/feature.js";
+import { useGetUserQuery } from "@/store/services/auth/authApi.js";
 
 interface userData {
   name: string;
@@ -46,6 +47,8 @@ const Connector = memo(function Connector() {
     setDefedOpen(!DefedOpen);
   };
 
+  const { data } = useGetUserQuery();
+
   return (
     <div className="absolute z-50 bottom-8 left-5 p-2 border border-border rounded-md bg-background shadow-sm">
       <Toaster position="top-center" />
@@ -56,7 +59,7 @@ const Connector = memo(function Connector() {
             <TooltipTrigger asChild>
               <Link to="/dashboard/profile">
                 <Avatar className="rounded-full cursor-pointer hover:scale-105 transition-transform size-7">
-                  <AvatarImage src={Userdata?.picture} />
+                  <AvatarImage src={data?.picture} />
                   <AvatarFallback>EF</AvatarFallback>
                 </Avatar>
               </Link>
@@ -64,10 +67,10 @@ const Connector = memo(function Connector() {
             <TooltipContent side="top">
               <div className="flex items-center gap-1.5">
                 <Avatar className="size-5">
-                  <AvatarImage src={Userdata?.picture} alt="Hallie Richards" />
+                  <AvatarImage src={data?.picture} alt="Hallie Richards" />
                   <AvatarFallback className="text-xs">HR</AvatarFallback>
                 </Avatar>
-                <p className="font-medium">{Userdata?.name}</p>
+                <p className="font-medium">{data?.name}</p>
               </div>
             </TooltipContent>
           </Tooltip>

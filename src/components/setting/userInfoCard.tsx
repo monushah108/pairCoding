@@ -3,7 +3,10 @@ import { Input } from "../ui/input";
 import CreateTags from "../ui/CreateTags";
 import { Badge } from "../ui/badge";
 import { X } from "lucide-react";
+import { useGetUserQuery } from "@/store/services/auth/authApi";
 export default function UserInfoCard({ OnEdit }) {
+  const { data } = useGetUserQuery();
+
   return (
     <>
       <AnimatePresence>
@@ -67,50 +70,35 @@ export default function UserInfoCard({ OnEdit }) {
               <div>
                 <p className="text-sm text-muted-foreground">Display Name</p>
                 <h1 className="text-lg font-semibold text-foreground">
-                  Monu Shah
+                  {data?.name}
                 </h1>
               </div>
 
               <div>
                 <p className="text-sm text-muted-foreground">Username</p>
-                <p className="text-foreground text-sm">@YourUsername</p>
+                <p className="text-foreground text-sm">{data?.nickname}</p>
               </div>
 
               <div>
                 <p className="text-sm text-muted-foreground">About Me</p>
-                <p className="text-foreground leading-relaxed text-xs">
-                  Hey there! I’m using Pro Player 🎮
+                <p className="text-foreground leading-relaxed text-xs font-semibold">
+                  {data?.bio}
                 </p>
-              </div>
-
-              <div>
-                <p className="text-sm text-muted-foreground">Status</p>
-                <motion.p
-                  className="inline-flex items-center gap-2 text-green-500"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <span className="w-2 h-2  bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-xs">Online</span>
-                </motion.p>
               </div>
 
               <div>
                 <p className="text-sm text-muted-foreground">Skills</p>
                 <div className="flex flex-wrap gap-2 mt-1">
-                  {["React", "Redux", "Tailwind", "TypeScript"].map(
-                    (skill, i) => (
-                      <motion.span
-                        key={skill}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2 + i * 0.1 }}
-                      >
-                        <Badge variant="destructive">{skill}</Badge>
-                      </motion.span>
-                    ),
-                  )}
+                  {data?.skills?.map((s, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.2 + i * 0.1 }}
+                    >
+                      <Badge variant="destructive">{s}</Badge>
+                    </motion.span>
+                  ))}
                 </div>
               </div>
             </motion.div>

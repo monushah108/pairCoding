@@ -8,8 +8,11 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "../ui/button.js";
 import { Binary } from "lucide-react";
 import ServerModle from "../module/serverModle.js";
+import { useGetAllGroupsQuery } from "@/store/services/group/groupApi.js";
 
-export default function Sidebar({ data }) {
+export default function Sidebar() {
+  const { data } = useGetAllGroupsQuery();
+
   return (
     <div className="flex items-center justify-between flex-col ">
       <div className="flex items-center gap-4 flex-col pt-6">
@@ -32,10 +35,7 @@ export default function Sidebar({ data }) {
             <TooltipTrigger asChild>
               <Link to={`/dashboard/$groupId`} params={{ groupId: _id }}>
                 <Avatar className="rounded-lg cursor-pointer hover:scale-105 transition-transform size-9">
-                  <AvatarImage
-                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${picture}`}
-                    alt={`Avatar ${name}`}
-                  />
+                  <AvatarImage src={picture} alt={`Avatar ${name}`} />
                   <AvatarFallback>{name}</AvatarFallback>
                 </Avatar>
               </Link>

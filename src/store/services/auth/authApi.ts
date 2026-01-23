@@ -16,16 +16,19 @@ export const AuthApi = createApi({
       query: () => "/profile",
       providesTags: ["user"],
     }),
-    registerUser: builder.query({
-      query: ({ ...body }) => ({
+    register: builder.mutation({
+      query: (body) => ({
         url: "/register",
+        headers: {
+          Accept: "application/json",
+        },
         method: "POST",
-        body: { ...body },
+        body,
       }),
       invalidatesTags: ["user"],
     }),
-    loginUser: builder.query({
-      query: ({ ...body }) => ({
+    login: builder.mutation({
+      query: (...body) => ({
         url: "/login",
         method: "POST",
         body: { ...body },
@@ -34,3 +37,6 @@ export const AuthApi = createApi({
     }),
   }),
 });
+
+export const { useGetUserQuery, useRegisterMutation, useLoginMutation } =
+  AuthApi;

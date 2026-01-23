@@ -7,8 +7,6 @@ import { useAllFriendsQuery } from "@/store/services/auth/userApi";
 const DashboardhSidbar = memo(function DirectMsgSidebar() {
   const { data, isError, isLoading } = useAllFriendsQuery();
 
-  console.log(data);
-
   return (
     <aside className="border-r border-border h-full">
       <h2 className="text-center text-sm border-b border-border py-5 font-medium">

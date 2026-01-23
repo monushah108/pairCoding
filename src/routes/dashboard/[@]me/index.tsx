@@ -1,26 +1,24 @@
 import Dashboardheader from "@/components/dashborad/Dashboardheader";
+import AddFriend from "@/components/dashborad/ui/addFriend";
+import NoChat from "@/components/dashborad/ui/noChat";
+import OnlineUsers from "@/components/dashborad/ui/onlineUsers";
+
 import { createFileRoute } from "@tanstack/react-router";
-import { MessageSquareMore } from "lucide-react";
+
+import { useState } from "react";
 
 export const Route = createFileRoute("/dashboard/@me/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const [tab, setTab] = useState("noChat");
   return (
     <div className="flex flex-col justify-between h-full">
-      <Dashboardheader />
-      <div className="relative flex-1 flex items-center justify-center">
-        <div className="flex items-center justify-center flex-col gap-2">
-          <div className="rounded bg-primary/50 animate-bounce p-2 text-white">
-            <MessageSquareMore />
-          </div>
-
-          <p className="text-sm text-primary/50 font-semibold">
-            No Conversation yet!!
-          </p>
-        </div>
-      </div>
+      <Dashboardheader setTab={setTab} />
+      {tab == "noChat" && <NoChat />}
+      {tab == "friends" && <OnlineUsers />}
+      {tab == "addFriends" && <AddFriend />}
     </div>
   );
 }

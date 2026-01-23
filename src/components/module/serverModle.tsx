@@ -14,6 +14,7 @@ import {
   InputGroupInput,
   InputGroupText,
 } from "@/components/ui/input-group";
+import { useCreateGroupMutation } from "@/store/services/group/groupApi";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -28,6 +29,21 @@ export default function ServerModel() {
   //     console.error("Failed to copy: ", err);
   //   }
   // };
+
+  const [createGroup] = useCreateGroupMutation();
+
+  const handleServer = async () => {
+    const form = new FormData();
+    form.append("image", Img);
+    form.append("name", serverName);
+
+    try {
+      const data = await createGroup(form);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Dialog>
@@ -53,7 +69,7 @@ export default function ServerModel() {
             <p className="text-sm font-medium">Server Icon</p>
             <InputGroup className="flex items-center justify-between px-3 py-2">
               <InputGroupText className="text-muted-foreground">
-                {Img}
+                {Img?.name}
               </InputGroupText>
 
               <InputGroupAddon align="inline-end">
@@ -66,7 +82,7 @@ export default function ServerModel() {
                       className="hidden"
                       accept="image/*"
                       name="img"
-                      onChange={(e) => setImg(e.target.files[0].name)}
+                      onChange={(e) => setImg(e.target.files[0])}
                     />
                   </label>
                 </Button>
@@ -87,7 +103,7 @@ export default function ServerModel() {
             </InputGroup>
           </div>
         </main>
-        <DialogFooter>
+        <DialogFooter onClick={handleServer}>
           <Button>create server</Button>
         </DialogFooter>
       </DialogContent>

@@ -20,21 +20,21 @@ export const GroupApi = createApi({
   endpoints: (builder) => ({
     getAllGroups: builder.query<group[], String>({
       query: () => `/server`,
-      providesTags: (result, error, id) => [{ type: "group", id }],
+      providesTags: (r, e, id) => [{ type: "group", id }],
     }),
 
     createGroup: builder.mutation({
-      query: ({ id, name, picture }) => ({
-        url: id,
+      query: (body) => ({
+        url: "/server",
         method: "POST",
-        body: { name, picture },
+        body: body,
       }),
-      invalidatesTags: (r, e, { id }) => [{ type: "group", id }],
+      invalidatesTags: ["group"],
     }),
 
     updateGroup: builder.mutation<group, groupPayload>({
       query: ({ id, name, picture }) => ({
-        url: `/${id}`,
+        url: `/server/${id}`,
         method: "PATCH",
         body: { name, picture },
       }),

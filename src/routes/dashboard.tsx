@@ -1,7 +1,7 @@
 import Connector from "@/components/layout/connector";
 
 import Sidebar from "@/components/layout/Sidebar";
-import { useGetAllGroupsQuery } from "@/store/services/group/groupApi";
+
 import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
 import { Binary } from "lucide-react";
 import { easeIn, motion } from "motion/react";
@@ -13,8 +13,6 @@ export const Route = createFileRoute("/dashboard")({
 function RouteComponent() {
   const { pathname } = useLocation();
   const show = pathname.includes("/profile");
-
-  const { data, isError, isLoading } = useGetAllGroupsQuery();
 
   return (
     <section className="bg-background text-foreground transition-colors  ">
@@ -40,7 +38,7 @@ function RouteComponent() {
       >
         <div className="grid grid-cols-[70px_1fr] h-full">
           {/* Sidebar with avatars */}
-          <Sidebar data={data} />
+          <Sidebar />
 
           {/* Main content area */}
           <div className="border-l border-t border-border rounded-l-md">

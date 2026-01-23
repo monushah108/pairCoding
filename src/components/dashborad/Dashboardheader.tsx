@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Bell, Moon, Users } from "lucide-react";
 import { motion } from "motion/react";
-import SearchModle from "../module/SearchModle.js";
+
 import {
   Sheet,
   SheetContent,
@@ -14,10 +14,11 @@ import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
 import { Avatar, AvatarImage } from "../ui/avatar.js";
 import { ButtonGroup } from "../ui/button-group.js";
+import { useAllFriendsQuery } from "@/store/services/auth/userApi.js";
 
 // import { io } from "socket.io-client";
 
-export default function Dashboardheader({ selectedTab, setTab, Allfriends }) {
+export default function Dashboardheader({ setTab }) {
   const [notifications, setNotifications] = useState([]);
 
   // user
@@ -29,6 +30,8 @@ export default function Dashboardheader({ selectedTab, setTab, Allfriends }) {
 
   const [status, setStatus] = useState<string | null>(null);
 
+  const { data, isError, isLoading } = useAllFriendsQuery();
+
   return (
     <div className=" border-b border-border [&>button]:text-xs">
       <Toaster position="top-center" />
@@ -39,7 +42,7 @@ export default function Dashboardheader({ selectedTab, setTab, Allfriends }) {
             <span className="text-xs font-semibold">Friends</span>
           </div>
 
-          {/* {!!Allfriends.length && (
+          {!data?.AllFriends.length || (
             <Button
               variant="secondary"
               className="text-xs cursor-pointer"
@@ -47,7 +50,13 @@ export default function Dashboardheader({ selectedTab, setTab, Allfriends }) {
             >
               All
             </Button>
-          )} */}
+          )}
+
+          <Button variant="outline" onClick={() => setTab("addFriends")}>
+            Add Friends
+          </Button>
+
+          <Button variant="secondary">Pending *</Button>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost">
@@ -126,13 +135,6 @@ export default function Dashboardheader({ selectedTab, setTab, Allfriends }) {
               </div>
             </SheetContent>
           </Sheet>
-
-          {/* <SearchModle
-            error={error}
-            fetchSearchUser={fetchSearchUser}
-            sendRequest={sendRequest}
-            users={users}
-          /> */}
         </div>
       </div>
     </div>

@@ -10,12 +10,14 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { toast, Toaster } from "sonner";
+import { Toaster } from "sonner";
 import { Link, useNavigate } from "@tanstack/react-router";
 
 import CreateTags from "../ui/CreateTags.js";
 import { InputGroup, InputGroupTextarea } from "../ui/input-group.js";
 import Imgpreview from "../module/Imgpreview.js";
+import { useRegisterMutation } from "@/store/services/auth/authApi.js";
+import { Spinner } from "../ui/spinner.js";
 
 export function RegisterForm({
   className,
@@ -23,18 +25,42 @@ export function RegisterForm({
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
 
+  /* 
+  fix this it's has a lot's of error and unorgnized 
+   */
+
   const [email, setEmail] = useState("monu@gmail.com");
   const [password, setPassword] = useState("1234");
   const [name, setName] = useState("monu");
   const [picture, setPicture] = useState(null);
+  const [rawFile, setRawFile] = useState(null);
   const [bio, setBio] = useState("");
   const [skills, setSkills] = useState([]);
 
   const [validSteps, setValidSteps] = useState(1);
 
-  // ------------------- HANDLE REGISTER -------------------
+  const [register, { isLoading, isError, data }] = useRegisterMutation();
+
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("bio", bio);
+    formData.append("skills", JSON.stringify(skills));
+
+    if (rawFile) {
+      formData.append("image", rawFile);
+    }
+
+    try {
+      const response = await register(formData).unwrap();
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleSteps = (e) => {
@@ -63,7 +89,11 @@ export function RegisterForm({
           {/* ------------------- Step 1 ------------------- */}
           {validSteps === 1 && (
             <>
-              <Imgpreview picture={picture} setPicture={setPicture} />
+              <Imgpreview
+                setPicture={setPicture}
+                rawFile={rawFile}
+                setRawFile={setRawFile}
+              />
 
               <Field>
                 <FieldLabel>User Name</FieldLabel>
@@ -131,7 +161,10 @@ export function RegisterForm({
           )}
 
           <Field>
-            <Button type="submit">{validSteps === 3 ? "Save" : "Next"}</Button>
+            <Button type="submit">
+              {validSteps === 3 ? "Save" : "Next"}
+              {validSteps == 3 && isLoading ? <Spinner /> : null}
+            </Button>
           </Field>
         </FieldGroup>
       </form>
