@@ -4,9 +4,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useParams } from "@tanstack/react-router";
 
 export default function GroupPanel() {
-  // const { data, isError, isLoading } = useGetAllChannelQuery(groupId);
-  // const admins = data?.members.filter((user) => user.role == "ADMIN");
-  // const onlineUsers = data?.members;
+  const { groupId } = useParams({ strict: false });
+  const { data, isError, isLoading } = useGetAllChannelQuery(groupId);
+  const admins = data?.members.filter((user) => user.role == "ADMIN");
+  const onlineUsers = data?.members;
 
   return (
     <aside className="w-60 bg-background/60 backdrop-blur-md ">
@@ -17,7 +18,7 @@ export default function GroupPanel() {
             <h3 className="text-xs font-semibold uppercase text-muted-foreground mb-2 tracking-wide">
               Admin
             </h3>
-            {/* <div className="space-y-1">
+            <div className="space-y-1">
               {admins?.map((user) => (
                 <div
                   key={user._id}
@@ -30,7 +31,7 @@ export default function GroupPanel() {
                   {user.name}
                 </div>
               ))}
-            </div> */}
+            </div>
           </div>
 
           {/* Online Section */}
@@ -43,7 +44,7 @@ export default function GroupPanel() {
               <div className="flex-1 h-px bg-border/60" />
             </div>
 
-            {/* <div className="space-y-1">
+            <div className="space-y-1">
               {onlineUsers?.map((user) => (
                 <div
                   key={user._id}
@@ -56,7 +57,7 @@ export default function GroupPanel() {
                   {user.name}
                 </div>
               ))}
-            </div> */}
+            </div>
           </div>
         </ScrollArea.Viewport>
 

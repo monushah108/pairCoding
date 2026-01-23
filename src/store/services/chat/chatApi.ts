@@ -19,10 +19,10 @@ export const chatApi = createApi({
           ? [
               {
                 type: "chat",
-                ...r.map((id) => id),
+                ...r.map((c) => c._id == id),
               },
             ]
-          : [{ type: "channel", id }],
+          : [{ type: "chat", id }],
     }),
 
     updateMsg: builder.mutation({

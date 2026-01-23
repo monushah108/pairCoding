@@ -47,7 +47,11 @@ export default function GroupVoice() {
                     isShare && "bg-red-600/80 text-primary-foreground"
                   } cursor-pointer `}
                 >
-                  {isShare ? <ScreenShare className="" /> : <ScreenShareOff />}
+                  {isShare ? (
+                    <ScreenShare className="w-8 h-8" />
+                  ) : (
+                    <ScreenShareOff className="w-8 h-8" />
+                  )}
                 </Button>
                 <ButtonGroupSeparator className="bg-gray-500" />
                 <Button

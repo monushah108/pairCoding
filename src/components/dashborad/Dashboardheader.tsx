@@ -42,7 +42,7 @@ export default function Dashboardheader({ setTab }) {
             <span className="text-xs font-semibold">Friends</span>
           </div>
 
-          {!data?.AllFriends.length || (
+          {!data?.AllFriends.Friend.length || (
             <Button
               variant="secondary"
               className="text-xs cursor-pointer"
@@ -56,7 +56,25 @@ export default function Dashboardheader({ setTab }) {
             Add Friends
           </Button>
 
-          <Button variant="secondary">Pending *</Button>
+          {!data?.AllFriends.pendings.length || (
+            <div className="relative">
+              <Button onClick={() => setTab("pending")} variant="secondary">
+                <span> Pending</span>
+                <motion.span
+                  animate={{
+                    scale: [1, 1.5, 1],
+                    opacity: [1, 0.5, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="bg-green-500 size-2 rounded-full absolute top-2 right-2.5 "
+                />
+              </Button>
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost">

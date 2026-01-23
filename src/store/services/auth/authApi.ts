@@ -19,9 +19,7 @@ export const AuthApi = createApi({
     register: builder.mutation({
       query: (body) => ({
         url: "/register",
-        headers: {
-          Accept: "application/json",
-        },
+
         method: "POST",
         body,
       }),

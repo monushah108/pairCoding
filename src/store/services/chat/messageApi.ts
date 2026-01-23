@@ -6,71 +6,70 @@ export const messageApi = chatApi.injectEndpoints({
     getMsg: builder.query({
       query: (chatId) => `message/${chatId}`,
       providesTags: ["msg"],
-      async onCacheEntryAdded(
-        chatId,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
-      ) {
-        try {
-          await cacheDataLoaded;
+      // async onCacheEntryAdded(
+      //   chatId,
+      //   { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
+      // ) {
+      //   try {
+      //     await cacheDataLoaded;
 
-          chatSocket.connect();
+      //     chatSocket.connect();
 
-          const handleMessage = (msg: any) => {
-            updateCachedData((draft) => {
-              draft.push(msg);
-            });
-          };
+      //     const handleMessage = (msg: any) => {
+      //       updateCachedData((draft) => {
+      //         draft.push(msg);
+      //       });
+      //     };
 
-          chatSocket.onNewMsg(handleMessage);
-        } catch (err: any) {
-          await cacheEntryRemoved;
-          chatSocket.offNewMsg(handleMessage);
-        }
-      },
+      //     chatSocket.onNewMsg(handleMessage);
+      //   } catch (err: any) {
+      //     await cacheEntryRemoved;
+      //     chatSocket.offNewMsg(handleMessage);
+      //   }
+      // },
     }),
 
     sendMsg: builder.mutation({
-      query: (channelId, ...body) => ({
-        url: "/chat",
+      query: (chatId, ...body) => ({
+        url: `/chat/${chatId}`,
         method: "POST",
         body: { ...body },
-        params: { channelId },
       }),
       invalidatesTags: ["chat"],
-      async onQueryStarted(
-        { content, chatId, senderId },
-        { dispatch, queryFulfilled },
-      ) {
-        const Id = crypto.randomUUID();
-        const patchResult = dispatch(
-          chatApi.util.updateQueryData("getChats", chatId, (draft) => {
-            draft.push({
-              Id,
-              content,
-              chatId,
-              senderId,
-            });
-          }),
-        );
+      // async onQueryStarted(
+      //   { content, chatId, senderId },
+      //   { dispatch, queryFulfilled },
+      // ) {
+      //   const Id = crypto.randomUUID();
+      //   const patchResult = dispatch(
+      //     chatApi.util.updateQueryData("getChats", chatId, (draft) => {
+      //       draft.push({
+      //         Id,
+      //         content,
+      //         chatId,
+      //         senderId,
+      //       });
+      //     }),
+      //   );
 
-        try {
-          const data = await queryFulfilled;
+      //   try {
+      //     const data = await queryFulfilled;
 
-          dispatch(
-            chatApi.util.updateQueryData("getMsg", chatId, (draft) => {
-              const msg = draft.find((m) => m.id == Id);
-            }),
-          );
-        } catch (err: any) {
-          patchResult.undo();
-        }
-      },
-      queryFn: async ({ chatId, content }) => {
-        chatSocket.sendmsg({
-          chatId,
-          content,
-        });
-      },
+      //     dispatch(
+      //       chatApi.util.updateQueryData("getMsg", chatId, (draft) => {
+      //         const msg = draft.find((m) => m.id == Id);
+      //       }),
+      //     );
+      //   } catch (err: any) {
+      //     patchResult.undo();
+      //   }
+      // },
+      // queryFn: async ({ chatId, content }) => {
+      //   chatSocket.sendmsg({
+      //     chatId,
+      //     content,
+      //   });
+      // },
     }),
 
     updateMsg: builder.mutation({
@@ -131,3 +130,10 @@ export const messageApi = chatApi.injectEndpoints({
     }),
   }),
 });
+
+export const {
+  useGetChatsQuery,
+  useDeleteMsgMutation,
+  useSendMsgMutation,
+  useUpdateMsgMutation,
+} = messageApi;

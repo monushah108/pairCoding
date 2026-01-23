@@ -58,7 +58,7 @@ const Connector = memo(function Connector() {
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Link to="/dashboard/profile">
-                <Avatar className="rounded-full cursor-pointer hover:scale-105 transition-transform size-7">
+                <Avatar className="rounded-full cursor-pointer hover:scale-105 transition-transform size-9">
                   <AvatarImage src={data?.picture} />
                   <AvatarFallback>EF</AvatarFallback>
                 </Avatar>

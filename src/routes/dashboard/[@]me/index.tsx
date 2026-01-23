@@ -1,7 +1,8 @@
 import Dashboardheader from "@/components/dashborad/Dashboardheader";
 import AddFriend from "@/components/dashborad/ui/addFriend";
 import NoChat from "@/components/dashborad/ui/noChat";
-import OnlineUsers from "@/components/dashborad/ui/onlineUsers";
+import AllUsers from "@/components/dashborad/ui/allUsers";
+import Pending from "@/components/dashborad/ui/pending";
 
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -13,12 +14,14 @@ export const Route = createFileRoute("/dashboard/@me/")({
 
 function RouteComponent() {
   const [tab, setTab] = useState("noChat");
+
   return (
     <div className="flex flex-col justify-between h-full">
       <Dashboardheader setTab={setTab} />
       {tab == "noChat" && <NoChat />}
-      {tab == "friends" && <OnlineUsers />}
+      {tab == "friends" && <AllUsers />}
       {tab == "addFriends" && <AddFriend />}
+      {tab == "pending" && <Pending />}
     </div>
   );
 }

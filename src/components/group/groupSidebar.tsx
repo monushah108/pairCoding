@@ -24,6 +24,8 @@ const GroupSidebar = memo(function GroupSidebar({ groupId }) {
     if (!channelName) return;
   };
 
+  /* add preferces here of channels */
+
   const { data, isError, isLoading } = useGetAllChannelQuery(groupId);
 
   const triggerOpenVoice = (type) => {
@@ -113,7 +115,6 @@ const GroupSidebar = memo(function GroupSidebar({ groupId }) {
                         <Link
                           to="/dashboard/$groupId/$chatId"
                           params={{ chatId: _id, groupId: serverId }}
-                          search={{ type: category }}
                         >
                           <span
                             className="hover:bg-accent w-full text-left flex items-center gap-2
