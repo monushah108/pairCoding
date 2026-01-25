@@ -20,7 +20,7 @@ import { Route as DashboardGroupIdRouteImport } from './routes/dashboard/$groupI
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as DashboardAtmeIndexRouteImport } from './routes/dashboard/[@]me/index'
-import { Route as DashboardAtmePrivateRouteImport } from './routes/dashboard/[@]me/$Private'
+import { Route as DashboardAtmePrivateRouteImport } from './routes/dashboard/[@]me/$private'
 import { Route as DashboardGroupIdChatIdRouteImport } from './routes/dashboard/$groupId/$chatId'
 
 const PalygroundRoute = PalygroundRouteImport.update({
@@ -79,8 +79,8 @@ const DashboardAtmeIndexRoute = DashboardAtmeIndexRouteImport.update({
   getParentRoute: () => DashboardAtmeRoute,
 } as any)
 const DashboardAtmePrivateRoute = DashboardAtmePrivateRouteImport.update({
-  id: '/$Private',
-  path: '/$Private',
+  id: '/$private',
+  path: '/$private',
   getParentRoute: () => DashboardAtmeRoute,
 } as any)
 const DashboardGroupIdChatIdRoute = DashboardGroupIdChatIdRouteImport.update({
@@ -101,7 +101,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/profile': typeof DashboardProfileRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/$groupId/$chatId': typeof DashboardGroupIdChatIdRoute
-  '/dashboard/@me/$Private': typeof DashboardAtmePrivateRoute
+  '/dashboard/@me/$private': typeof DashboardAtmePrivateRoute
   '/dashboard/@me/': typeof DashboardAtmeIndexRoute
 }
 export interface FileRoutesByTo {
@@ -114,7 +114,7 @@ export interface FileRoutesByTo {
   '/dashboard/profile': typeof DashboardProfileRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard/$groupId/$chatId': typeof DashboardGroupIdChatIdRoute
-  '/dashboard/@me/$Private': typeof DashboardAtmePrivateRoute
+  '/dashboard/@me/$private': typeof DashboardAtmePrivateRoute
   '/dashboard/@me': typeof DashboardAtmeIndexRoute
 }
 export interface FileRoutesById {
@@ -130,7 +130,7 @@ export interface FileRoutesById {
   '/dashboard/profile': typeof DashboardProfileRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/$groupId/$chatId': typeof DashboardGroupIdChatIdRoute
-  '/dashboard/@me/$Private': typeof DashboardAtmePrivateRoute
+  '/dashboard/@me/$private': typeof DashboardAtmePrivateRoute
   '/dashboard/@me/': typeof DashboardAtmeIndexRoute
 }
 export interface FileRouteTypes {
@@ -147,7 +147,7 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/auth/'
     | '/dashboard/$groupId/$chatId'
-    | '/dashboard/@me/$Private'
+    | '/dashboard/@me/$private'
     | '/dashboard/@me/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -160,7 +160,7 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/auth'
     | '/dashboard/$groupId/$chatId'
-    | '/dashboard/@me/$Private'
+    | '/dashboard/@me/$private'
     | '/dashboard/@me'
   id:
     | '__root__'
@@ -175,7 +175,7 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/auth/'
     | '/dashboard/$groupId/$chatId'
-    | '/dashboard/@me/$Private'
+    | '/dashboard/@me/$private'
     | '/dashboard/@me/'
   fileRoutesById: FileRoutesById
 }
@@ -265,10 +265,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAtmeIndexRouteImport
       parentRoute: typeof DashboardAtmeRoute
     }
-    '/dashboard/@me/$Private': {
-      id: '/dashboard/@me/$Private'
-      path: '/$Private'
-      fullPath: '/dashboard/@me/$Private'
+    '/dashboard/@me/$private': {
+      id: '/dashboard/@me/$private'
+      path: '/$private'
+      fullPath: '/dashboard/@me/$private'
       preLoaderRoute: typeof DashboardAtmePrivateRouteImport
       parentRoute: typeof DashboardAtmeRoute
     }

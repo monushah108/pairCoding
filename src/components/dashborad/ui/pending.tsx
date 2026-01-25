@@ -3,21 +3,19 @@ import { Button } from "@/components/ui/button";
 import { useGetUserQuery } from "@/store/services/auth/authApi";
 
 import {
-  useAcceptRequestMutation,
   useAllFriendsQuery,
+  useOnRequestMutation,
 } from "@/store/services/auth/userApi";
 import { X } from "lucide-react";
 
 export default function Pending() {
   const { data, isError, isLoading } = useAllFriendsQuery();
 
-  console.log(data);
+  const [onRequest] = useOnRequestMutation();
 
-  const [acceptRequest] = useAcceptRequestMutation();
-
-  const handleAcceptrequest = async (id, status) => {
+  const handleonRequest = async (id, status) => {
     try {
-      const data = await acceptRequest({ id, status });
+      const data = await onRequest({ id, status });
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -27,7 +25,7 @@ export default function Pending() {
   return (
     <div className="flex-1 px-4 py-7">
       {data?.AllFriends.pendings?.map(
-        ({ _id, name, picture, sender, Isreceiver, msgId }) => (
+        ({ _id, name, picture, sender, Isreceiver, requestId }) => (
           <div
             key={_id}
             className="flex py-4 px-8 items-center justify-between border rounded-md "
@@ -44,7 +42,7 @@ export default function Pending() {
                 <Button
                   variant="secondary"
                   onClick={() =>
-                    handleAcceptrequest(msgId, (status = "accept"))
+                    handleonRequest(requestId, (status = "accept"))
                   }
                 >
                   Accept Friend Request
@@ -52,7 +50,7 @@ export default function Pending() {
               )}
               <Button
                 onClick={() =>
-                  handleAcceptrequest(msgId, (status = "rejected"))
+                  handleonRequest(requestId, (status = "rejected"))
                 }
                 variant="outline"
                 className="rounded-full w-8 h-8 "

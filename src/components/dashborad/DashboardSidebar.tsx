@@ -2,11 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { memo } from "react";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
-import { useAllFriendsQuery } from "@/store/services/auth/userApi";
 
 const DashboardhSidbar = memo(function DirectMsgSidebar() {
-  const { data, isError, isLoading } = useAllFriendsQuery();
-
   return (
     <aside className="border-r border-border h-full">
       <h2 className="text-center text-sm border-b border-border py-5 font-medium">
@@ -16,9 +13,9 @@ const DashboardhSidbar = memo(function DirectMsgSidebar() {
         className="flex flex-col gap-4 mt-8"
         onClick={(e) => e.stopPropagation()}
       >
-        {data?.AllFriends.Friend.map(({ picture, name, _id }) => (
+        {/* {data?.AllFriends.Friend.map(({ picture, name, _id }) => (
           <div
-            // onClick={() => handleChatUser(ChatId)}
+            onClick={() => handleChatUser(ChatId)}
             key={_id}
             className="h-10 mx-2 flex items-center gap-2 hover:bg-muted/50 rounded-md cursor-pointer transition group  justify-between relative"
           >
@@ -28,15 +25,15 @@ const DashboardhSidbar = memo(function DirectMsgSidebar() {
                   <AvatarImage src={picture} />
                   <AvatarFallback>M</AvatarFallback>
                 </Avatar>
-                {/* {isOnline && (
+                {isOnline && (
                   <div className="w-2 h-2 rounded-full  bg-green-500 absolute bottom-1 right-0"></div>
-                )} */}
+                )}
               </div>
               <p className="text-sm text-black font-medium">{name}</p>
             </div>
 
             <Button
-              // onClick={() => closeChat(ChatId)}
+              onClick={() => closeChat(ChatId)}
               variant="ghost"
               size="icon"
               className="group-hover:block hidden text-center cursor-pointer"
@@ -44,7 +41,7 @@ const DashboardhSidbar = memo(function DirectMsgSidebar() {
               <X />
             </Button>
           </div>
-        ))}
+        ))} */}
       </div>
     </aside>
   );

@@ -13,6 +13,7 @@ export const UserApi = AuthApi.injectEndpoints({
         method: "POST",
         body: { ...body },
       }),
+
       invalidatesTags: ["friend"],
     }),
     sendFriendRequest: builder.mutation({
@@ -23,21 +24,14 @@ export const UserApi = AuthApi.injectEndpoints({
       }),
       invalidatesTags: ["friend"],
     }),
-    acceptRequest: builder.mutation({
+    onRequest: builder.mutation({
       query: ({ id, status }) => ({
         url: `/friend/${id}`,
         method: "PATCH",
         params: { status },
       }),
-      invalidRequest: (r, e, { id }) =>
-        r
-          ? [
-              {
-                type: "friend",
-                ...r.map((c) => c._id == id),
-              },
-            ]
-          : [{ type: "friend", id }],
+
+      invalidatesTags: ["friend"],
     }),
     removeFriend: builder.mutation({
       query: (id) => ({
@@ -54,5 +48,5 @@ export const {
   useSearchUserMutation,
   useSendFriendRequestMutation,
   useRemoveFriendMutation,
-  useAcceptRequestMutation,
+  useOnRequestMutation,
 } = UserApi;

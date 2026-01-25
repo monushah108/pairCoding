@@ -3,10 +3,8 @@ google login github login
 host karna hae 
 security 
 
-webrtc <- voice call feature 
-screenshare <-- feature 
 
-peer .js 
+screenshare <-- feature 
 
 
 ---- chat features -----------
@@ -28,12 +26,15 @@ chatbox
 -----------End---------------------------
 
 
-friend request management and acception 
-persnal chat and server chat  file management 
 
 
 theme 
 terminal 
+
+
+improve socket  and redux invalidTages 
+
+link sharing 
 
 
 
@@ -44,3 +45,6 @@ goal => state ko manage karo chat or live notification and live chat (socket)
 
 chat video on multithreading and mediasoup 
 do something on user preferences 
+
+
+optmistic update is not working 

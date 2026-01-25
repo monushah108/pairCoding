@@ -9,7 +9,7 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
-export const Route = createFileRoute("/dashboard/@me/$Private")({
+export const Route = createFileRoute("/dashboard/@me/$private")({
   component: RouteComponent,
 });
 

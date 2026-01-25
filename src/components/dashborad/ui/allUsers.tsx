@@ -11,14 +11,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useAllFriendsQuery } from "@/store/services/auth/userApi";
-import { useSendMsgMutation } from "@/store/services/chat/messageApi";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { Link } from "@tanstack/react-router";
 import { EllipsisVertical, MessageCircle, Search } from "lucide-react";
 export default function AllUsers() {
   const { data } = useAllFriendsQuery();
-  const [sendMsg] = useSendMsgMutation();
-
-  const handleMsg = () => {};
 
   return (
     <div className="flex-1 flex justify-center ">
@@ -33,7 +30,7 @@ export default function AllUsers() {
           <h2 className="text-sm font-semibold text-gray-400">All Friends -</h2>
           <ScrollArea.Root className=" p-3 " style={{ height: "350px" }}>
             <ScrollArea.Viewport className="w-full h-full">
-              {data?.AllFriends.Friend.map(({ name, picture, _id }) => (
+              {data?.AllFriends.Friend.map(({ name, picture, _id, chatId }) => (
                 <div
                   key={_id}
                   className="group flex items-center justify-between rounded-md  px-3 py-5 mb-2 hover:bg-accent  "
@@ -55,7 +52,12 @@ export default function AllUsers() {
                           size="sm"
                           className="group-hover:block hidden cursor-pointer"
                         >
-                          <MessageCircle />
+                          <Link
+                            to="/dashboard/@me/$private"
+                            params={{ private: chatId }}
+                          >
+                            <MessageCircle />
+                          </Link>
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent side="top">Message</TooltipContent>
