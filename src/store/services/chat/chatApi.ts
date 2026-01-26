@@ -12,7 +12,7 @@ export const chatApi = createApi({
   }),
   tagTypes: ["chat", "msg"],
   endpoints: (builder) => ({
-    getChats: builder.query({
+    getChat: builder.query({
       query: (id) => `/chat/${id}`,
       providesTags: (r, e, { id }) =>
         r
@@ -44,4 +44,4 @@ export const chatApi = createApi({
   }),
 });
 
-export const { useGetChatsQuery, useUpdateMsgMutation } = chatApi;
+export const { useGetChatQuery, useUpdateMsgMutation } = chatApi;

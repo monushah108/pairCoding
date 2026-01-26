@@ -13,13 +13,15 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { ButtonGroup, ButtonGroupSeparator } from "../ui/button-group";
 import VoiceRoom from "../chatRoom/VoiceRoom";
+import Resizable from "./ui/resizable";
+import GroupVoiceText from "./groupVoiceText";
 
 export default function GroupVoice() {
   const [isShare, setShare] = useState(false);
   const [isCallOff, setCallOff] = useState(false);
   const [isMicOff, setMicOff] = useState(false);
   const [joined, setJoined] = useState(false);
-  const users = ["m"];
+  const users = ["0"];
 
   return (
     <>

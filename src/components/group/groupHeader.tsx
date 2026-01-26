@@ -6,8 +6,18 @@ import {
   InputGroupInput,
 } from "../ui/input-group";
 import { Button } from "../ui/button";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updatePanel } from "@/store/feature/roomSlice";
 
 export default function GroupHeader() {
+  const [panel, setPanel] = useState(false);
+  const dispatch = useDispatch();
+
+  const handlShow = () => {
+    setPanel((pre) => !pre);
+    dispatch(updatePanel(panel));
+  };
   return (
     <header className="px-4 py-2.5 border-b border-border bg-background/60 backdrop-blur-md">
       <div className="flex items-center justify-between">
@@ -18,7 +28,7 @@ export default function GroupHeader() {
         </h2>
 
         <div className="flex items-center gap-5">
-          <Button variant="outline">
+          <Button variant="outline" onClick={handlShow}>
             <Users />
           </Button>
 

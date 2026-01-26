@@ -13,17 +13,26 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
+import { useLoginMutation } from "@/store/services/auth/authApi";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState("monu@gmail.com");
-  const [password, setPassword] = useState(123);
+  const [password, setPassword] = useState("1234");
   const navigate = useNavigate();
+  const [login] = useLoginMutation();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
+    try {
+      const data = await login({ email, password });
+
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

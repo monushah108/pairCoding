@@ -16,4 +16,3 @@ function RouteComponent() {
 
   return <>{roomType?.category == "TEXT" ? <GroupText /> : <GroupVoice />}</>;
 }
- 
