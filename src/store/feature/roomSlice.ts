@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { chatApi } from "../services/chat/chatApi";
 
 const initialState = {
   roomId: "",
@@ -13,7 +12,7 @@ export const RoomSlice = createSlice({
   initialState,
   reducers: {
     enterRoom: (state, action) => {
-      chatApi.endpoints.getChats.initiate();
+      state.roomId = action.payload;
     },
     setMembers: (state, action) => {
       state.Member = action.payload;

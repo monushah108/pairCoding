@@ -9,22 +9,22 @@ import { motion } from "motion/react";
 
 import ChatBubble from "./ui/ChatBubble.js";
 import ChatInput from "./ui/ChatInput.js";
+import { useGetRoomQuery } from "@/store/services/chat/chatApi.js";
+import { useParams } from "@tanstack/react-router";
 
 export default function Chatmain() {
-  const [message, setmessage] = useState("");
-
-  const profileRef = useRef<HTMLDivElement | any>(null);
+  const param = useParams({ strict: false });
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  const [AllMessage, setAllmessage] = useState([]);
-  const [selectedText, setSelectedText] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [file, setFile] = useState(null);
 
-  useLayoutEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [AllMessage.length]);
+  // useLayoutEffect(() => {
+  //   bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [AllMessage.length]);
 
-  // console.log(AllMsg, friends);
+  const { details } = useGetRoomQuery(param?.private, {
+    selectFromResult: ({ data }) => ({
+      details: data?.chatDetails[0],
+    }),
+  });
 
   return (
     <div className="flex flex-col justify-between  h-full bg-gray-500/10">
@@ -42,18 +42,18 @@ export default function Chatmain() {
             </div>
 
             <div className=" italic font-medium  text-gray-500">
-              {/* <h2 className="text-md text-gray-600">
-                      {selectedProfile?.name}
-                      <span className="ml-2 text-xs">
-                        --
-                        {selectedProfile?.nickName}
-                      </span>
-                    </h2>
+              <h2 className="text-md text-gray-600">
+                {details?.name}
+                <span className="ml-2 text-xs">
+                  --
+                  {details?.nickName}
+                </span>
+              </h2>
 
-                    <p className="font-semibold">
-                      This is the begining of your direct message history with{" "}
-                      {selectedProfile?.name}
-                    </p> */}
+              <p className="font-semibold">
+                This is the begining of your direct message history with{" "}
+                {details?.name}
+              </p>
             </div>
           </div>
           <Separator className="my-4" />

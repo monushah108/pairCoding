@@ -12,36 +12,20 @@ export const chatApi = createApi({
   }),
   tagTypes: ["chat", "msg"],
   endpoints: (builder) => ({
-    getChat: builder.query({
+    getRoom: builder.query({
       query: (id) => `/chat/${id}`,
-      providesTags: (r, e, { id }) =>
-        r
-          ? [
-              {
-                type: "chat",
-                ...r.map((c) => c._id == id),
-              },
-            ]
-          : [{ type: "chat", id }],
+      providesTags: (result, error, id) => [{ type: "chat", id }],
     }),
 
-    updateMsg: builder.mutation({
+    updateRoom: builder.mutation({
       query: (id, action, chatId) => ({
         url: `/chat/${id}`,
         method: "PATCH",
         params: { action, chatId },
       }),
-      invalidatesTags: (r, e, { chatId }) =>
-        r
-          ? [
-              {
-                type: "chat",
-                ...r.map((i) => i.id == id),
-              },
-            ]
-          : [{ type: "chat", id }],
+      invalidatesTags: (result, error, { id }) => [{ type: "chat", id }],
     }),
   }),
 });
 
-export const { useGetChatQuery, useUpdateMsgMutation } = chatApi;
+export const { useGetRoomQuery, useUpdateRoomMutation } = chatApi;
