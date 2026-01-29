@@ -6,33 +6,26 @@ export const chatSocket = {
       socket.connect();
     }
   },
-
   disconnect() {
     if (socket.connected) {
       socket.disconnect();
     }
   },
-
+  onlineStatus(fn) {
+    socket.on("user status", fn);
+  },
   //write
   sendMessage(payload) {
+    console.log(payload);
     socket.emit("send:message", payload);
   },
-
   // read
   onMessage(fn) {
     socket.on("receive:message", fn);
   },
-
-  // delete
-  deleteMessage(fn) {
-    socket.on("delete:message", fn);
+  offMessage(fn) {
+    socket.off("receive:message", fn);
   },
-
-  //update
-  updateMessage(fn) {
-    socket.on("update:message", fn);
-  },
-
   cleanup() {
     socket.off("receive:message");
     socket.off("delete:message");

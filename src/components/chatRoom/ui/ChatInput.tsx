@@ -16,35 +16,30 @@ import {
 } from "@/components/ui/dropdown-menu";
 import PermissionModel from "@/components/module/premissionModel";
 
-export default function ChatInput({
-  msg,
-  setMsg,
-  handleSubmit,
-  selectedText,
-  setSelectedText,
-  file,
-  setFile,
-  previewUrl,
-  setPreviewUrl,
-}) {
+export default function ChatInput({ reciverId, chatId }) {
+  const [content, setContnet] = useState("");
   const [selectedPos, setSelectedPos] = useState(0);
 
   const onKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e);
+      handleSendMsg(e);
     }
   };
 
   const handleEmoji = ({ emoji }) => {
-    const EmojiText = msg.split("");
+    const EmojiText = content.split("");
     EmojiText.splice(selectedPos, 0, emoji);
-    setMsg(EmojiText.join(""));
+    setContnet(EmojiText.join(""));
+  };
+
+  const handleSendMsg = async (e) => {
+    e.preventDefault();
   };
 
   return (
     <div>
-      {selectedText && (
+      {/* {selectedText && (
         <div className="h-[60px] border-l-4   bg-white flex items-stretch border-purple-500  ">
           <div className="p-1 bg-gray-100 flex-1 relative px-3 text-sm text-left font-semibold">
             <p className="text-teal-500">@{selectedText.name}</p>
@@ -59,7 +54,7 @@ export default function ChatInput({
             </button>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* {previewUrl && (
         <div className=" p-4 bg-white relative">
@@ -81,7 +76,7 @@ export default function ChatInput({
 
       <div className=" flex items-center gap-2  p-2.5   bg-white ">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSendMsg}
           className=" w-full flex items-center rounded  overflow-hidden"
         >
           <InputGroup className="h-10">
@@ -102,7 +97,7 @@ export default function ChatInput({
                       name="file"
                       id="file"
                       className="hidden"
-                      onChange={(e) => setFile(e.target.files[0])}
+                      // onChange={(e) => setFile(e.target.files[0])}
                     />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -110,8 +105,8 @@ export default function ChatInput({
             </InputGroupAddon>
 
             <InputGroupTextarea
-              value={msg}
-              onChange={(e) => setMsg(e.target.value)}
+              value={content}
+              onChange={(e) => setContnet(e.target.value)}
               onKeyUp={(e) => setSelectedPos(e.target.selectionStart)}
               onKeyDown={onKeyDown}
               placeholder="send messages.."

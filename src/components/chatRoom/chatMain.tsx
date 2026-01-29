@@ -9,22 +9,11 @@ import { motion } from "motion/react";
 
 import ChatBubble from "./ui/ChatBubble.js";
 import ChatInput from "./ui/ChatInput.js";
-import { useGetRoomQuery } from "@/store/services/chat/chatApi.js";
+
 import { useParams } from "@tanstack/react-router";
 
 export default function Chatmain() {
-  const param = useParams({ strict: false });
   const bottomRef = useRef<HTMLDivElement | null>(null);
-
-  // useLayoutEffect(() => {
-  //   bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [AllMessage.length]);
-
-  const { details } = useGetRoomQuery(param?.private, {
-    selectFromResult: ({ data }) => ({
-      details: data?.chatDetails[0],
-    }),
-  });
 
   return (
     <div className="flex flex-col justify-between  h-full bg-gray-500/10">
@@ -35,7 +24,10 @@ export default function Chatmain() {
               <Avatar className="rounded-full  ">
                 <AvatarImage
                   className="size-25 rounded-full"
-                  src="https://api.dicebear.com/6.x/initials/svg?seed=m"
+                  // src={
+                  //   details?.picture ??
+                  //   "https://api.dicebear.com/6.x/initials/svg?seed=m"
+                  // }
                 />
                 <AvatarFallback>M</AvatarFallback>
               </Avatar>
@@ -43,42 +35,33 @@ export default function Chatmain() {
 
             <div className=" italic font-medium  text-gray-500">
               <h2 className="text-md text-gray-600">
-                {details?.name}
+                {/* {details?.name} */}
                 <span className="ml-2 text-xs">
                   --
-                  {details?.nickName}
+                  {/* {details?.nickName} */}
                 </span>
               </h2>
 
               <p className="font-semibold">
                 This is the begining of your direct message history with{" "}
-                {details?.name}
+                {/* {details?.name} */}
               </p>
             </div>
           </div>
           <Separator className="my-4" />
           <div className="flex flex-col relative">
-            {/* {AllMsg.map(
-                    ({
-                      userId: senderId,
-                      message,
-                      createdAt: time,
-                      _id,
-                      name,
-                      file,
-                    }) => (
-                      <ChatBubble
-                        id={_id}
-                        message={message}
-                        friendId={selectedProfile?._id}
-                        senderId={senderId}
-                        name={name}
-                        time={time}
-                        file={file}
-                        handleActions={handleActions}
-                      />
-                    ),
-                  )} */}
+            {/* {data?.messages.map(
+              ({ msgId, isDeleted, isEdited, sender, message }) => (
+                <ChatBubble
+                  friendId={details?._id}
+                  msgId={msgId}
+                  isDeleted={isDeleted}
+                  isEdited={isEdited}
+                  senderId={sender}
+                  message={message}
+                />
+              ),
+            )} */}
             <motion.div layout ref={bottomRef} />
           </div>
         </ScrollArea.Viewport>

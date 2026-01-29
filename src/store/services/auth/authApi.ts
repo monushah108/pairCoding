@@ -10,7 +10,7 @@ export const AuthApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["user", "friend", "notification"],
+  tagTypes: ["user", "friend"],
   endpoints: (builder) => ({
     getUser: builder.query<user[], void>({
       query: () => "/profile",

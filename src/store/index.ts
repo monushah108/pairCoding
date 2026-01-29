@@ -3,7 +3,6 @@ import { rootReducer } from "./rootReducers";
 import { GroupApi } from "./services/group/groupApi";
 import { channelApi } from "./services/channel/channelApi";
 import { AuthApi } from "./services/auth/authApi";
-import { chatApi } from "./services/chat/chatApi";
 
 export const Store = configureStore({
   reducer: rootReducer,
@@ -12,7 +11,6 @@ export const Store = configureStore({
       GroupApi.middleware,
       channelApi.middleware,
       AuthApi.middleware,
-      chatApi.middleware,
     );
   },
 });

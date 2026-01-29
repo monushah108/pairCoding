@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 export default function ServerModel() {
   const [Img, setImg] = useState("  No image selected");
   const [serverName, setServerName] = useState("");
+  const [serverDesc, setServerDesc] = useState("");
 
   // const copyLink = async () => {
   //   try {
@@ -102,6 +103,18 @@ export default function ServerModel() {
               />
             </InputGroup>
           </div>
+
+          {/* <div className="space-y-2">
+            <p className="text-sm font-medium">Server Name</p>
+            <InputGroup>
+              <InputGroupInput
+                placeholder="About your "
+                name="serverName"
+                value={serverDesc}
+                onChange={(e) => setServerDesc(e.target.value)}
+              />
+            </InputGroup>
+          </div> */}
         </main>
         <DialogFooter onClick={handleServer}>
           <Button>create server</Button>

@@ -10,33 +10,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { FormatTime } from "@/util/feature";
 
-interface ChatBubbleProps {
-  senderId: string;
-  friendId: string;
-  message: string;
-  time: string;
-  id: number;
-  name: string;
-  handleActions: (action: any, id: any) => void;
-}
-
-const ChatBubble: React.FC<ChatBubbleProps> = memo(function ChatBubble({
-  senderId,
+const ChatBubble = memo(function ChatBubble({
   friendId,
+  isDeleted,
+  isEdited,
   message,
-  id,
-  time,
-  name,
-  file,
-  handleActions,
+  senderId,
+  msgId,
 }) {
   const msgOption = ["Reply", "Delete", "Edit"];
 
   return (
     <AnimatePresence mode="popLayout">
       <motion.div
-        key={id}
+        key={msgId}
         initial={{ x: 30, opacity: 0, scale: 0.95 }}
         animate={{ x: 0, opacity: 1, scale: 1 }}
         exit={{ x: -30, opacity: 0, scale: 0.9 }}
@@ -62,7 +51,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(function ChatBubble({
               <DropdownMenuContent>
                 {msgOption.map((action, i) => (
                   <DropdownMenuItem
-                    onClick={() => handleActions(action, id, message, name)}
+                    // onClick={() => handleActions(action, id, message, name)}
                     className="font-semibold text-xs"
                     key={i}
                   >
@@ -84,7 +73,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(function ChatBubble({
                 friendId == senderId ? "text-left" : "text-right"
               } `}
             >
-              {FormatTime(time)}
+              {/* {FormatTime(time)} */}
             </div>
           </div>
         </div>
